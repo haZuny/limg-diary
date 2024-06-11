@@ -32,4 +32,9 @@ public class HomeAndUserController {
         userService.signUp(userDto);
         return "redirect:/";
     }
+
+    @GetMapping("/signin")
+    public String getSignin(){
+        return "signin";
+    }
 }

@@ -15,6 +15,13 @@ public class SecurityConfig {
             auth.requestMatchers("/", "/signup", "/signin").permitAll();
         });
 
+        httpSecurity.formLogin((auth)->{
+            auth.loginPage("/signin")
+                    .loginProcessingUrl("/signin")
+                    .defaultSuccessUrl("/today", true)
+                    .permitAll();
+        });
+
         httpSecurity.csrf((auth)->auth.disable());
 
         return httpSecurity.build();
