@@ -32,7 +32,6 @@ public class User implements UserDetails {
                 return role;
             }
         });
-
         return collection;
     }
 

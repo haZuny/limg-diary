@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService {
         User userEntity = new User();
         userEntity.setUsername(userDto.getUsername());
         userEntity.setPassword(encodedPassword);
-        userEntity.setRole("USER");
+        userEntity.setRole("ROLE_USER");
 
         // db 저장
         try{

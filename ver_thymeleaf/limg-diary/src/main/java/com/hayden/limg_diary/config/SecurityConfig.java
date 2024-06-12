@@ -11,10 +11,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
         httpSecurity.authorizeHttpRequests((auth)->{
-            auth.requestMatchers("/", "/signup", "/signin").permitAll();
+            auth
+                    .requestMatchers("/", "/signup", "/signin").permitAll()
+                    .requestMatchers("/today").hasRole("USER");
         });
 
+        // Custom login
         httpSecurity.formLogin((auth)->{
             auth.loginPage("/signin")
                     .loginProcessingUrl("/signin")
