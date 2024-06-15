@@ -1,4 +1,4 @@
-package com.hayden.limg_diary.api;
+package com.hayden.limg_diary.api.api_dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
