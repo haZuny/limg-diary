@@ -24,7 +24,7 @@ public class ApiTest {
     KarloApiHelper karloApiHelper;
 
     @Test
-    public void karloApiTest(){
+    public void karloApiTest() {
 
         String prompt = "hello";
 
@@ -47,13 +47,13 @@ public class ApiTest {
 
     }
 
-
     @Test
-    public void test() throws IOException {
-        String OUTPUT_FILE_PATH = "C:\\Users\\gkwns\\OneDrive\\바탕 화면\\test\\test.webp";
-        String FILE_URL = "https://mk.kakaocdn.net/dna/karlo/image/2024-06-15/15/22204f1e-f0af-4851-a9a4-ff7462a78060.webp?credential=smxRqiqUEJBVgohptvfXS5JoYeFv4Xxa&expires=1718434291&signature=J6KW4WR9C14dWpVxNcD2xYeexoI%3D";
+    public void 이미지저장테스트() {
+        // When
+        Optional<String> res = karloApiHelper.createAndSaveImage("hello", "sample.webp");
 
-        karloApiHelper.saveImageUrl(FILE_URL, OUTPUT_FILE_PATH);
+        // Then
+        Assertions.assertNotNull(res.orElse(""));
     }
 
 
