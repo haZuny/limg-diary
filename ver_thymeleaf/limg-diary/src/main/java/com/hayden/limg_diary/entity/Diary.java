@@ -13,7 +13,7 @@ import java.sql.Date;
 public class Diary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String diary_id;
+    private int diary_id;
 
     private String content;
 
