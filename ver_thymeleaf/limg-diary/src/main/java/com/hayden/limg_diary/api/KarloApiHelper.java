@@ -46,6 +46,7 @@ public class KarloApiHelper {
                             .block()
             );
         } catch (Exception e) {
+            e.printStackTrace();
             return Optional.empty();
         }
 
@@ -65,6 +66,7 @@ public class KarloApiHelper {
             Files.copy(inputStream, Path.of(savePath));
             return true;
         } catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }
@@ -79,6 +81,7 @@ public class KarloApiHelper {
             if (res)    return Optional.of(savePath);
             else throw new Exception("이미지 저장 실패");
         } catch (Exception e){
+            e.printStackTrace();
             return Optional.empty();
         }
     }
