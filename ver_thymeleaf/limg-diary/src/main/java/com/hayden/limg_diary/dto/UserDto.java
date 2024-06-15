@@ -6,14 +6,14 @@ import lombok.Setter;
 public class UserDto {
     @Getter
     @Setter
-    public class UserSigninDto{
+    public static class UserSigninDto{
         String username;
         String password;
     }
 
     @Getter
     @Setter
-    public class UserSignupDto{
+    public static class UserSignupDto{
         String username;
         String password;
         String password2;
