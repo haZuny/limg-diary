@@ -23,6 +23,9 @@ public class KarloApiHelper {
     @Value("${karlo.auth}")
     String auth;
 
+    @Value("${path.res.img.diary-directory}")
+    String saveDirPath;
+
     public Optional<KarloResponseForm> post(String prompt) {
         WebClient webClient = WebClient.builder().baseUrl(url).build();
 
@@ -63,6 +66,20 @@ public class KarloApiHelper {
             return true;
         } catch (Exception e){
             return false;
+        }
+    }
+
+    public Optional<String> createAndSaveImage(String prompt, String imgName){
+        try{
+            KarloResponseForm responseForm = post(prompt).get();
+            KarloImageForm imageForm = getFirstImage(responseForm);
+            String imgUrl = getImageUrl(imageForm);
+            String savePath = saveDirPath + "\\" + imgName;
+            boolean res = saveImageUrl(imgUrl, savePath);
+            if (res)    return Optional.of(savePath);
+            else throw new Exception("이미지 저장 실패");
+        } catch (Exception e){
+            return Optional.empty();
         }
     }
 }

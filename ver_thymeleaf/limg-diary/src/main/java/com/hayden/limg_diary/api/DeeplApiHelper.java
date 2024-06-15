@@ -45,4 +45,15 @@ public class DeeplApiHelper {
     String getText(DeeplTransitionForm transitionForm){
         return transitionForm.getText();
     }
+
+    public Optional<String> transrate(String text){
+        try{
+            Optional<DeeplResponseForm> responseForm = post(text);
+            DeeplTransitionForm transitionForm = getFirstTransition(responseForm.get());
+            String transitionText = getText(transitionForm);
+            return Optional.of(transitionText);
+        } catch (Exception e){
+            return Optional.empty();
+        }
+    }
 }
