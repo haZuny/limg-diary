@@ -24,22 +24,21 @@ public class DiaryServiceTest {
     DiaryRepository diaryRepository;
 
     @Test
+    @Transactional
     public void saveTest(){
 
         // When
         DiaryDto.CreateDiaryDto createDiaryDto = new DiaryDto.CreateDiaryDto();
         createDiaryDto.setContent("안녕하세요");
         createDiaryDto.setFeeling("상");
-        Optional<Diary> diary = diaryService.createDiary(createDiaryDto, 2);
+        Optional<Diary> diaryOp = diaryService.createDiary(createDiaryDto, 2);
 
         // Then
-        Assertions.assertNotNull(diary.orElse(null));
-
-        System.out.println(diary.get().getDiary_id());
-        System.out.println(diary.get().getContent());
-        System.out.println(diary.get().getFeeling());
-        System.out.println(diary.get().getUser_id());
-        System.out.println(diary.get().getImage_path());
-        System.out.println(diary.get().getDate());
+        Assertions.assertNotNull(diaryOp.orElse(null));
+        Diary diary = diaryOp.get();
+        Assertions.assertNotEquals(diary.getDiary_id(), "null");
+        Assertions.assertNotEquals(diary.getDate(), "null");
+        Assertions.assertNotEquals(diary.getFeeling(), "null");
+        Assertions.assertNotEquals(diary.getImage_path(), "null");
     }
 }
