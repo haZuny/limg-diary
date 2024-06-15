@@ -56,8 +56,13 @@ public class KarloApiHelper {
         return imageForm.getImage();
     }
 
-    public void saveImageUrl(String imgUrl, String savePath) throws IOException {
-        InputStream inputStream = new URL(imgUrl).openStream();
-        Files.copy(inputStream, Path.of(savePath));
+    boolean saveImageUrl(String imgUrl, String savePath) {
+        try{
+            InputStream inputStream = new URL(imgUrl).openStream();
+            Files.copy(inputStream, Path.of(savePath));
+            return true;
+        } catch (Exception e){
+            return false;
+        }
     }
 }
