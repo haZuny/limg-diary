@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
@@ -17,6 +19,16 @@ public class UserService implements UserDetailsService {
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public Optional<Integer> getIdFromUsername(String username){
+        try{
+            User user = userRepository.findByUsername(username);
+            return Optional.of(user.getUser_id());
+        } catch (UsernameNotFoundException e){
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     public boolean signUp(UserDto.UserSignupDto userDto){
