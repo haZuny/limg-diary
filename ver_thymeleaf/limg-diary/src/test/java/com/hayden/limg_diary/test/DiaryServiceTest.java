@@ -44,7 +44,7 @@ public class DiaryServiceTest {
         DiaryDto.CreateDiaryDto createDiaryDto = new DiaryDto.CreateDiaryDto();
         createDiaryDto.setContent("안녕하세요");
         createDiaryDto.setFeeling("상");
-        Optional<Diary> diaryOp = diaryService.createDiary(createDiaryDto, user.getUser_id());
+        Optional<Diary> diaryOp = diaryService.createDiaryWithUserid(createDiaryDto, user.getUser_id());
 
         // Then
         Assertions.assertNotNull(diaryOp.orElse(null));
