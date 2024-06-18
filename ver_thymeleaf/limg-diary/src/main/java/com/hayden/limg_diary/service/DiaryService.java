@@ -23,6 +23,7 @@ public class DiaryService {
     @Value("${path.res.img.default-img}")
     String defaultImgPath;
 
+    UserService userService;
     UserRepository userRepository;
     DiaryRepository diaryRepository;
     DeeplApiHelper deeplApiHelper;
@@ -32,8 +33,9 @@ public class DiaryService {
     Date date = new Date();
 
     @Autowired
-    public DiaryService(UserRepository userRepository, DiaryRepository diaryRepository,
+    public DiaryService(UserService userService, UserRepository userRepository, DiaryRepository diaryRepository,
                         DeeplApiHelper deeplApiHelper, KarloApiHelper karloApiHelper) {
+        this.userService = userService;
         this.userRepository = userRepository;
         this.diaryRepository = diaryRepository;
         this.deeplApiHelper = deeplApiHelper;
@@ -41,7 +43,7 @@ public class DiaryService {
     }
 
     // 일기 작성
-    public Optional<Diary> createDiary(DiaryDto.CreateDiaryDto createDiaryDto, int user_id){
+    public Optional<Diary> createDiaryWithUserid(DiaryDto.CreateDiaryDto createDiaryDto, int user_id){
         // 유저 탐색
         Optional<User> user = userRepository.findById(user_id);
         if (user.isEmpty()) return Optional.empty();
@@ -74,6 +76,14 @@ public class DiaryService {
             e.printStackTrace();
             return Optional.empty();
         }
+    }
+
+    public Optional<Diary> createDiaryWithUsername(DiaryDto.CreateDiaryDto createDiaryDto, String username){
+        Optional<Integer> userid = userService.getIdFromUsername(username);
+        if (userid.isPresent()){
+            return createDiaryWithUserid(createDiaryDto, userid.get());
+        }
+        return Optional.empty();
     }
        
 }
