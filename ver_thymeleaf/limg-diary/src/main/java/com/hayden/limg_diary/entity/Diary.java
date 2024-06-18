@@ -3,10 +3,8 @@ package com.hayden.limg_diary.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.util.Date;
 
@@ -31,5 +29,5 @@ public class Diary {
 
     @ManyToOne
     @JoinColumn
-    private User user_id;
+    private User userid;
 }

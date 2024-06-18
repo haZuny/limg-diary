@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>림그일기</title>
 </head>
 <body>
+<img th:src="'/resource/diaryimg/'+${diaryid}"><br><br>
 
+<div th:text="${}"></div>
 
 <a href="/diary/write">일기 쓰러 가기</a>
 </body>

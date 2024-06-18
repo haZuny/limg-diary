@@ -1,13 +1,11 @@
 package com.hayden.limg_diary.test;
 
 import com.hayden.limg_diary.dto.DiaryDto;
-import com.hayden.limg_diary.dto.UserDto;
 import com.hayden.limg_diary.entity.Diary;
 import com.hayden.limg_diary.entity.User;
 import com.hayden.limg_diary.repository.DiaryRepository;
 import com.hayden.limg_diary.service.DiaryService;
 import com.hayden.limg_diary.service.UserService;
-import com.hayden.limg_diary.test.service.DataGenerater;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +42,7 @@ public class DiaryServiceTest {
         DiaryDto.CreateDiaryDto createDiaryDto = new DiaryDto.CreateDiaryDto();
         createDiaryDto.setContent("안녕하세요");
         createDiaryDto.setFeeling("상");
-        Optional<Diary> diaryOp = diaryService.createDiaryWithUserid(createDiaryDto, user.getUser_id());
+        Optional<Diary> diaryOp = diaryService.createDiaryWithUserid(createDiaryDto, user.getUserid());
 
         // Then
         Assertions.assertNotNull(diaryOp.orElse(null));

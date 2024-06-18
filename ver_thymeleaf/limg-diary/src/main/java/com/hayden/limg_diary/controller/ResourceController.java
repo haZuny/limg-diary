@@ -29,7 +29,7 @@ public class ResourceController {
     @GetMapping("/resource/diaryimg/{diaryid}")
     public Resource getDiaryImage(@PathVariable int diaryid, @AuthenticationPrincipal User user) throws MalformedURLException, IllegalAccessException {
         Optional<Diary> diary = diaryService.getByDiaryid(diaryid);
-        if (diary.get().getUser_id().getUser_id() != (user.getUser_id())){
+        if (diary.get().getUserid().getUserid() != (user.getUserid())){
             throw new IllegalAccessException("올바르지 못한 접근");
         }
         String imgPath = diaryService.getByDiaryid(diaryid).get().getImage_path();

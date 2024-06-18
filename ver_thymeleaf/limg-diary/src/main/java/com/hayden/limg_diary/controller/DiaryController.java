@@ -37,7 +37,7 @@ public class DiaryController {
 
     @PostMapping("/diary/write")
     public String postDiaryWrite(DiaryDto.CreateDiaryDto diaryDto, Model model, @AuthenticationPrincipal User user){
-        Optional<Diary> diary = diaryService.createDiaryWithUserid(diaryDto,user.getUser_id());
+        Optional<Diary> diary = diaryService.createDiaryWithUserid(diaryDto,user.getUserid());
         model.addAttribute("diaryid", diary.get().getDiary_id());
         return "diary_write_done";
     }

@@ -7,7 +7,6 @@ import com.hayden.limg_diary.entity.Diary;
 import com.hayden.limg_diary.entity.User;
 import com.hayden.limg_diary.repository.DiaryRepository;
 import com.hayden.limg_diary.repository.UserRepository;
-import jakarta.persistence.Transient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -60,7 +59,7 @@ public class DiaryService {
         Diary diary = new Diary();
         diary.setContent(createDiaryDto.getContent());
         diary.setFeeling(createDiaryDto.getFeeling());
-        diary.setUser_id(user.get());
+        diary.setUserid(user.get());
         if(imgPath.isPresent()){
             diary.setImage_path(imgPath.get());
         } else{

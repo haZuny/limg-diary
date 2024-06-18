@@ -17,7 +17,7 @@ import java.util.Collection;
 @Setter
 public class User implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int user_id;
+    int userid;
 
     String username;
     String password;

@@ -24,7 +24,7 @@ public class UserService implements UserDetailsService {
     public Optional<Integer> getIdFromUsername(String username){
         try{
             User user = userRepository.findByUsername(username);
-            return Optional.of(user.getUser_id());
+            return Optional.of(user.getUserid());
         } catch (UsernameNotFoundException e){
             e.printStackTrace();
             return Optional.empty();
