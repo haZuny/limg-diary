@@ -85,5 +85,8 @@ public class DiaryService {
         }
         return Optional.empty();
     }
-       
+
+    public Optional<Diary> getByDiaryid(int diaryid){
+        return diaryRepository.findById(diaryid);
+    }
 }

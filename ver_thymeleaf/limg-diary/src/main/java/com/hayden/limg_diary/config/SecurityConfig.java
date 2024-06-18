@@ -15,7 +15,7 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests((auth)->{
             auth
                     .requestMatchers("/", "/signup", "/signin").permitAll()
-                    .requestMatchers("/today", "/diary/write").hasRole("USER");
+                    .requestMatchers("/today", "/diary/write", "/diary-img-resource/**").hasRole("USER");
         });
 
         // Custom login
