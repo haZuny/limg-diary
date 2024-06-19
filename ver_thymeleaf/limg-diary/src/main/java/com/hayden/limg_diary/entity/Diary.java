@@ -28,6 +28,6 @@ public class Diary {
     private String image_path;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name="userid")
     private User userid;
 }

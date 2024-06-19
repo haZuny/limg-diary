@@ -5,9 +5,10 @@
     <title>림그일기</title>
 </head>
 <body>
-<img th:src="'/resource/diaryimg/'+${diaryid}"><br><br>
+<img th:if="${diary} != null" th:src="'/resource/diaryimg/'+${diary.diary_id}"><br><br>
+<img th:unless="${diary} != null" th:src="'/resource/diaryimg/default'"><br><br>
 
-<div th:text="${}"></div>
+<div th:if="${diary} != null" th:text="${diary.content}"></div>
 
 <a href="/diary/write">일기 쓰러 가기</a>
 </body>
