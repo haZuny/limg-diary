@@ -13,7 +13,11 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,7 +47,7 @@ public class DiaryService {
     }
 
     // 일기 작성
-    public Optional<Diary> createDiaryWithUserid(DiaryDto.CreateDiaryDto createDiaryDto, int user_id){
+    public Optional<Diary> createDiaryFromUserid(DiaryDto.CreateDiaryDto createDiaryDto, int user_id){
         // 유저 탐색
         Optional<User> user = userRepository.findById(user_id);
         if (user.isEmpty()) return Optional.empty();
@@ -78,12 +82,91 @@ public class DiaryService {
         }
     }
 
-    public Optional<Diary> createDiaryWithUsername(DiaryDto.CreateDiaryDto createDiaryDto, String username){
-        Optional<Integer> userid = userService.getIdFromUsername(username);
-        if (userid.isPresent()){
-            return createDiaryWithUserid(createDiaryDto, userid.get());
+    public Optional<Diary> createDiaryFromUseridWithDefaultImage(DiaryDto.CreateDiaryDto createDiaryDto, int user_id, LocalDateTime date){
+        // 유저 탐색
+        Optional<User> user = userRepository.findById(user_id);
+        if (user.isEmpty()) return Optional.empty();
+
+        // 번역
+        Optional<String> transratedText = deeplApiHelper.transrate(createDiaryDto.getContent());
+
+        // Diary Entity 생성
+        Diary diary = new Diary();
+        diary.setContent(createDiaryDto.getContent());
+        diary.setFeeling(createDiaryDto.getFeeling());
+        diary.setUserid(user.get());
+        diary.setImage_path(defaultImgPath);
+        diary.setDate(Date.from(date.atZone(ZoneId.systemDefault()).toInstant()));
+
+        // DB 저장
+        try{
+            diaryRepository.save(diary);
+            return Optional.of(diary);
+        } catch (Exception e){
+            e.printStackTrace();
+            return Optional.empty();
         }
-        return Optional.empty();
+    }
+
+    public Optional<Diary> createDiaryFromUserid(DiaryDto.CreateDiaryDto createDiaryDto, int user_id, LocalDateTime date){
+        // 유저 탐색
+        Optional<User> user = userRepository.findById(user_id);
+        if (user.isEmpty()) return Optional.empty();
+
+        // 번역
+        Optional<String> transratedText = deeplApiHelper.transrate(createDiaryDto.getContent());
+
+        // 이미지 얻음
+        String imgNameDate = imgNameDateFormat.format(date);
+        String imgName = Integer.toString(user_id) + "_" + imgNameDate + ".webp";
+        Optional<String> imgPath = karloApiHelper.createAndSaveImage(transratedText.orElse(""), imgName);
+
+        // Diary Entity 생성
+        Diary diary = new Diary();
+        diary.setContent(createDiaryDto.getContent());
+        diary.setFeeling(createDiaryDto.getFeeling());
+        diary.setUserid(user.get());
+        diary.setDate(Date.from(date.atZone(ZoneId.systemDefault()).toInstant()));
+        if(imgPath.isPresent()){
+            diary.setImage_path(imgPath.get());
+        } else{
+            diary.setImage_path(defaultImgPath);
+        }
+
+
+        // DB 저장
+        try{
+            diaryRepository.save(diary);
+            return Optional.of(diary);
+        } catch (Exception e){
+            e.printStackTrace();
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Diary> createDiaryFromUseridWithDefaultImage(DiaryDto.CreateDiaryDto createDiaryDto, int user_id){
+        // 유저 탐색
+        Optional<User> user = userRepository.findById(user_id);
+        if (user.isEmpty()) return Optional.empty();
+
+        // 번역
+        Optional<String> transratedText = deeplApiHelper.transrate(createDiaryDto.getContent());
+
+        // Diary Entity 생성
+        Diary diary = new Diary();
+        diary.setContent(createDiaryDto.getContent());
+        diary.setFeeling(createDiaryDto.getFeeling());
+        diary.setUserid(user.get());
+        diary.setImage_path(defaultImgPath);
+
+        // DB 저장
+        try{
+            diaryRepository.save(diary);
+            return Optional.of(diary);
+        } catch (Exception e){
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     public Optional<Diary> updateDiaryExceptImage(DiaryDto.UpdateDiaryDto updateDiaryDto){
@@ -123,7 +206,13 @@ public class DiaryService {
         return diaryRepository.findById(diaryid);
     }
 
-    public Optional<Diary> findByUserAanDate(User user, LocalDate date){
+    public Optional<Diary> findByUserAndDate(User user, LocalDate date){
         return Optional.ofNullable(diaryRepository.findByUserAndDate(user, date));
+    }
+
+    public List<Diary> findByUserAndDateBetween(User user, LocalDate sdate, LocalDate edate){
+        return diaryRepository.findAllByUseridAndDateBetween(user
+                , LocalDateTime.of(sdate, LocalTime.of(0,0,0))
+                , LocalDateTime.of(edate, LocalTime.of(23,59,59)));
     }
 }

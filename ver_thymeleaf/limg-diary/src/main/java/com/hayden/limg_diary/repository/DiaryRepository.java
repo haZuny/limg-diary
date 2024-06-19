@@ -15,6 +15,7 @@ import java.util.Optional;
 @Repository
 public interface DiaryRepository extends JpaRepository<Diary, Integer> {
     Diary findByUseridAndDateBetween(User user, LocalDateTime date1, LocalDateTime date2);
+    List<Diary> findAllByUseridAndDateBetween(User user, LocalDateTime date1, LocalDateTime date2);
 
     default Diary findByUserAndDate(User user, LocalDate date){
         LocalDateTime date1 = LocalDateTime.of(date, LocalTime.of(0,0,0));

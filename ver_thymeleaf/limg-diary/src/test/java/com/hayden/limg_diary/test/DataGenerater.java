@@ -10,6 +10,7 @@ import com.hayden.limg_diary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Component
@@ -46,6 +47,15 @@ public class DataGenerater {
         diaryDto.setContent(content);
         diaryDto.setFeeling(feels);
 
-        return diaryService.createDiaryWithUserid(diaryDto, user_id);
+        return diaryService.createDiaryFromUseridWithDefaultImage(diaryDto, user_id);
+    }
+
+    public Optional<Diary> createDiary(String content, String feels, int user_id, LocalDateTime date){
+        DiaryDto.CreateDiaryDto diaryDto = new DiaryDto.CreateDiaryDto();
+
+        diaryDto.setContent(content);
+        diaryDto.setFeeling(feels);
+
+        return diaryService.createDiaryFromUseridWithDefaultImage(diaryDto, user_id, LocalDateTime.now());
     }
 }
