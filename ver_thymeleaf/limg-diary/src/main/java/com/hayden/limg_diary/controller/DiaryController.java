@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.net.MalformedURLException;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Controller
@@ -42,6 +43,18 @@ public class DiaryController {
         return "diary_write_done";
     }
 
+    @GetMapping("/diary/update")
+    public String getDiaryUpdate(Model model, @AuthenticationPrincipal User user){
+        Diary diary = diaryService.findByUserAanDate(user, LocalDate.now()).get();
+        model.addAttribute(diary);
+        return "diary_update";
+    }
 
+    @PostMapping("/diary/update")
+    public String postDiaryUpdate(DiaryDto.UpdateDiaryDto diaryDto, Model model){
+        Optional<Diary> diary = diaryService.updateDiaryWithImage(diaryDto);
+        model.addAttribute("diaryid", diary.get().getDiary_id());
+        return "diary_write_done";
+    }
 
 }

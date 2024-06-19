@@ -86,6 +86,39 @@ public class DiaryService {
         return Optional.empty();
     }
 
+    public Optional<Diary> updateDiaryExceptImage(DiaryDto.UpdateDiaryDto updateDiaryDto){
+        Optional<Diary> diaryOp = diaryRepository.findById(updateDiaryDto.getDiaryid());
+        Diary diary = diaryOp.get();
+        diary.setContent(updateDiaryDto.getContent());
+        diary.setFeeling(updateDiaryDto.getFeeling());
+        return Optional.of(diaryRepository.save(diary));
+    }
+
+    public Optional<Diary> updateDiaryWithImage(DiaryDto.UpdateDiaryDto updateDiaryDto){
+        Optional<Diary> diaryOp = diaryRepository.findById(updateDiaryDto.getDiaryid());
+        Diary diary = diaryOp.get();
+
+        // 번역
+        Optional<String> transratedText = deeplApiHelper.transrate(updateDiaryDto.getContent());
+
+        // 이미지 얻음
+        String imgNameDate = imgNameDateFormat.format(date);
+        String imgName = Integer.toString(diary.getUserid().getUserid()) + "_" + imgNameDate + ".webp";
+        Optional<String> imgPath = karloApiHelper.createAndSaveImage(transratedText.orElse(""), imgName);
+
+        // 엔티티 업데이트
+        diary.setContent(updateDiaryDto.getContent());
+        diary.setFeeling(updateDiaryDto.getFeeling());
+        if(imgPath.isPresent()){
+            diary.setImage_path(imgPath.get());
+        } else{
+            diary.setImage_path(defaultImgPath);
+        }
+
+        return Optional.of(diaryRepository.save(diary));
+    }
+
+
     public Optional<Diary> getByDiaryid(int diaryid){
         return diaryRepository.findById(diaryid);
     }

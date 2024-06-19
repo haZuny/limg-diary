@@ -10,6 +10,7 @@
 
 <div th:if="${diary} != null" th:text="${diary.content}"></div>
 
-<a href="/diary/write">일기 쓰러 가기</a>
+<a th:if="${diary} != null" href="/diary/update">일기 수정하기</a>
+<a th:unless="${diary} != null" href="/diary/write">일기 쓰러 가기</a>
 </body>
 </html>

@@ -11,4 +11,12 @@ public class DiaryDto {
         String content;
         String feeling;
     }
+
+    @Getter
+    @Setter
+    public static class UpdateDiaryDto{
+        int diaryid;
+        String content;
+        String feeling;
+    }
 }
