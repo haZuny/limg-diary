@@ -4,6 +4,7 @@ import com.hayden.limg_diary.entity.Diary;
 import com.hayden.limg_diary.entity.User;
 import com.hayden.limg_diary.service.DiaryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +18,9 @@ import java.util.Optional;
 
 @Controller
 public class ResourceController {
+
+    @Value("${path.res.img.default-img}")
+    String defauldDiaryImg;
 
     DiaryService diaryService;
 
@@ -34,5 +38,11 @@ public class ResourceController {
         }
         String imgPath = diaryService.getByDiaryid(diaryid).get().getImage_path();
         return new UrlResource("file:" + imgPath);
+    }
+
+    @ResponseBody
+    @GetMapping("/resource/diaryimg/default")
+    public Resource getDiaryImage() throws MalformedURLException {
+        return new UrlResource("file:" + defauldDiaryImg);
     }
 }
