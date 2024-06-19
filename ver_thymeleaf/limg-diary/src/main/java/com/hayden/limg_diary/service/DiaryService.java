@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -87,5 +88,9 @@ public class DiaryService {
 
     public Optional<Diary> getByDiaryid(int diaryid){
         return diaryRepository.findById(diaryid);
+    }
+
+    public Optional<Diary> findByUserAanDate(User user, LocalDate date){
+        return Optional.ofNullable(diaryRepository.findByUserAndDate(user, date));
     }
 }
