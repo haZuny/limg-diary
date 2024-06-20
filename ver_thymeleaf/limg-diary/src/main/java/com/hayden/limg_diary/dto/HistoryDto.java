@@ -15,10 +15,10 @@ public class HistoryDto {
     LocalDate edate;
 
     public String getSdateStr(){
-        return sdate.format(DateTimeFormatter.ofPattern("YYYY-MM-DD"));
+        return sdate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
     }
     public String getEdateStr(){
-        return edate.format(DateTimeFormatter.ofPattern("YYYY-MM-DD"));
+        return edate.format(DateTimeFormatter.ofPattern("YYYY-MM-dd"));
     }
 
     public boolean isEmpty(){
