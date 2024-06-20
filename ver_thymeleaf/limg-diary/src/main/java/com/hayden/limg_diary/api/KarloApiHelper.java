@@ -31,7 +31,7 @@ public class KarloApiHelper {
 
         Map<String, String> bodyMap = new HashMap<>();
         bodyMap.put("version", "v2.1");
-        bodyMap.put("prompt", prompt);
+        bodyMap.put("prompt", "Cute Cartoon image, " + prompt);
         bodyMap.put("width", "1024");
         bodyMap.put("height", "1024");
 
