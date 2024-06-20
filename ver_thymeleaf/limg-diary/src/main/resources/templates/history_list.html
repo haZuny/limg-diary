@@ -12,7 +12,7 @@
     </form>
 
     <div th:each="diary: ${diaries}">
-        <a th:href="'history/view/'+${diary.diary_id}">
+        <a th:href="'/history/view/'+${diary.diary_id}">
             <div th:text="${diary.date}+' - '+${diary.content}"></div>
         </a>
     </div>

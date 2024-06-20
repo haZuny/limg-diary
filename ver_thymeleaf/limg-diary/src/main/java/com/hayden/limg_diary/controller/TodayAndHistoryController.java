@@ -46,11 +46,11 @@ public class TodayAndHistoryController {
         return "history_list";
     }
 
-    @GetMapping("/history/list/{diaryid}")
-    public String getHistoryView(@PathVariable int diaryid, Model model, @AuthenticationPrincipal User user) throws IllegalAccessException {
+    @GetMapping("/history/view/{diaryid}")
+    public String getHistoryView(@PathVariable("diaryid") int diaryid, Model model, @AuthenticationPrincipal User user) throws IllegalAccessException {
         Optional<Diary> diaryOp = diaryService.getByDiaryid(diaryid);
         Diary diary = diaryOp.get();
-        if (!diary.getUserid().equals(user.getUserid()))
+        if (diary.getUserid().getUserid() != user.getUserid())
             throw new IllegalAccessException("Not match diary with user");
         model.addAttribute("diary", diary);
         return "history_view";
