@@ -16,7 +16,8 @@ public class SecurityConfig {
             auth
                     .requestMatchers("/", "/signup", "/signin").permitAll()
                     .requestMatchers("/today", "/diary/write", "diary/update",
-                            "/history/list", "/resource/diaryimg/**").hasRole("USER");
+                            "/history/list", "/resource/diaryimg/**").hasRole("USER")
+                    .anyRequest().authenticated();
         });
 
         // Custom login

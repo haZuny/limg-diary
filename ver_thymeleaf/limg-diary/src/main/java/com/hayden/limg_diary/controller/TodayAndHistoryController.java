@@ -34,9 +34,13 @@ public class TodayAndHistoryController {
     }
 
     @GetMapping("/history/list")
-    public String getHistoryList(HistoryDto historyDto){
-        if (historyDto != null){
-//            List<Diary> diaryList = diaryService.findByUserAndDateBetween();
+    public String getHistoryList(HistoryDto historyDto, Model model, @AuthenticationPrincipal User user){
+        if (!historyDto.isEmpty()){
+            System.out.println(historyDto.getSdate());
+            model.addAttribute("sdate", historyDto.getSdateStr());
+            model.addAttribute("edate", historyDto.getEdateStr());
+            List<Diary> diaryList = diaryService.findByUserAndDateBetween(user, historyDto.getSdate(), historyDto.getEdate());
+            model.addAttribute("diaries", diaryList);
         }
         return "history_list";
     }

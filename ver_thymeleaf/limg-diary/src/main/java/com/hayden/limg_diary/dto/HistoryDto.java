@@ -5,10 +5,24 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
 public class HistoryDto {
     LocalDate sdate;
     LocalDate edate;
+
+    public String getSdateStr(){
+        return sdate.format(DateTimeFormatter.ofPattern("YYYY-MM-DD"));
+    }
+    public String getEdateStr(){
+        return edate.format(DateTimeFormatter.ofPattern("YYYY-MM-DD"));
+    }
+
+    public boolean isEmpty(){
+        if (sdate == null || edate == null) return true;
+        return false;
+    }
 }
