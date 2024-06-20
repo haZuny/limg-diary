@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +34,6 @@ public class DiaryService {
     DeeplApiHelper deeplApiHelper;
     KarloApiHelper karloApiHelper;
 
-    SimpleDateFormat imgNameDateFormat = new SimpleDateFormat("yyyyMMDDHHmmss");
     Date date = new Date();
 
     @Autowired
@@ -56,7 +56,7 @@ public class DiaryService {
         Optional<String> transratedText = deeplApiHelper.transrate(createDiaryDto.getContent());
 
         // 이미지 얻음
-        String imgNameDate = imgNameDateFormat.format(date);
+        String imgNameDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd-HH-mm-ss"));
         String imgName = Integer.toString(user_id) + "_" + imgNameDate + ".webp";
         Optional<String> imgPath = karloApiHelper.createAndSaveImage(transratedText.orElse(""), imgName);
 
@@ -117,7 +117,7 @@ public class DiaryService {
         Optional<String> transratedText = deeplApiHelper.transrate(createDiaryDto.getContent());
 
         // 이미지 얻음
-        String imgNameDate = imgNameDateFormat.format(date);
+        String imgNameDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd-HH-mm-ss"));
         String imgName = Integer.toString(user_id) + "_" + imgNameDate + ".webp";
         Optional<String> imgPath = karloApiHelper.createAndSaveImage(transratedText.orElse(""), imgName);
 
@@ -185,7 +185,7 @@ public class DiaryService {
         Optional<String> transratedText = deeplApiHelper.transrate(updateDiaryDto.getContent());
 
         // 이미지 얻음
-        String imgNameDate = imgNameDateFormat.format(date);
+        String imgNameDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd-HH-mm-ss"));
         String imgName = Integer.toString(diary.getUserid().getUserid()) + "_" + imgNameDate + ".webp";
         Optional<String> imgPath = karloApiHelper.createAndSaveImage(transratedText.orElse(""), imgName);
 
