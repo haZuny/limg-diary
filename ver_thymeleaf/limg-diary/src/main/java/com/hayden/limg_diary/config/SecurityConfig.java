@@ -15,8 +15,10 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests((auth)->{
             auth
                     .requestMatchers("/", "/signup", "/signin").permitAll()
-                    .requestMatchers("/today", "/diary/write", "diary/update",
-                            "/history/list", "/resource/diaryimg/**").hasRole("USER")
+                    .requestMatchers("/today"
+                            , "/diary/write", "diary/update",
+                            "/history/list", "history/view/*"
+                            , "/resource/diaryimg/**").hasRole("USER")
                     .anyRequest().authenticated();
         });
 

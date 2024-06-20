@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -43,5 +44,15 @@ public class TodayAndHistoryController {
             model.addAttribute("diaries", diaryList);
         }
         return "history_list";
+    }
+
+    @GetMapping("/history/list/{diaryid}")
+    public String getHistoryView(@PathVariable int diaryid, Model model, @AuthenticationPrincipal User user) throws IllegalAccessException {
+        Optional<Diary> diaryOp = diaryService.getByDiaryid(diaryid);
+        Diary diary = diaryOp.get();
+        if (!diary.getUserid().equals(user.getUserid()))
+            throw new IllegalAccessException("Not match diary with user");
+        model.addAttribute("diary", diary);
+        return "history_view";
     }
 }
