@@ -16,5 +16,5 @@ public class TodayRateEntity extends BaseTimeEntity {
     private int rateNum;
 
     @Column(name="RATE_STR")
-    private int rateStr;
+    private String rateStr;
 }
