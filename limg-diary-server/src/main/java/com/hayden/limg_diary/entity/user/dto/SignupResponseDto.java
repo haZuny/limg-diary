@@ -4,20 +4,29 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 @Data
-public class SignupResponseDto {
-    int status;
-    boolean success;
-    String msg;
-
-    public void setSuccess(){
-        this.status = HttpStatus.CREATED.value();
-        this.success = true;
-        this.msg = "success";
+public class SignupDto {
+    class SignupReqDto{
+        String username;
+        String nickname;
+        String password;
+        String password_check;
     }
 
-    public void setFail(){
-        this.status = HttpStatus.BAD_REQUEST.value();
-        this.success = false;
-        this.msg = "fail";
+    class SignupResDto{
+        int status;
+        boolean success;
+        String msg;
+
+        public void setSuccess(){
+            this.status = HttpStatus.CREATED.value();
+            this.success = true;
+            this.msg = "success";
+        }
+
+        public void setFail(){
+            this.status = HttpStatus.BAD_REQUEST.value();
+            this.success = false;
+            this.msg = "fail";
+        }
     }
 }
