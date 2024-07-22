@@ -1,5 +1,5 @@
-insert into "ROLE" (ROLE, LEVEL) values ('ROLE_USER', 1)
-insert into "ROLE" (ROLE, LEVEL) values ('ROLE_ADMIN', 2)
+insert into "ROLE" (ROLE, NAME, LEVEL) values ('ROLE_USER', 'USER', 1)
+insert into "ROLE" (ROLE, NAME, LEVEL) values ('ROLE_ADMIN', 'ADMIN', 2)
 
 insert into "TODAY_RATE" (RATE_NUM, RATE_STR) values (0, '별로')
 insert into "TODAY_RATE" (RATE_NUM, RATE_STR) values (2, '보통')

@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserEntity extends BaseTimeEntity {
-    @Column(name="USERNAME")
+    @Column(name="USERNAME", unique = true)
     private String username;
 
     @Column(name="PASSWORD")

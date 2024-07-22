@@ -4,15 +4,8 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 @Data
-public class SignupDto {
-    class SignupReqDto{
-        String username;
-        String nickname;
-        String password;
-        String password_check;
-    }
+public class SignupResponseDto {
 
-    class SignupResDto{
         int status;
         boolean success;
         String msg;
@@ -28,5 +21,4 @@ public class SignupDto {
             this.success = false;
             this.msg = "fail";
         }
-    }
 }

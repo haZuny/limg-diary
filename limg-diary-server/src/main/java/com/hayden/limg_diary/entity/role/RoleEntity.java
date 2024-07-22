@@ -16,6 +16,9 @@ public class RoleEntity extends BaseTimeEntity {
     @Column(name = "ROLE")
     private String role;
 
+    @Column(name = "NAME")
+    private String name;
+
     @Column(name="LEVEL")
     private int level;
 }
