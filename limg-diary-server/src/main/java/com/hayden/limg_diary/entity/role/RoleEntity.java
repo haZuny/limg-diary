@@ -5,9 +5,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="role")
+@Getter
+@Setter
 public class RoleEntity extends BaseTimeEntity {
     @Column(name = "ROLE")
     private String role;

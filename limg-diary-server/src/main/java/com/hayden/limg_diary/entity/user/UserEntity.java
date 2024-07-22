@@ -6,9 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
-@Table(name = "users")
 public class UserEntity extends BaseTimeEntity {
     @Column(name="USERNAME")
     private String username;
