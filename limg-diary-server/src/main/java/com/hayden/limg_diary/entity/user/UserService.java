@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -192,6 +194,27 @@ public class UserService {
 
         defaultResponseDto.setMember(HttpStatus.OK, true, "success");
         return new ResponseEntity<>(defaultResponseDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<GetUserResponseDto> getBySelf(UserEntity user){
+        GetUserResponseDto getUserResponseDto = new GetUserResponseDto();
+        List<RoleEntity> roles = userAndRoleService.getRolesByUser(user);
+
+        getUserResponseDto.setStatus(HttpStatus.OK.value());
+        getUserResponseDto.setSuccess(true);
+        getUserResponseDto.setMsg("success");
+        getUserResponseDto.getUserSelf().setId(user.getId());
+        getUserResponseDto.getUserSelf().setCreated_date(user.getCreatedData());
+        getUserResponseDto.getUserSelf().setUpdated_date(user.getUpdatedData());
+        getUserResponseDto.getUserSelf().setUsername(user.getUsername());
+        getUserResponseDto.getUserSelf().setNickname(user.getNickname());
+        getUserResponseDto.getUserSelf().setRole(new ArrayList<String>());
+
+        for (RoleEntity role:roles){
+            getUserResponseDto.getUserSelf().getRole().add(role.getRole());
+        }
+
+        return new ResponseEntity<>(getUserResponseDto, HttpStatus.OK);
     }
 
     List<RoleEntity> getRoles(UserEntity user){

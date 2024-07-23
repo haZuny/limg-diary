@@ -2,17 +2,12 @@ package com.hayden.limg_diary.entity.user;
 
 import com.hayden.limg_diary.entity.user.dto.*;
 import com.hayden.limg_diary.jwt.JwtUtil;
-import io.jsonwebtoken.Jwt;
-import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -60,5 +55,11 @@ public class UserController {
     public ResponseEntity<DefaultResponseDto> patchModify(@RequestBody ModifyRequestDto modifyRequestDto, @AuthenticationPrincipal CustomUserDetails userDetails){
         UserEntity user = userDetails.getUserEntity();
         return userService.modify(modifyRequestDto, user);
+    }
+
+    @GetMapping("/self")
+    public ResponseEntity<GetUserResponseDto> getSelf(@AuthenticationPrincipal CustomUserDetails userDetails){
+        UserEntity user = userDetails.getUserEntity();
+        return userService.getBySelf(user);
     }
 }
