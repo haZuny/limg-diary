@@ -67,7 +67,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth->{
             auth
                     .requestMatchers("/user/signin", "/user/signup", "/user/refresh", "/user/logout").permitAll()
-                    .requestMatchers("/test", "/user/modify", "/user/self").hasAnyRole(roleRepository.findByLevel(1).getName());
+                    .requestMatchers("/test", "/user/modify", "/user/self").hasAnyRole(roleRepository.findByLevel(1).getName())
+                    .requestMatchers("/user/*").hasAnyRole(roleRepository.findByLevel(2).getName());
         });
 
         // add custom filter

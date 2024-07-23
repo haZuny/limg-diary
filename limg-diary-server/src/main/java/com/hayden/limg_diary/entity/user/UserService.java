@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -210,6 +211,40 @@ public class UserService {
         getUserResponseDto.getUserSelf().setNickname(user.getNickname());
         getUserResponseDto.getUserSelf().setRole(new ArrayList<String>());
 
+        for (RoleEntity role:roles){
+            getUserResponseDto.getUserSelf().getRole().add(role.getRole());
+        }
+
+        return new ResponseEntity<>(getUserResponseDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<GetUserResponseDto> getByUserId(int userId){
+        GetUserResponseDto getUserResponseDto = new GetUserResponseDto();
+
+        // find user and check userid
+        Optional<UserEntity> userOp = userRepository.findById(userId);
+        if(userOp.isEmpty())  {
+            getUserResponseDto.setUserSelf(null);
+            getUserResponseDto.setStatus(HttpStatus.BAD_REQUEST.value());
+            getUserResponseDto.setMsg("user not found");
+            getUserResponseDto.setSuccess(false);
+            return new ResponseEntity<>(getUserResponseDto, HttpStatus.BAD_REQUEST);
+        }
+        UserEntity user = userOp.get();
+
+        // get role
+        List<RoleEntity> roles = userAndRoleService.getRolesByUser(user);
+
+        // set res dto
+        getUserResponseDto.setStatus(HttpStatus.OK.value());
+        getUserResponseDto.setSuccess(true);
+        getUserResponseDto.setMsg("success");
+        getUserResponseDto.getUserSelf().setId(user.getId());
+        getUserResponseDto.getUserSelf().setCreated_date(user.getCreatedData());
+        getUserResponseDto.getUserSelf().setUpdated_date(user.getUpdatedData());
+        getUserResponseDto.getUserSelf().setUsername(user.getUsername());
+        getUserResponseDto.getUserSelf().setNickname(user.getNickname());
+        getUserResponseDto.getUserSelf().setRole(new ArrayList<String>());
         for (RoleEntity role:roles){
             getUserResponseDto.getUserSelf().getRole().add(role.getRole());
         }
