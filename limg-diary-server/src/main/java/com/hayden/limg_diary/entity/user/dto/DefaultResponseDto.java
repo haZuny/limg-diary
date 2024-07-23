@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 @Data
-public class RefreshResponseDto {
+public class DefaultResponseDto {
     int status;
     boolean success;
     String msg;

@@ -66,7 +66,7 @@ public class SecurityConfig {
         // auth path
         http.authorizeHttpRequests(auth->{
             auth
-                    .requestMatchers("/user/signin", "/user/signup", "/user/refresh").permitAll()
+                    .requestMatchers("/user/signin", "/user/signup", "/user/refresh", "/user/logout").permitAll()
                     .requestMatchers("/test").hasAnyRole(roleRepository.findByLevel(1).getName());
         });
 

@@ -3,7 +3,7 @@ package com.hayden.limg_diary.entity.user;
 import com.hayden.limg_diary.entity.role.RoleEntity;
 import com.hayden.limg_diary.entity.role.RoleRepository;
 import com.hayden.limg_diary.entity.role.UserAndRoleService;
-import com.hayden.limg_diary.entity.user.dto.RefreshResponseDto;
+import com.hayden.limg_diary.entity.user.dto.DefaultResponseDto;
 import com.hayden.limg_diary.entity.user.dto.SigninRequestDto;
 import com.hayden.limg_diary.entity.user.dto.SigninResponseDto;
 import com.hayden.limg_diary.entity.user.dto.SignupRequestDto;
@@ -108,27 +108,27 @@ public class UserService {
         return new ResponseEntity<SigninResponseDto>(signinResponseDto, httpHeaders, HttpStatus.OK);
     }
 
-    public ResponseEntity<RefreshResponseDto> refresh(String token){
+    public ResponseEntity<DefaultResponseDto> refresh(String token){
         // response dto
-        RefreshResponseDto refreshResponseDto = new RefreshResponseDto();
+        DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
 
         // check token
-        refreshResponseDto.setMember(HttpStatus.BAD_REQUEST, false, "token is invalid");
-        if (token == null || !token.startsWith("Bearer "))  return new ResponseEntity<RefreshResponseDto>(refreshResponseDto, HttpStatus.BAD_REQUEST);
+        defaultResponseDto.setMember(HttpStatus.BAD_REQUEST, false, "token is invalid");
+        if (token == null || !token.startsWith("Bearer "))  return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.BAD_REQUEST);
 
         String refresh = token.split("Bearer ")[1];
 
         // check expired
-        refreshResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is expired");
-        if (jwtUtil.isExpired(refresh)) return new ResponseEntity<RefreshResponseDto>(refreshResponseDto, HttpStatus.UNAUTHORIZED);
+        defaultResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is expired");
+        if (jwtUtil.isExpired(refresh)) return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.UNAUTHORIZED);
 
         // category check
-        refreshResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is not refresh");
-        if (!jwtUtil.getCategory(refresh).equals("refresh")) return  new ResponseEntity<RefreshResponseDto>(refreshResponseDto, HttpStatus.UNAUTHORIZED);
+        defaultResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is not refresh");
+        if (!jwtUtil.getCategory(refresh).equals("refresh")) return  new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.UNAUTHORIZED);
 
         // check refresh is in server
-        refreshResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is not match");
-        if(!refreshService.isExist(refresh)) return  new ResponseEntity<RefreshResponseDto>(refreshResponseDto, HttpStatus.UNAUTHORIZED);
+        defaultResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is not match");
+        if(!refreshService.isExist(refresh)) return  new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.UNAUTHORIZED);
 
         // Create new token
         String username = jwtUtil.getUsername(refresh);
@@ -139,12 +139,40 @@ public class UserService {
         refreshService.deleteRefresh(refresh);
         refreshService.addRefresh(newRefresh);
 
-        refreshResponseDto.setMember(HttpStatus.OK, true, "success");
+        defaultResponseDto.setMember(HttpStatus.OK, true, "success");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Authentication", "Bearer " + newAccess);
         httpHeaders.set("Refresh",  "Bearer " + newRefresh);
-        return new ResponseEntity<RefreshResponseDto>(refreshResponseDto, httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, httpHeaders, HttpStatus.OK);
+    }
 
+    public ResponseEntity<DefaultResponseDto> logout(String token){
+        // response dto
+        DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
+
+        // check token
+        defaultResponseDto.setMember(HttpStatus.BAD_REQUEST, false, "token is invalid");
+        if (token == null || !token.startsWith("Bearer "))  return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.BAD_REQUEST);
+
+        String refresh = token.split("Bearer ")[1];
+
+        // check expired
+        defaultResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is expired");
+        if (jwtUtil.isExpired(refresh)) return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.UNAUTHORIZED);
+
+        // category check
+        defaultResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is not refresh");
+        if (!jwtUtil.getCategory(refresh).equals("refresh")) return  new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.UNAUTHORIZED);
+
+        // check refresh is in server
+        defaultResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is not match");
+        if(!refreshService.isExist(refresh)) return  new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.UNAUTHORIZED);
+
+        // refresh db delete
+        refreshService.deleteRefresh(refresh);
+
+        defaultResponseDto.setMember(HttpStatus.OK, true, "success");
+        return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.OK);
     }
 
     List<RoleEntity> getRoles(UserEntity user){

@@ -48,4 +48,10 @@ public class UserController {
         String refresh = request.getHeader("Refresh");
         return userService.refresh(refresh);
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<DefaultResponseDto> postLogout(HttpServletRequest request){
+        String refresh = request.getHeader("Refresh");
+        return userService.logout(refresh);
+    }
 }
