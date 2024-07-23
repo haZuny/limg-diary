@@ -1,10 +1,12 @@
 package com.hayden.limg_diary.entity.user;
 
-import com.hayden.limg_diary.entity.user.dto.SigninRequestDto;
-import com.hayden.limg_diary.entity.user.dto.SigninResponseDto;
-import com.hayden.limg_diary.entity.user.dto.SignupRequestDto;
-import com.hayden.limg_diary.entity.user.dto.SignupResponseDto;
+import com.hayden.limg_diary.entity.user.dto.*;
+import com.hayden.limg_diary.jwt.JwtUtil;
+import io.jsonwebtoken.Jwt;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,7 @@ public class UserController {
     UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
     }
 
@@ -39,5 +41,11 @@ public class UserController {
     @PostMapping("/signin")
     public ResponseEntity postSignin(@RequestBody SigninRequestDto signinRequestDto){
         return userService.signin(signinRequestDto);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity postRefresh(HttpServletRequest request){
+        String refresh = request.getHeader("Refresh");
+        return userService.refresh(refresh);
     }
 }

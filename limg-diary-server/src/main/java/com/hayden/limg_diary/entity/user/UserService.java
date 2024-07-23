@@ -3,6 +3,7 @@ package com.hayden.limg_diary.entity.user;
 import com.hayden.limg_diary.entity.role.RoleEntity;
 import com.hayden.limg_diary.entity.role.RoleRepository;
 import com.hayden.limg_diary.entity.role.UserAndRoleService;
+import com.hayden.limg_diary.entity.user.dto.RefreshResponseDto;
 import com.hayden.limg_diary.entity.user.dto.SigninRequestDto;
 import com.hayden.limg_diary.entity.user.dto.SigninResponseDto;
 import com.hayden.limg_diary.entity.user.dto.SignupRequestDto;
@@ -69,8 +70,6 @@ public class UserService {
 
     public ResponseEntity<SigninResponseDto> signin(SigninRequestDto signinRequestDto){
 
-
-
         // null check
         if(signinRequestDto.getUsername() == null || signinRequestDto.getPassword() == null)    {
             SigninResponseDto failSigninResponseDto = new SigninResponseDto(HttpStatus.BAD_REQUEST.value(), false, "request null");
@@ -96,8 +95,8 @@ public class UserService {
         }
 
         // Create token
-        String accessToken = jwtUtil.createJwt("access", userEntity.getUsername(), 30);   // 30minute
-        String refreshToken = jwtUtil.createJwt("refresh", userEntity.getUsername(), 60 * 24 * 14);   // 2weeks
+        String accessToken = jwtUtil.createJwt("access", userEntity.getUsername(), jwtUtil.getAccessExpMinute());   // 30minute
+        String refreshToken = jwtUtil.createJwt("refresh", userEntity.getUsername(), jwtUtil.getRefreshExpMinute());   // 2weeks
         refreshService.addRefresh(refreshToken);
 
 
@@ -107,6 +106,45 @@ public class UserService {
         httpHeaders.set("Authentication", "Bearer " + accessToken);
         httpHeaders.set("Refresh",  "Bearer " + refreshToken);
         return new ResponseEntity<SigninResponseDto>(signinResponseDto, httpHeaders, HttpStatus.OK);
+    }
+
+    public ResponseEntity<RefreshResponseDto> refresh(String token){
+        // response dto
+        RefreshResponseDto refreshResponseDto = new RefreshResponseDto();
+
+        // check token
+        refreshResponseDto.setMember(HttpStatus.BAD_REQUEST, false, "token is invalid");
+        if (token == null || !token.startsWith("Bearer "))  return new ResponseEntity<RefreshResponseDto>(refreshResponseDto, HttpStatus.BAD_REQUEST);
+
+        String refresh = token.split("Bearer ")[1];
+
+        // check expired
+        refreshResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is expired");
+        if (jwtUtil.isExpired(refresh)) return new ResponseEntity<RefreshResponseDto>(refreshResponseDto, HttpStatus.UNAUTHORIZED);
+
+        // category check
+        refreshResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is not refresh");
+        if (!jwtUtil.getCategory(refresh).equals("refresh")) return  new ResponseEntity<RefreshResponseDto>(refreshResponseDto, HttpStatus.UNAUTHORIZED);
+
+        // check refresh is in server
+        refreshResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is not match");
+        if(!refreshService.isExist(refresh)) return  new ResponseEntity<RefreshResponseDto>(refreshResponseDto, HttpStatus.UNAUTHORIZED);
+
+        // Create new token
+        String username = jwtUtil.getUsername(refresh);
+        String newAccess = jwtUtil.createJwt("access", username, jwtUtil.getAccessExpMinute());
+        String newRefresh = jwtUtil.createJwt("refresh", username, jwtUtil.getRefreshExpMinute());
+
+        // refresh db update
+        refreshService.deleteRefresh(refresh);
+        refreshService.addRefresh(newRefresh);
+
+        refreshResponseDto.setMember(HttpStatus.OK, true, "success");
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Authentication", "Bearer " + newAccess);
+        httpHeaders.set("Refresh",  "Bearer " + newRefresh);
+        return new ResponseEntity<RefreshResponseDto>(refreshResponseDto, httpHeaders, HttpStatus.OK);
+
     }
 
     List<RoleEntity> getRoles(UserEntity user){
