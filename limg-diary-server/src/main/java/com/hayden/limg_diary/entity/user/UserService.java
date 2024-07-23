@@ -3,10 +3,7 @@ package com.hayden.limg_diary.entity.user;
 import com.hayden.limg_diary.entity.role.RoleEntity;
 import com.hayden.limg_diary.entity.role.RoleRepository;
 import com.hayden.limg_diary.entity.role.UserAndRoleService;
-import com.hayden.limg_diary.entity.user.dto.DefaultResponseDto;
-import com.hayden.limg_diary.entity.user.dto.SigninRequestDto;
-import com.hayden.limg_diary.entity.user.dto.SigninResponseDto;
-import com.hayden.limg_diary.entity.user.dto.SignupRequestDto;
+import com.hayden.limg_diary.entity.user.dto.*;
 import com.hayden.limg_diary.jwt.JwtUtil;
 import com.hayden.limg_diary.jwt.entity.RefreshService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,6 +170,28 @@ public class UserService {
 
         defaultResponseDto.setMember(HttpStatus.OK, true, "success");
         return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<DefaultResponseDto> modify(ModifyRequestDto modifyRequestDto, UserEntity userEntity){
+
+        DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
+
+        // Password check
+        defaultResponseDto.setMember(HttpStatus.BAD_REQUEST, false, "password is invalid");
+        if (modifyRequestDto.getPassword() == null || ! bCryptPasswordEncoder.matches(modifyRequestDto.getPassword(), userEntity.getPassword()))
+            return new ResponseEntity<>(defaultResponseDto, HttpStatus.BAD_REQUEST);
+
+        // Edit entity
+        if (modifyRequestDto.getNickname() != null) userEntity.setNickname(modifyRequestDto.getNickname());
+            userEntity.setNickname(modifyRequestDto.getNickname());
+        if (modifyRequestDto.getNew_password() != null && modifyRequestDto.getNew_password_check() != null
+                && modifyRequestDto.getNew_password().equals(modifyRequestDto.getNew_password_check()))
+            userEntity.setPassword(bCryptPasswordEncoder.encode(modifyRequestDto.getNew_password()));
+
+        userRepository.save(userEntity);
+
+        defaultResponseDto.setMember(HttpStatus.OK, true, "success");
+        return new ResponseEntity<>(defaultResponseDto, HttpStatus.OK);
     }
 
     List<RoleEntity> getRoles(UserEntity user){
