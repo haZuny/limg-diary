@@ -1,15 +1,13 @@
 package com.hayden.limg_diary.entity.user;
 
-import com.hayden.limg_diary.entity.user.dto.SigninRequestDto;
-import com.hayden.limg_diary.entity.user.dto.SigninResponseDto;
-import com.hayden.limg_diary.entity.user.dto.SignupRequestDto;
-import com.hayden.limg_diary.entity.user.dto.SignupResponseDto;
+import com.hayden.limg_diary.entity.user.dto.*;
+import com.hayden.limg_diary.jwt.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -17,7 +15,7 @@ public class UserController {
     UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
     }
 
@@ -39,5 +37,34 @@ public class UserController {
     @PostMapping("/signin")
     public ResponseEntity postSignin(@RequestBody SigninRequestDto signinRequestDto){
         return userService.signin(signinRequestDto);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity postRefresh(HttpServletRequest request){
+        String refresh = request.getHeader("Refresh");
+        return userService.refresh(refresh);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<DefaultResponseDto> postLogout(HttpServletRequest request){
+        String refresh = request.getHeader("Refresh");
+        return userService.logout(refresh);
+    }
+
+    @PatchMapping("/modify")
+    public ResponseEntity<DefaultResponseDto> patchModify(@RequestBody ModifyRequestDto modifyRequestDto, @AuthenticationPrincipal CustomUserDetails userDetails){
+        UserEntity user = userDetails.getUserEntity();
+        return userService.modify(modifyRequestDto, user);
+    }
+
+    @GetMapping("/self")
+    public ResponseEntity<GetUserResponseDto> getSelf(@AuthenticationPrincipal CustomUserDetails userDetails){
+        UserEntity user = userDetails.getUserEntity();
+        return userService.getBySelf(user);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<GetUserResponseDto> getByUserId(@PathVariable int id){
+        return userService.getByUserId(id);
     }
 }

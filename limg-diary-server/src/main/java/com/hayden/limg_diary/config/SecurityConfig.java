@@ -3,9 +3,11 @@ package com.hayden.limg_diary.config;
 import com.hayden.limg_diary.entity.role.RoleRepository;
 import com.hayden.limg_diary.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -35,11 +37,12 @@ public class SecurityConfig {
     
     // H2 콘솔 무시
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer(){
-        return web -> {
-            web.ignoring().requestMatchers("/h2/*", "/h2");
-        };
+    @ConditionalOnProperty(name = "spring.h2.console.enabled",havingValue = "true")
+    public WebSecurityCustomizer configureH2ConsoleEnable() {
+        return web -> web.ignoring()
+                .requestMatchers("/h2-console/*");
     }
+
 
     // 필터체인 설정
     @Bean
@@ -63,12 +66,14 @@ public class SecurityConfig {
         // auth path
         http.authorizeHttpRequests(auth->{
             auth
-                    .requestMatchers("/user/signin", "/user/signup").permitAll()
-                    .requestMatchers("/test").hasAnyRole(roleRepository.findByLevel(1).getName());
+                    .requestMatchers("/user/signin", "/user/signup", "/user/refresh", "/user/logout").permitAll()
+                    .requestMatchers("/test", "/user/modify", "/user/self").hasAnyRole(roleRepository.findByLevel(1).getName())
+                    .requestMatchers("/user/*").hasAnyRole(roleRepository.findByLevel(2).getName());
         });
 
         // add custom filter
         http.addFilterAt(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
 
         return http.build();
     }
