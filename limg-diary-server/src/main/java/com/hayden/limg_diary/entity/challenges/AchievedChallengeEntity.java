@@ -10,10 +10,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="user_and_challenge")
+@Table(name="achieved_challenge")
 @Getter
 @Setter
-public class UserAndChallengeEntity extends BaseTimeEntity {
+public class AchievedChallengeEntity extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name="USER_ID")
     UserEntity user;

@@ -9,4 +9,9 @@ public class TestController {
     public String getTest(){
         return "success";
     }
+
+    @GetMapping("/test/admin")
+    public String getTestAdmin(){
+        return "success";
+    }
 }

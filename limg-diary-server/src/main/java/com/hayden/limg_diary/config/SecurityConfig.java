@@ -66,9 +66,21 @@ public class SecurityConfig {
         // auth path
         http.authorizeHttpRequests(auth->{
             auth
-                    .requestMatchers("/user/signin", "/user/signup", "/user/refresh", "/user/logout").permitAll()
-                    .requestMatchers("/test", "/user/modify", "/user/self", "/diary/add").hasAnyRole(roleRepository.findByLevel(1).getName())
-                    .requestMatchers("/user/*").hasAnyRole(roleRepository.findByLevel(2).getName());
+
+                    .requestMatchers(
+                            "/user/signin", "/user/signup", "/user/refresh", "/user/logout").permitAll()
+
+                    .requestMatchers(
+                            "/test"
+                            , "/user/modify", "/user/self"
+                            , "challenge/achieved", "challenge/unachieved"
+                            , "/diary/add).hasRole(roleRepository.findByLevel(1).getName())
+
+                    .requestMatchers(
+                            "/test/admin"
+                            , "/user/*"
+                            , "/challenge/*").hasRole(roleRepository.findByLevel(2).getName());
+
         });
 
         // add custom filter
