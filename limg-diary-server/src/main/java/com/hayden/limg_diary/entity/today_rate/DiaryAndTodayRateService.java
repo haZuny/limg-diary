@@ -7,22 +7,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class DiaryAndTodayRateService {
     DiaryAndTodayRateRepository diaryAndTodayRateRepository;
+    TodayRateRepository todayRateRepository;
 
     @Autowired
-    public DiaryAndTodayRateService(DiaryAndTodayRateRepository diaryAndTodayRateRepository) {
+    public DiaryAndTodayRateService(DiaryAndTodayRateRepository diaryAndTodayRateRepository, TodayRateRepository todayRateRepository) {
         this.diaryAndTodayRateRepository = diaryAndTodayRateRepository;
+        this.todayRateRepository = todayRateRepository;
     }
 
-    public boolean DiaryAndTodayRateAdd(DiaryEntity diaryEntity, TodayRateEntity todayRateEntity){
+    public boolean DiaryAndTodayRateAdd(DiaryEntity diaryEntity, int todayRate){
         DiaryAndTodayRateEntity diaryAndTodayRateEntity = new DiaryAndTodayRateEntity();
-
-        diaryAndTodayRateEntity.setDiary(diaryEntity);
+        TodayRateEntity todayRateEntity = todayRateRepository.findByRateNum(todayRate);
         diaryAndTodayRateEntity.setRate(todayRateEntity);
-        try{
-            diaryAndTodayRateRepository.save(diaryAndTodayRateEntity);
-        } catch (Exception e){
-            return false;
-        }
+        diaryAndTodayRateEntity.setDiary(diaryEntity);
+        diaryAndTodayRateRepository.save(diaryAndTodayRateEntity);
+
         return true;
+
     }
 }

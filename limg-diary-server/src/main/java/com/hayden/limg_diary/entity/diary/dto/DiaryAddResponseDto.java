@@ -1,7 +1,9 @@
 package com.hayden.limg_diary.entity.diary.dto;
 
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 
+@Data
 public class DiaryAddResponseDto {
 
     private int status;

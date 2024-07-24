@@ -2,10 +2,13 @@ package com.hayden.limg_diary.entity.diary;
 
 import com.hayden.limg_diary.entity.diary.dto.DiaryAddRequestDto;
 import com.hayden.limg_diary.entity.diary.dto.DiaryAddResponseDto;
+import com.hayden.limg_diary.entity.user.CustomUserDetails;
+import com.hayden.limg_diary.entity.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +26,8 @@ public class DiaryController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<DiaryAddResponseDto> diaryAdd(@RequestBody DiaryAddRequestDto diaryAddRequestDto){
-        boolean res = diaryService.diaryAdd(diaryAddRequestDto);
+    public ResponseEntity<DiaryAddResponseDto> diaryAdd(@RequestBody DiaryAddRequestDto diaryAddRequestDto, @AuthenticationPrincipal CustomUserDetails user){
+        boolean res = diaryService.diaryAdd(diaryAddRequestDto, user);
 
         DiaryAddResponseDto diaryAddResponseDto = new DiaryAddResponseDto();
 
