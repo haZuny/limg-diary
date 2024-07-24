@@ -24,14 +24,13 @@ public class UserAndRoleService {
             userAndRoleRepository.save(userAndRoleEntity);
             return true;
         } catch(Exception e){
-            e.printStackTrace();
             return false;
         }
     }
 
     public List<RoleEntity> getRolesByUser(UserEntity user){
         ArrayList<RoleEntity> roleList = new ArrayList<>();
-        for (UserAndRoleEntity userAndRole : userAndRoleRepository.findByUser(user)){
+        for (UserAndRoleEntity userAndRole : userAndRoleRepository.findAllByUser(user)){
             roleList.add(userAndRole.role);
         }
         return roleList;
