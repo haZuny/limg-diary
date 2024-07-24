@@ -25,7 +25,7 @@ public class ChallengeService {
         // get success
         if (challengeOptiaonl.isPresent()){
             ChallengeEntity challenge = challengeOptiaonl.get();
-            getByIdResponseDto.setStatus(HttpStatus.OK, true, "success");
+            getByIdResponseDto.setState(HttpStatus.OK, true, "success");
             getByIdResponseDto.getData().setDataValue(
                     challenge.getId()
                     , challenge.getName()
@@ -36,7 +36,7 @@ public class ChallengeService {
         }
 
         // get fail
-        getByIdResponseDto.setStatus(HttpStatus.BAD_REQUEST, false, "challenge id not found");
+        getByIdResponseDto.setState(HttpStatus.BAD_REQUEST, false, "challenge id not found");
         getByIdResponseDto.setData(null);
         return new ResponseEntity<>(getByIdResponseDto, HttpStatus.BAD_GATEWAY);
     }

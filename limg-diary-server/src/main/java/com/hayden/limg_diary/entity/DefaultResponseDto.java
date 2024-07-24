@@ -9,7 +9,7 @@ public class DefaultResponseDto {
     boolean success;
     String msg;
 
-    public void setStatus(HttpStatus status, Boolean success, String msg){
+    public void setState(HttpStatus status, Boolean success, String msg){
         this.status = status.value();
         this.success = success;
         this.msg = msg;
