@@ -21,4 +21,5 @@ public class RoleEntity extends BaseTimeEntity {
 
     @Column(name="LEVEL")
     private int level;
+
 }
