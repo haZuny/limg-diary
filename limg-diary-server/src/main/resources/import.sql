@@ -17,3 +17,12 @@ insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIF
 insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('', '', '일기 대장경', '당신은 사람입니까? 일기를 30일 연속으로 작성하셨습니다.')
 insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('', '', '편 - 안', '하고싶은 말이 많은 당신! 1000글자를 꽉 채우셨네요.')
 insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('', '', '엔간히 해라', '시간이 많으신가요? 그림을 10번이나 수정했습니다.')
+
+-- admin user
+insert into "USERS" (NICKNAME, PASSWORD, USERNAME) VALUES ('admin', '$2a$10$FA89.0pAwJu9Hff/i1C82e.nKlEhCN.P/eHsth/UBDBL5/ajowxkm', 'admin')
+insert into user_and_role (role_id, user_id) values (1, 1)
+insert into user_and_role (role_id, user_id) values (2, 1)
+
+-- user
+insert into "USERS" (NICKNAME, PASSWORD, USERNAME) VALUES ('hayden', '$2a$10$FA89.0pAwJu9Hff/i1C82e.nKlEhCN.P/eHsth/UBDBL5/ajowxkm', '1234')
+insert into user_and_role (role_id, user_id) values (1, 2)

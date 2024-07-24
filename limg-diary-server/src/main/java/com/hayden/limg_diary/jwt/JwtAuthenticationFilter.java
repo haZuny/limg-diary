@@ -40,7 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // token check
         if (authToken == null || !authToken.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
-            filterChain.doFilter(request, response);
             return;
         }
 
