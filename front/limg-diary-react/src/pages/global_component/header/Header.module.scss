@@ -2,14 +2,14 @@
 
 // size
 $header_height: 12vh;
-$item_height: 5vh;
-$title_font_size: 4vh;
-$sub_font_size: 2vh;
-$profil_img_size: 8vh;
+$item_height: 7vw;
+$title_font_size: 6vw;
+$sub_font_size: 3vw;
+$profil_img_size: 10vw;
     // margin
-$side_margin: 2vh;
-$margin_main_title_left: 2vh;
-$margin_sub_title_left: 1vh;
+$side_margin: 4vw;
+$margin_main_title_left: 1vw;
+$margin_sub_title_left: 0.5vw;
 
 //
 // Class
@@ -32,12 +32,15 @@ $margin_sub_title_left: 1vh;
 //
 // Id
 //
+
+// 최상단 컨테이너
 #container{
     justify-content: space-between;
     background-color: $color_deepgreen;
     align-items: center;
 }
 
+// 림그일기 제목 그룹
 #title_container{
     height: $header_height;
     align-content: center;
@@ -47,7 +50,6 @@ $margin_sub_title_left: 1vh;
 #logo_box {
     height: $item_height;
     width: $item_height;
-    background-color: red;
 }
 
 #main_title{
@@ -61,7 +63,8 @@ $margin_sub_title_left: 1vh;
     margin-left: $margin_sub_title_left;
 }
 
-#user_img{
+// 프로필 이미지 박스
+#user_img_box{
     height: $profil_img_size;
     width: $profil_img_size;
     margin-right: $side_margin;

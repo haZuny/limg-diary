@@ -1,13 +1,12 @@
-$custom_red: red;
-$custom_black: #222222;
-
 ///
 /// variable
 ///
 
 // Color
 $color_white: #ffffff;
+$color_black_t30: #0000004d;
 $color_deepgreen: #4BA99F;
+$color_beige: #FFFADF;
 
 //
 // Tag
@@ -16,6 +15,7 @@ img {
     display: block;
     width: 100%;
     height: auto;
+    object-fit: contain;    // 이미지 꽉 채워서 비율 유지
 }
 
 //

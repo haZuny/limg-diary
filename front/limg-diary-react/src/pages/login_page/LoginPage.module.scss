@@ -1,1 +1,60 @@
 @import "./../Global.scss";
+
+
+//
+// Class
+//
+
+
+
+///
+/// Id
+/// 
+
+// 최상단 컨테이너
+#container{
+    flex-direction: column;
+}
+
+// 헤더
+#header{
+    width: 100%;
+}
+
+// 위쪽 컨테이너 박스
+#upper_container{
+    // size
+    flex-grow: 1;
+
+    // color
+    background-color: $color_beige;
+
+    // item-align
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+
+}
+
+// 타이틀 이미지 박스
+#title_img_box{
+    // size
+    width: 90%;
+    height: 30%;
+}
+// 아래쪽 안내말 박스
+#help_title_box{
+    // size
+    width: 100%;
+    // item-align
+    text-align: center;
+    // font
+    font-size: 3.5vw;
+    color: $color_black_t30;
+}
+
+#lower_container{
+    flex-grow: 1;
+    background-color: $color_white;
+}
