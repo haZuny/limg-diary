@@ -1,0 +1,70 @@
+@import './../../Global.scss';
+
+// size
+$header_height: 12vh;
+$item_height: 5vh;
+$title_font_size: 4vh;
+$sub_font_size: 2vh;
+$profil_img_size: 8vh;
+    // margin
+$side_margin: 2vh;
+$margin_main_title_left: 2vh;
+$margin_sub_title_left: 1vh;
+
+//
+// Class
+//
+
+.title_box {
+    // flex
+    display: flex;
+    align-items: end;
+
+    // size
+    height: $item_height;
+    width: auto;
+
+    // font
+    color: $color_white,
+}
+
+
+//
+// Id
+//
+#container{
+    justify-content: space-between;
+    background-color: $color_deepgreen;
+    align-items: center;
+}
+
+#title_container{
+    height: $header_height;
+    align-content: center;
+    margin-left: $side_margin;
+}
+
+#logo_box {
+    height: $item_height;
+    width: $item_height;
+    background-color: red;
+}
+
+#main_title{
+    font-size: $title_font_size;
+    font-weight: bold;
+    margin-left: $margin_main_title_left;
+}
+
+#sub_title{
+    font-size: $sub_font_size;
+    margin-left: $margin_sub_title_left;
+}
+
+#user_img{
+    height: $profil_img_size;
+    width: $profil_img_size;
+    margin-right: $side_margin;
+    border-radius: 100%;
+    overflow: hidden;
+}

@@ -1,0 +1,30 @@
+$custom_red: red;
+$custom_black: #222222;
+
+///
+/// variable
+///
+
+// Color
+$color_white: #ffffff;
+$color_deepgreen: #4BA99F;
+
+//
+// Tag
+//
+img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+//
+// Class
+//
+.container {
+    // about flex-box
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
