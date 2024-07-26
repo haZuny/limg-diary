@@ -13,6 +13,7 @@
 
 // 최상단 컨테이너
 #container{
+    height: 100%;
     flex-direction: column;
 }
 
@@ -40,13 +41,13 @@
 // 타이틀 이미지 박스
 #title_img_box{
     // size
-    width: 90%;
+    width: 80%;
     height: 30%;
 }
 // 아래쪽 안내말 박스
 #help_title_box{
     // size
-    width: 100%;
+    width: 80%;
     // item-align
     text-align: center;
     // font

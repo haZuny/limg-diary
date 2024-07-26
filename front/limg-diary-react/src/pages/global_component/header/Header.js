@@ -1,20 +1,38 @@
 import css from './Header.module.scss'
 
+import { useEffect, useState } from 'react';
+
 import logo_icon from './../../resource/img/logo.png'
+import title_img from './title.png'
 import profile from './profile.jpeg'
 
-const screenStyle = {
-    width : `${window.innerWidth}px`
-}
+
 
 
 function Header({authorized}){
-    return <div className={css.container} id={css.container} style={screenStyle}>
+
+    const [width, setWidtih] = useState(window.innerWidth)
+
+    const resizeHandler = (()=>{
+        setWidtih(window.innerWidth)
+        console.log(width)
+    })
+
+    useEffect(()=>{
+        window.addEventListener('resize', resizeHandler)
+        return ()=>window.removeEventListener('resize', resizeHandler)
+    }, [])
+
+    return <div className={css.container} id={css.container} style={{width: `${width}px`}}>
         <div className={css.container} id={css.title_container}>
+            {/* 로고 이미지 */}
             <div id={css.logo_box}><img src={logo_icon}/></div>
-            <div className={css.title_box} id={css.main_title}>림그일기</div>
-            <div className={css.title_box} id={css.sub_title}>당신의 오늘을 그려보세요</div>
+            {/* 공백 */}
+            <div id={css.title_margin_box}></div>
+            {/* 타이틀 */}
+            <div id={css.title_img_box}><img src={title_img}/></div>
         </div>
+        {/* 프로필 이미지 */}
         <div id={css.user_img_box}>
             <img src={profile}/>
         </div>

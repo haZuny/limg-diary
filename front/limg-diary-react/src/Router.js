@@ -1,14 +1,38 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+import { useEffect, useState } from 'react';
 import LoginPage from './pages/login_page/LoginPage';
 
-function Router({authorized, component})  {
-    return <BrowserRouter>
+const Background = ({child})=>{
+
+    const [width, setWidth] = useState(window.innerWidth)
+    const [height, setHeight] = useState(window.innerHeight)
+
+    const resizeHandler = (()=>{
+        setWidth(window.innerWidth)
+        setHeight(window.innerHeight)
+    })
+
+    useEffect(()=>{
+        window.addEventListener('resize', resizeHandler)
+        return ()=>window.removeEventListener('resize', resizeHandler)
+    }, [])
+
+    return (
+        <div style={{width:`${width}px`, height:`${height}px`}}>
+            {child}
+        </div>
+    )
+}
+
+function Router({authorized, component})  {       
+
+    return (
+    <BrowserRouter>
         <Routes>
-            <Route path='/' element={<div>안녕</div>} />
-            <Route path='/login' element={<LoginPage/>} />
+            <Route path='/' element={<Background child={'안녕'}/>} />
+            <Route path='/login' element={<Background child={<LoginPage/>}/>}/>
         </Routes>
-    </BrowserRouter>
+    </BrowserRouter>)
 }
 
 export default Router

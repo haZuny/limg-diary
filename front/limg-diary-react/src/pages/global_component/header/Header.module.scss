@@ -1,33 +1,7 @@
 @import './../../Global.scss';
 
-// size
-$header_height: 12vh;
-$item_height: 7vw;
-$title_font_size: 6vw;
-$sub_font_size: 3vw;
-$profil_img_size: 10vw;
-    // margin
-$side_margin: 4vw;
-$margin_main_title_left: 1vw;
-$margin_sub_title_left: 0.5vw;
-
-//
-// Class
-//
-
-.title_box {
-    // flex
-    display: flex;
-    align-items: end;
-
-    // size
-    height: $item_height;
-    width: auto;
-
-    // font
-    color: $color_white,
-}
-
+// margin
+$side_margin: 4%;
 
 //
 // Id
@@ -35,38 +9,40 @@ $margin_sub_title_left: 0.5vw;
 
 // 최상단 컨테이너
 #container{
-    justify-content: space-between;
+    // size
+    height: 10%;
+    // color
     background-color: $color_deepgreen;
+    // item-align
+    justify-content: space-between;
     align-items: center;
+    flex-wrap: nowrap;
 }
 
 // 림그일기 제목 그룹
 #title_container{
-    height: $header_height;
-    align-content: center;
+    width: 80%;
+    height: 70%;
     margin-left: $side_margin;
+    // item-align
+    align-items: center;
+    flex-wrap: nowrap;
 }
 
 #logo_box {
-    height: $item_height;
-    width: $item_height;
+    height: 60%;
 }
-
-#main_title{
-    font-size: $title_font_size;
-    font-weight: bold;
-    margin-left: $margin_main_title_left;
+#title_margin_box{
+    width: 3%;
+    height: 100%;
 }
-
-#sub_title{
-    font-size: $sub_font_size;
-    margin-left: $margin_sub_title_left;
+#title_img_box{
+    height: 45%;
 }
 
 // 프로필 이미지 박스
 #user_img_box{
-    height: $profil_img_size;
-    width: $profil_img_size;
+    height: 60%;
     margin-right: $side_margin;
     border-radius: 100%;
     overflow: hidden;
