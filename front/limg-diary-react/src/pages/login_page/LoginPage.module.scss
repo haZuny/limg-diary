@@ -1,18 +1,11 @@
 @import "./../Global.scss";
 
-
-//
-// Class
-//
-
-
-
 ///
 /// Id
 /// 
 
 // 최상단 컨테이너
-#container{
+#root_container{
     height: 100%;
     flex-direction: column;
 }
@@ -25,6 +18,7 @@
 // 위쪽 컨테이너 박스
 #upper_container{
     // size
+    height: 40%;
     flex-grow: 1;
 
     // color
@@ -34,28 +28,93 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-
-
 }
 
 // 타이틀 이미지 박스
 #title_img_box{
     // size
-    width: 80%;
-    height: 30%;
+    width: 70%;
+    height: 80%;
 }
 // 아래쪽 안내말 박스
 #help_title_box{
     // size
-    width: 80%;
-    // item-align
-    text-align: center;
-    // font
-    font-size: 3.5vw;
-    color: $color_black_t30;
+    width: 70%;
+    height: 20%;
 }
 
+
 #lower_container{
+    // size
+    height: 50%;
     flex-grow: 1;
+    // color
     background-color: $color_white;
+    // item-align
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#input_box{
+    width: $size_width_component;
+    height: 40%;
+}
+
+input{
+    // size
+    width: 100%;
+    height: 25%;
+    // border
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 1;
+    border-color: $color_black_t30;
+    border-width: 2px;
+    border-radius: 5;
+    // font
+    font-size: 5vw;
+    // padding
+    padding-left: 2%;
+}
+input::placeholder{
+    color: $color_black_t30;
+    font-size: 5vw;
+}
+
+#btn_box{
+    // size
+    width: $size_width_component;
+    height: 30%;
+    // item-align
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+}
+
+#login_button{
+    // size
+    width: $btn_width_size;
+    height: 50%;
+    // button
+    background-color: $color_blue;
+    border-radius: $btn_border_radious;
+    border: none;
+    // font
+    font-size: 6vw;
+    font-weight: bold;
+    color: $color_white;
+}
+
+#signup_button{
+    // size
+    width: 100%;
+    height: 30%;
+    // button
+    background-color: $color_transparency;
+    border: none;
+    // font
+    font-size: $btn_font_size;
+    color: $color_black_t30;
 }
