@@ -10,7 +10,8 @@ $side_margin: 4%;
 // 최상단 컨테이너
 #container{
     // size
-    height: 10%;
+    width: calc(var(--vw) * 100);
+    height: calc(var(--vh) * 10);
     // color
     background-color: $color_deepgreen;
     // item-align

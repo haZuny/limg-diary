@@ -12,7 +12,7 @@ $color_beige: #FFFADF;
 $color_blue: #01C4F5;
 
 // size
-$size_width_component: 80%;
+$size_width_component: calc((var(--vw)*80));
 
 // button
 $btn_width_size: 80%;

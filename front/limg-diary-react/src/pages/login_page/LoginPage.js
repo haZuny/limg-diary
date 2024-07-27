@@ -5,17 +5,23 @@ import Header from './../global_component/header/Header'
 import TitleImage from './img/title_img.png'
 import HelpTextImage from './img/help_text.png'
 
+import { SingleButton, TextButton } from './../global_component/button/Button'
+
 
 function LoginPage(){
     return (
         <div id={css.root_container} className={css.container}>
-            <Header id={css.header}/>
+            <Header/>
 
             {/* 상단 컨테이너 */}
             <div id={css.upper_container} className={css.container}>
+                {/* 공백 */}
+                <div/>
+                {/* 림그일기 */}
                 <div id={css.title_img_box}>
                     <img src={TitleImage}/>
                 </div>
+                {/* 하단 정보 */}
                 <div id={css.help_title_box}>
                     <img src={HelpTextImage}/>
                 </div>
@@ -29,8 +35,8 @@ function LoginPage(){
                 </div>
 
                 <div id={css.btn_box} className={css.container}>
-                    <button id={css.login_button}>로그인</button>
-                    <button id={css.signup_button}>회원가입</button>
+                    <SingleButton text='로그인'/>
+                    <TextButton text='회원가입'/>
                 </div>
             </div>
         </div>

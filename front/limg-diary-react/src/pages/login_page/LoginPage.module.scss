@@ -6,19 +6,14 @@
 
 // 최상단 컨테이너
 #root_container{
-    height: 100%;
+    height: calc(var(--vh)*100);
     flex-direction: column;
-}
-
-// 헤더
-#header{
-    width: 100%;
 }
 
 // 위쪽 컨테이너 박스
 #upper_container{
     // size
-    height: 40%;
+    height: calc(var(--vh)*40);;
     flex-grow: 1;
 
     // color
@@ -33,20 +28,20 @@
 // 타이틀 이미지 박스
 #title_img_box{
     // size
-    width: 70%;
-    height: 80%;
+    width: calc(var(--vw)*70);
+    height: calc(var(--vh)*20);
 }
 // 아래쪽 안내말 박스
 #help_title_box{
     // size
-    width: 70%;
-    height: 20%;
+    width: calc(var(--vw)*70);
+    height: calc(var(--vh)*10);
 }
 
 
 #lower_container{
     // size
-    height: 50%;
+    height: calc(var(--vh)*50);
     flex-grow: 1;
     // color
     background-color: $color_white;
@@ -58,7 +53,7 @@
 
 #input_box{
     width: $size_width_component;
-    height: 40%;
+    height: calc(var(--vh)*20);
 }
 
 input{

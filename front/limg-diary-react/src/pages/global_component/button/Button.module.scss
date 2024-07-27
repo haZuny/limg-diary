@@ -1,0 +1,27 @@
+@import './../../Global.scss';
+
+#single_button{
+    // size
+    width: calc(var(--vw)*70);
+    height: calc(var(--vh)*8);
+    // button
+    background-color: $color_blue;
+    border-radius: $btn_border_radious;
+    border: none;
+    // font
+    font-size: 6vw;
+    font-weight: bold;
+    color: $color_white;
+}
+
+
+#text_button{
+    // size
+    height: calc(var(--vh)*7);
+    // button
+    background-color: $color_transparency;
+    border: none;
+    // font
+    font-size: $btn_font_size;
+    color: $color_black_t30;
+}

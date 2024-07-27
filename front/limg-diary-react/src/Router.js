@@ -4,27 +4,32 @@ import LoginPage from './pages/login_page/LoginPage';
 
 const Background = ({child})=>{
 
-    const [width, setWidth] = useState(window.innerWidth)
-    const [height, setHeight] = useState(window.innerHeight)
-
-    const resizeHandler = (()=>{
-        setWidth(window.innerWidth)
-        setHeight(window.innerHeight)
-    })
+    // vh, vw 단위 inner 기준으로 정의
+    const setScreenSize = ()=>{
+        const vh = window.innerHeight * 0.01;
+        const vw = window.innerWidth * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`)
+        document.documentElement.style.setProperty('--vw', `${vw}px`)
+    }
 
     useEffect(()=>{
-        window.addEventListener('resize', resizeHandler)
-        return ()=>window.removeEventListener('resize', resizeHandler)
+        window.addEventListener('resize', setScreenSize)
+        return ()=>window.removeEventListener('resize', setScreenSize)
     }, [])
 
     return (
-        <div style={{width:`${width}px`, height:`${height}px`}}>
+        <div>
             {child}
         </div>
     )
 }
 
-function Router({authorized, component})  {       
+function Router({authorized, component})  {
+    // set inner size 
+    const vh = window.innerHeight * 0.01;
+    const vw = window.innerWidth * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`)
+    document.documentElement.style.setProperty('--vw', `${vw}px`)    
 
     return (
     <BrowserRouter>
