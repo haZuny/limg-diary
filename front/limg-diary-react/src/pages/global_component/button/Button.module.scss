@@ -13,6 +13,9 @@
     font-weight: bold;
     color: $color_white;
 }
+#single_button:active{
+    background-color: $color_blue_b;
+}
 
 #single_small_button{
     // size
@@ -27,6 +30,9 @@
     font-weight: bold;
     color: $color_white;
 }
+#single_small_button:active{
+    background-color: $color_blue_b;
+}
 
 #double_small_button{
     // size
@@ -40,6 +46,9 @@
     font-size: calc(var(--vw)*3.5);;
     font-weight: bold;
     color: $color_white;
+}
+#double_small_button:active{
+    background-color: $color_blue_b;
 }
 
 #text_button{

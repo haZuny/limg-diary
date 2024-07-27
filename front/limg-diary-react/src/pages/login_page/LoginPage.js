@@ -40,7 +40,7 @@ function LoginPage(){
                     </div>
 
                     <div id={css.btn_box} className={css.container}>
-                        <SingleButton text='로그인'/>
+                        <SingleButton text='로그인' func={()=>console.log('클릭됨')}/>
                         <TextButton text='회원가입' func={()=>setSignupModalState(true)}/>
                     </div>
                 </div>
