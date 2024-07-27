@@ -2,6 +2,7 @@ package com.hayden.limg_diary.entity.diary;
 
 import com.hayden.limg_diary.entity.diary.dto.DiaryAddRequestDto;
 import com.hayden.limg_diary.entity.diary.dto.DiaryAddResponseDto;
+import com.hayden.limg_diary.entity.diary.dto.DiaryIdResponseDto;
 import com.hayden.limg_diary.entity.diary.dto.DiaryTodayResponseDto;
 import com.hayden.limg_diary.entity.user.CustomUserDetails;
 import com.hayden.limg_diary.entity.user.UserEntity;
@@ -41,5 +42,10 @@ public class DiaryController {
     @GetMapping("/today")
     public ResponseEntity<DiaryTodayResponseDto> diaryToday(@AuthenticationPrincipal CustomUserDetails user){
         return diaryService.diaryToday(user);
+    }
+
+    @GetMapping("/{diaryId}")
+    public ResponseEntity<DiaryIdResponseDto> diaryId(@PathVariable int diaryId, @AuthenticationPrincipal CustomUserDetails user){
+        return diaryService.diaryId(diaryId, user);
     }
 }

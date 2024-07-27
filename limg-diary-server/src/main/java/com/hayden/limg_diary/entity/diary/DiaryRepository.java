@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface DiaryRepository extends JpaRepository<DiaryEntity, Integer> {
     List<DiaryEntity> findAllByUserOrderByCreatedDataDesc(UserEntity user);
+    DiaryEntity findById(int diaryId);
 }

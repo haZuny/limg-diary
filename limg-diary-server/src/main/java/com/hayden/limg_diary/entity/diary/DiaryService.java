@@ -1,7 +1,9 @@
 package com.hayden.limg_diary.entity.diary;
 
 import com.hayden.limg_diary.entity.diary.dto.DiaryAddRequestDto;
+import com.hayden.limg_diary.entity.diary.dto.DiaryIdResponseDto;
 import com.hayden.limg_diary.entity.diary.dto.DiaryTodayResponseDto;
+import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagRepository;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagService;
 import com.hayden.limg_diary.entity.today_rate.DiaryAndTodayRateService;
 import com.hayden.limg_diary.entity.today_rate.TodayRateEntity;
@@ -23,12 +25,14 @@ public class DiaryService {
     DiaryRepository diaryRepository;
     DiaryAndTodayRateService diaryAndTodayRateService;
     DiaryAndHashtagService diaryAndHashtagService;
+    DiaryAndHashtagRepository diaryAndHashtagRepository;
 
     @Autowired
-    public DiaryService(DiaryAndHashtagService diaryAndHashtagService, DiaryRepository diaryRepository, DiaryAndTodayRateService diaryAndTodayRateService, TodayRateRepository todayRateRepository) {
+    public DiaryService(DiaryAndHashtagRepository diaryAndHashtagRepository, DiaryAndHashtagService diaryAndHashtagService, DiaryRepository diaryRepository, DiaryAndTodayRateService diaryAndTodayRateService, TodayRateRepository todayRateRepository) {
         this.diaryRepository = diaryRepository;
         this.diaryAndTodayRateService = diaryAndTodayRateService;
         this.diaryAndHashtagService = diaryAndHashtagService;
+        this.diaryAndHashtagRepository = diaryAndHashtagRepository;
     }
 
     public boolean diaryAdd(DiaryAddRequestDto diaryAddRequestDto, CustomUserDetails user) {
@@ -70,5 +74,24 @@ public class DiaryService {
         diaryTodayResponseDto.setState(HttpStatus.NOT_FOUND, false, "fail");
         diaryTodayResponseDto.setData(null);
         return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.BAD_REQUEST);
+    }
+
+    public ResponseEntity<DiaryIdResponseDto> diaryId(int diaryId, CustomUserDetails user) {
+        DiaryIdResponseDto diaryIdResponseDto = new DiaryIdResponseDto();
+        UserEntity userEntity = user.getUserEntity();
+        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
+        DiaryEntity idDiary = diaryRepository.findById(diaryId);
+        if (idDiary == null) {
+            diaryIdResponseDto.setState(HttpStatus.NOT_FOUND, false, "fail");
+            diaryIdResponseDto.setData(null);
+            return new ResponseEntity<>(diaryIdResponseDto, HttpStatus.BAD_REQUEST);
+        } else if (idDiary.getUser() != userEntity) {
+            diaryIdResponseDto.setState(HttpStatus.UNAUTHORIZED, false, "fail");
+            diaryIdResponseDto.setData(null);
+            return new ResponseEntity<>(diaryIdResponseDto, HttpStatus.UNAUTHORIZED);
+        }
+        diaryAndHashtagRepository.findByDiary(idDiary);
+        diaryIdResponseDto.setState(HttpStatus.OK, true, "success");
+        diaryIdResponseDto.getData().setDataValue(idDiary.getId(), idDiary.getContent(), null, idDiary.getCreatedData(), idDiary.getUpdatedData(),);
     }
 }

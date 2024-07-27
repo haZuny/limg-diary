@@ -15,9 +15,9 @@ public class DiaryTodayResponseDto extends DefaultResponseDto {
     @Getter
     @Setter
     public class Data{
-        int diary_id;
-        String picture;
-        Date today;
+        private int diary_id;
+        private String picture;
+        private Date today;
         public void setDataValue(int id, String picture, Date today){
             this.diary_id = id;
             this.picture = picture;
