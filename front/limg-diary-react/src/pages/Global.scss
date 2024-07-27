@@ -15,23 +15,21 @@ $color_blue: #01C4F5;
 $size_width_component: calc((var(--vw)*80));
 
 
-//
-// Tag
-//
-img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;    // 이미지 꽉 채워서 비율 유지
-}
 
-//
-// Class
-//
 .container {
     // about flex-box
     display: flex;
     flex-wrap: wrap;
 }
 
+#root_container{
+    width: calc(var(--vw)*100);
+}
 
+
+img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;    // 이미지 꽉 채워서 비율 유지
+}

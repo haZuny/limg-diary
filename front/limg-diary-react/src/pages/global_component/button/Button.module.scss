@@ -25,3 +25,6 @@
     font-size: calc(var(--vw)*5);;
     color: $color_black_t30;
 }
+#text_button:active{
+    font-size: calc(var(--vw)*5.3);
+}

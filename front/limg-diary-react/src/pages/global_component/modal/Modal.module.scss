@@ -1,0 +1,50 @@
+@import '../../Global.scss';
+
+#modal_bg{
+    // size
+    width: calc(var(--vw)*100);
+    height: calc(var(--vh)*100);
+    // position
+    position: absolute;
+    top: 0;
+    // item-align
+    justify-content: center;
+    align-items: center;
+    // color
+    background-color: $color_black_t30;
+}
+
+#modal_content_box{
+    // size
+    width: calc((var(--vw)*90));
+    // item-align
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    // color
+    background-color: $color_white;
+    // radious
+    border-radius: 20px;
+
+}
+
+#title{
+    // align
+    text-align: center;
+    // margin
+    margin-top: calc(var(--vh)*2);
+    margin-bottom: calc(var(--vh)*4);
+    // font
+    font-weight: bold;
+    font-size: calc(var(--vw)*5);
+    color: $color_black_t30;
+}
+
+#body{
+    // size
+    width: 85%;
+    // align
+    align-items: center;
+    // margin
+    margin-bottom: calc(var(--vh)*4);
+}

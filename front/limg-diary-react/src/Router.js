@@ -40,7 +40,8 @@ function Center({child}){
     return (
         <div style={{
             display: 'flex',
-            justifyContent: 'center',
+            flexDirection: 'column',
+            alignItems: 'center',
             backgroundColor: '#777777'
         }}>
             {child}
