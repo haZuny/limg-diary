@@ -48,7 +48,7 @@ function LoginPage(){
 
             {/* 회원가입 모달 */}
             {signupModalState &&
-            <Modal title={'회원가입'} body={<SignupModalBody/>} modalOffHandle={()=>setSignupModalState(false)}/>}
+            <Modal title={'회원가입'} body={<SignupModalBody modal_off_handle={()=>setSignupModalState(false)}/>} modalOffHandle={()=>setSignupModalState(false)}/>}
         </div>
     )
 }

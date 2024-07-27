@@ -6,7 +6,11 @@
     // item align
     flex-direction: column;
     flex-wrap: nowrap;
-    overflow: scroll;
+    overflow-y: scroll;
+    
+}
+#modal_body_box::-webkit-scrollbar{
+    display: none;
 }
 
 #input_box{
@@ -15,7 +19,7 @@
 
 input{
     // size
-    width: 100%;
+    width: 90%;
     height: calc(var(--vh)*8);
     // border
     border-left: 0;
@@ -34,7 +38,7 @@ input{
 }
 input::placeholder{
     color: $color_black_t30;
-    font-size: calc(var(--vw)*5);;
+    font-size: calc(var(--vw)*5);
 }
 
 #button_box{

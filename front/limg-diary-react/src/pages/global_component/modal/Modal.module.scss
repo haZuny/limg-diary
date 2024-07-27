@@ -25,7 +25,6 @@
     background-color: $color_white;
     // radious
     border-radius: 20px;
-
 }
 
 #title{
@@ -44,6 +43,7 @@
     // size
     width: 85%;
     // align
+    justify-content: center;
     align-items: center;
     // margin
     margin-bottom: calc(var(--vh)*4);

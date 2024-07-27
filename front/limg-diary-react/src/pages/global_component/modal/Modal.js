@@ -26,8 +26,6 @@ function ModalBG({title, body, modalOffHandle}){
 
 // 모달창 박스
 function ModalContent({title, body}){
-
-
     return (
         <div id={css.modal_content_box} className={css.container}>
             <div id={css.title}>{title}</div>

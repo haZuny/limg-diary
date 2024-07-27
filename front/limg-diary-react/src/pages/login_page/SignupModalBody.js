@@ -2,7 +2,7 @@ import css from './SignupModalBody.module.scss'
 
 import { SingleSmallButton, TextButton } from '../global_component/button/Button'
 
-function SignupModalBody(){
+function SignupModalBody({modal_off_handle}){
     return(
         <div id={css.modal_body_box} className={css.container}>
 
@@ -15,7 +15,7 @@ function SignupModalBody(){
 
             <div id={css.button_box} className={css.container}>
                 <SingleSmallButton text={'회원가입'}/>
-                <TextButton text={'취소'}></TextButton>
+                <TextButton text={'취소'} func={modal_off_handle}></TextButton>
             </div>
 
         </div>
