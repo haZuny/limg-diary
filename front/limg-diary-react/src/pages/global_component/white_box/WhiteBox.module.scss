@@ -1,8 +1,25 @@
 @import '../../Global.scss';
 
-#box{
+#root_container{
     // size
     width: $size_width_component;
+    // align
+    flex-direction: column;
+    align-items: center;
+}
+
+#title{
+    // font
+    font-size: calc(var(--vw)*4.5);
+    font-weight: bold;
+    // margin
+    margin-bottom: calc(var(--vh)*1);
+}
+
+#box{
+    // size
+    width: 100%;
+    box-sizing: border-box; // 패딩 포함 크기로
     // color
     background-color: $color_white;
     // border
@@ -13,4 +30,10 @@
     align-items: center;
     // padding
     padding: calc(var(--vw)*5);
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-sizing:border-box;
+    -o-sizing:border-box;
+    box-sizing:border-box;
+
 }

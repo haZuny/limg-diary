@@ -53,11 +53,14 @@
 }
 
 #input_box{
+    // size
     width: $size_width_component;
     height: calc(var(--vh)*20);
+    // align
+    flex-direction: column;
 }
 
-input{
+#input{
     // size
     width: 100%;
     height: 25%;

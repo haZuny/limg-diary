@@ -21,7 +21,7 @@ $size_width_component: calc((var(--vw)*80));
 .container {
     // about flex-box
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 #root_container{

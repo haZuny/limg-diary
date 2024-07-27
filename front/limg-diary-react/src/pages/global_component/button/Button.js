@@ -18,6 +18,15 @@ function SingleSmallButton({text, func}){
     )
 }
 
+// 더블 작은 버튼
+function DoubleSmallButton({text, func}){
+    return(
+        <button id={css.double_small_button} onClick={()=>func()}>
+            {text}
+        </button>
+    )
+}
+
 // 텍스트 버튼
 function TextButton({text, func}){
     return(
@@ -27,4 +36,4 @@ function TextButton({text, func}){
     )
 }
 
-export {SingleButton, SingleSmallButton, TextButton};
+export {SingleButton, SingleSmallButton, DoubleSmallButton, TextButton};

@@ -1,10 +1,16 @@
 import css from './WhiteBox.module.scss'
 
-function WhiteBox({child}){
+function WhiteBox({title, child}){
     return (
-        <div id={css.box} className={css.container}>
-            {child}
+        <div id={css.root_container} className={css.container}>
+            {/* 타이틀 */}
+            <div id={css.title}>{title}</div>
+            {/* 박스 */}
+            <div id={css.box} className={css.container}>
+                {child}
+            </div>
         </div>
+        
     )
 }
 

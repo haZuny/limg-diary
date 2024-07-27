@@ -35,8 +35,8 @@ function LoginPage(){
                 {/* 하단 컨테이너 */}
                 <div id={css.lower_container} className={css.container}>
                     <div id={css.input_box} className={css.container}>
-                        <input className={css.input} placeholder='이메일'/>
-                        <input className={css.input} type='password' placeholder='비밀번호'/>
+                        <input id={css.input} className={css.input} placeholder='이메일'/>
+                        <input id={css.input} className={css.input} type='password' placeholder='비밀번호'/>
                     </div>
 
                     <div id={css.btn_box} className={css.container}>

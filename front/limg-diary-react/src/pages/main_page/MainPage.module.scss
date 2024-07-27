@@ -1,5 +1,8 @@
 @import '../Global.scss';
 
+.bottom_margin{
+    margin-bottom: calc(var(--vh)*5);
+}
 
 #root_container{
     // size
@@ -10,4 +13,52 @@
     // item align
     flex-direction: column;
     align-items: center;
+}
+
+#body_container{
+    // size
+    width: $size_width_component;
+    // item align
+    flex-direction: column;
+    align-items: center;
+    // overflow
+    overflow: scroll;
+}
+#body_container::-webkit-scrollbar{
+    display: none;
+}
+
+//
+// 오늘 날짜
+//
+#title_box{
+    // margin
+    margin-top: calc(var(--vh)*5);
+}
+
+#today_text_sub{
+    // font
+    font-size: calc(var(--vw)*4);
+    // text align
+    display: flex;
+    align-items: end;
+}
+
+#today_text_main{
+    // font
+    font-size: calc(var(--vw)*6);
+    font-weight: bold;
+    // margin
+    margin-left: calc(var(--vw)*2);
+    margin-right: calc(var(--vw)*2);
+}
+
+
+///
+/// 오늘 일기
+/// 
+#tag_container{
+    // item align
+    flex-direction: column;
+
 }

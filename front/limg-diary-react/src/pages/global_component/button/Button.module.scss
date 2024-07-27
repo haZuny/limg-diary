@@ -3,7 +3,7 @@
 #single_button{
     // size
     width: calc(var(--vw)*70);
-    height: calc(var(--vh)*8);
+    height: calc(var(--vh)*9);
     // button
     background-color: $color_blue;
     border-radius: 20px;
@@ -17,7 +17,7 @@
 #single_small_button{
     // size
     width: calc(var(--vw)*50);
-    height: calc(var(--vh)*7);
+    height: calc(var(--vh)*8);
     // button
     background-color: $color_blue;
     border-radius: 20px;
@@ -28,6 +28,19 @@
     color: $color_white;
 }
 
+#double_small_button{
+    // size
+    width: calc(var(--vw)*33);
+    height: calc(var(--vh)*8);
+    // button
+    background-color: $color_blue;
+    border-radius: 15px;
+    border: none;
+    // font
+    font-size: calc(var(--vw)*3.5);;
+    font-weight: bold;
+    color: $color_white;
+}
 
 #text_button{
     // size
