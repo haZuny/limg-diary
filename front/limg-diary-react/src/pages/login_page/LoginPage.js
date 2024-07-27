@@ -8,7 +8,7 @@ import HelpTextImage from './img/help_text.png'
 import Header from './../global_component/header/Header'
 import Modal from '../global_component/modal/Modal'
 import { SingleButton, TextButton } from './../global_component/button/Button'
-
+import SignupModalBody from './SignupModalBody'
 
 function LoginPage(){
     // 모달 제어
@@ -48,7 +48,7 @@ function LoginPage(){
 
             {/* 회원가입 모달 */}
             {signupModalState &&
-            <Modal title={'회원가입'} body={'바디입니다'} modalOffHandle={()=>setSignupModalState(false)}/>}
+            <Modal title={'회원가입'} body={<SignupModalBody/>} modalOffHandle={()=>setSignupModalState(false)}/>}
         </div>
     )
 }

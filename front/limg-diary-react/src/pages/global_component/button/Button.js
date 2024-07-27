@@ -9,6 +9,15 @@ function SingleButton({text, func}){
     )
 }
 
+// 단독 작은 버튼
+function SingleSmallButton({text, func}){
+    return(
+        <button id={css.single_small_button} onClick={()=>func()}>
+            {text}
+        </button>
+    )
+}
+
 // 텍스트 버튼
 function TextButton({text, func}){
     return(
@@ -18,4 +27,4 @@ function TextButton({text, func}){
     )
 }
 
-export {SingleButton, TextButton};
+export {SingleButton, SingleSmallButton, TextButton};

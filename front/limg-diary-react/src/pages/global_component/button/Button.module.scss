@@ -14,6 +14,20 @@
     color: $color_white;
 }
 
+#single_small_button{
+    // size
+    width: calc(var(--vw)*50);
+    height: calc(var(--vh)*7);
+    // button
+    background-color: $color_blue;
+    border-radius: 20px;
+    border: none;
+    // font
+    font-size: calc(var(--vw)*5);;
+    font-weight: bold;
+    color: $color_white;
+}
+
 
 #text_button{
     // size
