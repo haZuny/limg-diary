@@ -11,32 +11,22 @@ import profile from './profile.jpeg'
 
 function Header({authorized}){
 
-    const [width, setWidtih] = useState(window.innerWidth)
-
-    const resizeHandler = (()=>{
-        setWidtih(window.innerWidth)
-        console.log(width)
-    })
-
-    useEffect(()=>{
-        window.addEventListener('resize', resizeHandler)
-        return ()=>window.removeEventListener('resize', resizeHandler)
-    }, [])
-
-    return <div className={css.container} id={css.container} style={{width: `${width}px`}}>
-        <div className={css.container} id={css.title_container}>
-            {/* 로고 이미지 */}
-            <div id={css.logo_box}><img src={logo_icon}/></div>
-            {/* 공백 */}
-            <div id={css.title_margin_box}></div>
-            {/* 타이틀 */}
-            <div id={css.title_img_box}><img src={title_img}/></div>
+    return (
+        <div className={css.container} id={css.container}>
+            <div className={css.container} id={css.title_container}>
+                {/* 로고 이미지 */}
+                <div id={css.logo_box}><img src={logo_icon}/></div>
+                {/* 공백 */}
+                <div id={css.title_margin_box}></div>
+                {/* 타이틀 */}
+                <div id={css.title_img_box}><img src={title_img}/></div>
+            </div>
+            {/* 프로필 이미지 */}
+            <div id={css.user_img_box}>
+                <img src={profile}/>
+            </div>
         </div>
-        {/* 프로필 이미지 */}
-        <div id={css.user_img_box}>
-            <img src={profile}/>
-        </div>
-    </div>
+    )
 }
 
 export default Header
