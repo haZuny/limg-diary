@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+
 import LoginPage from './pages/login_page/LoginPage';
+import MainPage from './pages/main_page/MainPage';
 
 
 function Router({authorized, component})  {
@@ -30,8 +32,8 @@ function Router({authorized, component})  {
     return (
     <BrowserRouter>
         <Routes>
-            <Route path='/' element={<div/>} />
-            <Route path='/login' element={<Center child={LoginPage()}/>}/>
+            <Route path='/' element={<Center child={<MainPage/>}/>} />
+            <Route path='/login' element={<Center child={<LoginPage/>}/>}/>
         </Routes>
     </BrowserRouter>)
 }

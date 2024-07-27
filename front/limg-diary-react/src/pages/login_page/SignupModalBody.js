@@ -17,7 +17,6 @@ function SignupModalBody({modal_off_handle}){
                 <SingleSmallButton text={'회원가입'}/>
                 <TextButton text={'취소'} func={modal_off_handle}></TextButton>
             </div>
-
         </div>
     )
 }
