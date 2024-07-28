@@ -3,6 +3,7 @@ import css from './MainPage.module.scss'
 import Header from '../global_component/header/Header'
 import WhiteBox from '../global_component/white_box/WhiteBox'
 import TodayDiary from './today_diary/TodayDiary'
+import MonthDiary from './month_diary/MonthDiary'
 
 
 function MainPage(){
@@ -24,7 +25,7 @@ function MainPage(){
                 </div>
                 
                 <div className={css.bottom_margin}>
-                    <WhiteBox className={css.bottom_margin} title="당신의 한달" child={"asdfasd"}></WhiteBox>
+                    <WhiteBox className={css.bottom_margin} title="당신의 한달" child={<MonthDiary/>}></WhiteBox>
                 </div>
                 
                 <div id={css.tag_container} className={css.bottom_margin}>

@@ -1,5 +1,11 @@
 @import './../../Global.scss';
 
+
+// boxButtons
+.boxButton{
+    box-shadow: 0 3px 5px 0px $color_black_t30;
+}
+
 #single_button{
     // size
     width: calc(var(--vw)*70);

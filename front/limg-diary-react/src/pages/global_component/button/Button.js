@@ -1,9 +1,10 @@
 import css from './Button.module.scss'
 
+
 // 단독 큰 버튼
 function SingleButton({text, func}){
     return(
-        <button id={css.single_button} onClick={()=>func()}>
+        <button id={css.single_button} className={css.boxButton} onClick={()=>func()}>
             {text}
         </button>
     )
@@ -12,7 +13,7 @@ function SingleButton({text, func}){
 // 단독 작은 버튼
 function SingleSmallButton({text, func}){
     return(
-        <button id={css.single_small_button} onClick={()=>func()}>
+        <button id={css.single_small_button} className={css.boxButton} onClick={()=>func()}>
             {text}
         </button>
     )
@@ -21,7 +22,7 @@ function SingleSmallButton({text, func}){
 // 더블 작은 버튼
 function DoubleSmallButton({text, func}){
     return(
-        <button id={css.double_small_button} onClick={()=>func()}>
+        <button id={css.double_small_button} className={css.boxButton} onClick={()=>func()}>
             {text}
         </button>
     )

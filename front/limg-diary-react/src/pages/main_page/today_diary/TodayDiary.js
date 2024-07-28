@@ -1,6 +1,6 @@
 import css from './TodayDiary.module.scss'
 
-import DiaryImg from './default_diary_img.png'
+import DiaryImg from '../../resource/img/default_diary_img.png'
 
 import { DoubleSmallButton } from '../../global_component/button/Button'
 
