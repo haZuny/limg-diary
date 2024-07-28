@@ -13,8 +13,8 @@ function Router({authorized, component})  {
         let vw = window.innerWidth * 0.01;
 
         // set screen ratio max w:h
-        const ratio_w = 3;
-        const ratio_h = 5;
+        const ratio_w = 13;
+        const ratio_h = 16;
         vw = vw>vh*ratio_w/ratio_h ? vh*ratio_w/ratio_h : vw;
 
         // save css style

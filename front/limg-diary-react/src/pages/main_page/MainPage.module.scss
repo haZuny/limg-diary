@@ -55,10 +55,37 @@
 
 
 ///
-/// 오늘 일기
+/// 태그
 /// 
 #tag_container{
     // item align
     flex-direction: column;
+}
 
+#tag_box{
+    // align
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#search_btn_box{
+    // size
+    width: 100%;
+    // position
+    justify-content: end;
+}
+
+#search_btn{
+    // shape
+    border:none;
+    background-color: $color_transparency;
+    // font
+    font-size: calc(var(--vw)*3.5);
+    font-weight: bold;
+    color: $color_green;
+    // margin
+    margin-right: calc(var(--vw)*5);
+}
+#search_btn:active{
+    color: $color_green_b;
 }
