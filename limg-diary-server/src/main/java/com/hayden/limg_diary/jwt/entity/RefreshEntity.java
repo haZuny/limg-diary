@@ -11,6 +11,6 @@ import org.springframework.stereotype.Service;
 @Getter
 @Setter
 public class RefreshEntity extends BaseTimeEntity {
-    @Column(name="REFRESH", length = 1000)
+    @Column(name="REFRESH", length = 1000, unique = true)
     private String refresh;
 }

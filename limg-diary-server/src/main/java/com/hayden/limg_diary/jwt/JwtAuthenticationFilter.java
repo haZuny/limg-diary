@@ -40,7 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // token check
         if (authToken == null || !authToken.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
-            filterChain.doFilter(request, response);
             return;
         }
 
@@ -80,8 +79,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 세션 인증 토큰 생성
         Authentication authSession = new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authSession);
-
-        System.out.println("Success");
         filterChain.doFilter(request, response);
     }
 }
