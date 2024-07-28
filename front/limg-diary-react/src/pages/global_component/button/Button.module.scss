@@ -1,0 +1,72 @@
+@import './../../Global.scss';
+
+
+// boxButtons
+.boxButton{
+    box-shadow: 0 3px 5px 0px $color_black_t30;
+}
+
+#single_button{
+    // size
+    width: calc(var(--vw)*70);
+    height: calc(var(--vh)*9);
+    // button
+    background-color: $color_blue;
+    border-radius: 20px;
+    border: none;
+    // font
+    font-size: calc(var(--vw)*6);;
+    font-weight: bold;
+    color: $color_white;
+}
+#single_button:active{
+    background-color: $color_blue_b;
+}
+
+#single_small_button{
+    // size
+    width: calc(var(--vw)*50);
+    height: calc(var(--vh)*8);
+    // button
+    background-color: $color_blue;
+    border-radius: 20px;
+    border: none;
+    // font
+    font-size: calc(var(--vw)*5);;
+    font-weight: bold;
+    color: $color_white;
+}
+#single_small_button:active{
+    background-color: $color_blue_b;
+}
+
+#double_small_button{
+    // size
+    width: calc(var(--vw)*33);
+    height: calc(var(--vh)*8);
+    // button
+    background-color: $color_blue;
+    border-radius: 15px;
+    border: none;
+    // font
+    font-size: calc(var(--vw)*3.5);;
+    font-weight: bold;
+    color: $color_white;
+}
+#double_small_button:active{
+    background-color: $color_blue_b;
+}
+
+#text_button{
+    // size
+    height: calc(var(--vh)*7);
+    // button
+    background-color: $color_transparency;
+    border: none;
+    // font
+    font-size: calc(var(--vw)*5);;
+    color: $color_black_t30;
+}
+#text_button:active{
+    font-size: calc(var(--vw)*5.3);
+}

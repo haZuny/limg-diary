@@ -1,0 +1,22 @@
+@import '../../Global.scss';
+
+#tag_selected{
+    // size
+    width: auto;
+    // color
+    background-color: $color_blue;
+    // border
+    border: none;
+    border-radius: 50px;
+    // margin
+    margin: calc(var(--vw)*1);
+    // padding
+    padding: calc(var(--vw)*2.5) calc(var(--vw)*4) calc(var(--vw)*2.5) calc(var(--vw)*4);
+    // font
+    font-size: calc(var(--vw)*3);
+    font-weight: bold;
+    color: $color_white;
+}
+#tag_selected:active{
+    background-color: $color_blue_b;
+}
