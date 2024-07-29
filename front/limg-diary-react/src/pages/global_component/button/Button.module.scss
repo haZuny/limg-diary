@@ -42,14 +42,14 @@
 
 #double_small_button{
     // size
-    width: calc(var(--vw)*33);
+    width: calc(var(--vw)*38);
     height: calc(var(--vh)*8);
     // button
     background-color: $color_blue;
     border-radius: 15px;
     border: none;
     // font
-    font-size: calc(var(--vw)*3.5);;
+    font-size: calc(var(--vw)*4);;
     font-weight: bold;
     color: $color_white;
 }

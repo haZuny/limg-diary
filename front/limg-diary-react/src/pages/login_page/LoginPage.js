@@ -15,13 +15,13 @@ function LoginPage(){
     const [signupModalState, setSignupModalState] = useState(false)
 
     return (
-        <div id={css.root_container}>
+        <div>
+            <Header/>
             <div id={css.container} className={css.container}>
-                <Header/>
                 {/* 상단 컨테이너 */}
                 <div id={css.upper_container} className={css.container}>
                     {/* 공백 */}
-                    <div/>
+                    <div id={css.blank}/>
                     {/* 림그일기 */}
                     <div id={css.title_img_box}>
                         <img src={TitleImage}/>

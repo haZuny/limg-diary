@@ -14,7 +14,7 @@
 // 위쪽 컨테이너 박스
 #upper_container{
     // size
-    height: calc(var(--vh)*40);;
+    height: calc(var(--vh)*50);;
     flex-grow: 1;
 
     // color
@@ -24,6 +24,10 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+}
+
+#blank{
+    height: calc(var(--vh)*10);
 }
 
 // 타이틀 이미지 박스

@@ -38,7 +38,7 @@
 
 #today_text_sub{
     // font
-    font-size: calc(var(--vw)*4);
+    font-size: calc(var(--vw)*5);
     // text align
     display: flex;
     align-items: end;
@@ -46,7 +46,7 @@
 
 #today_text_main{
     // font
-    font-size: calc(var(--vw)*6);
+    font-size: calc(var(--vw)*6.5);
     font-weight: bold;
     // margin
     margin-left: calc(var(--vw)*2);
@@ -80,7 +80,7 @@
     border:none;
     background-color: $color_transparency;
     // font
-    font-size: calc(var(--vw)*3.5);
+    font-size: calc(var(--vw)*5);
     font-weight: bold;
     color: $color_green;
     // margin

@@ -13,20 +13,25 @@ function Router({authorized, component})  {
         let vw = window.innerWidth * 0.01;
 
         // set screen ratio max w:h
-        let ratio_w = 13;
+        let ratio_w = 11;
         let ratio_h = 16;
         vw = vw>vh*ratio_w/ratio_h ? vh*ratio_w/ratio_h : vw;
 
+        const freez = Object.freeze({
+            vh: vh,
+            vw: vw
+        })
         // save css style
-        document.documentElement.style.setProperty('--vh', `${vh}px`)
-        document.documentElement.style.setProperty('--vw', `${vw}px`)
+        document.documentElement.style.setProperty('--vh', `${freez.vh}px`)
+        document.documentElement.style.setProperty('--vw', `${freez.vw}px`)
     }
+
     setScreenSize()
 
-    useEffect(()=>{
-        window.addEventListener('resize', setScreenSize)
-        return ()=>window.removeEventListener('resize', setScreenSize)
-    }, [])
+    // useEffect(()=>{
+    //     // window.addEventListener('resize', setScreenSize)
+    //     // return ()=>window.removeEventListener('resize', setScreenSize)
+    // }, [])
 
 
     return (
