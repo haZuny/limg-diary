@@ -11,8 +11,9 @@
     // position
     position: fixed;
     bottom: 0;
+    z-index: 1;
     // animation
-    transition: bottom .35s;
+    transition: bottom .2s;
 }
 .root_container_unvisible{
     bottom: calc(var(--vh)*-10);

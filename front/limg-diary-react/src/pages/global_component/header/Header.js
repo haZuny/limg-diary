@@ -11,8 +11,28 @@ import profile from './profile.jpeg'
 
 function Header({authorized}){
 
+    const [visible, setVisible] = useState(true)
+    let lastScrollY = 0
+
+    function scrollHandle(){
+        // 스크롤 업
+        if (lastScrollY > window.scrollY){
+            setVisible(true)
+        }
+        // 스크롤 다운
+        else{
+            setVisible(false)
+        }
+        lastScrollY = window.scrollY
+    }
+
+    useEffect(()=>{
+        window.addEventListener('scroll', scrollHandle)
+        return ()=>{window.removeEventListener("scroll", scrollHandle)}
+    }, [])
+
     return (
-        <div className={css.container} id={css.container}>
+        <div className={[css.container, css.root_container, !visible&&css.root_container_unvisible].join(" ")}>
             <div className={css.container} id={css.title_container}>
                 {/* 로고 이미지 */}
                 <div id={css.logo_box}><img src={logo_icon}/></div>

@@ -17,8 +17,9 @@ function MainPage(){
 
     
     return (
-        <div id={css.root_container} className={css.container}>
+        <div id={css.root_container} className={css.page_root_container}>
             <Header/>
+            <Footer/>
 
             <div id={css.body_container} className={css.container}>
 
@@ -56,9 +57,7 @@ function MainPage(){
                 </div>
 
             </div>
-            
-           {/* 푸터 */}
-           <Footer/>
+           
         </div>
     )
 }

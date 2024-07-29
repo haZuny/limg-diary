@@ -27,10 +27,20 @@ $size_width_component: calc((var(--vw)*80));
     flex-wrap: nowrap;
 }
 
+.page_root_container{
+    // size
+    width: calc(var(--vw)*100);
+    // align
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    // padding
+    padding: calc(var(--vh)*10) 0 calc(var(--vh)*5) 0;
+}
+
 #root_container{
     width: calc(var(--vw)*100);
 }
-
 
 img {
     display: block;
