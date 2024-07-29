@@ -1,29 +1,33 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import css from './Fotter.module.scss'
 
-function Footer(){
+function Footer({parentBodyRef}){  
+
     // 위로 스크롤 할때만 나옴
     const [visible, setVisible] = useState(true)
     let lastScrollY = 0
 
+
     // 스크롤 이벤트
     function scrollHandle(){
         // 스크롤 업
-        if (lastScrollY > window.scrollY){
+        if (lastScrollY > parentBodyRef.current.scrollTop){
             setVisible(true)
         }
         // 스크롤 다운
         else{
             setVisible(false)
         }
-        lastScrollY = window.scrollY
+        lastScrollY = parentBodyRef.current.scrollTop
     }
 
     // 이벤트 등록
     useEffect(()=>{
-        window.addEventListener('scroll', scrollHandle)
-        return ()=>{window.removeEventListener("scroll", scrollHandle)}
+        parentBodyRef.current.addEventListener('scroll', scrollHandle)
+        return ()=>{parentBodyRef.current.removeEventListener("scroll", scrollHandle)}
     }, [])
+
+    
 
     return (
         <div className={[css.container, css.root_container, !visible&&css.root_container_unvisible].join(" ")}>

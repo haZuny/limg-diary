@@ -7,7 +7,6 @@
 #root_container{
     // size
     width: calc(var(--vw)*100);
-    // height: calc(var(--vh)*100);
     // color
     background-color: $color_beige;
     // item align
@@ -38,7 +37,7 @@
 
 #today_text_sub{
     // font
-    font-size: calc(var(--vw)*5);
+    font-size: calc(var(--vw)*4);
     // text align
     display: flex;
     align-items: end;

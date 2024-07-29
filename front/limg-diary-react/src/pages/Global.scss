@@ -30,12 +30,16 @@ $size_width_component: calc((var(--vw)*90));
 .page_root_container{
     // size
     width: calc(var(--vw)*100);
+    height: calc(var(--vh)*100);
     // align
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
-    // padding
-    padding: calc(var(--vh)*10) 0 calc(var(--vh)*5) 0;
+    box-sizing: border-box;
+    // position
+    position: relative;
+    // overflow
+    overflow: hidden;
 }
 
 #root_container{

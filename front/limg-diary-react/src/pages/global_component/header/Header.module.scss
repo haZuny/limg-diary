@@ -19,7 +19,7 @@ $side_margin: 4%;
     align-items: center;
     flex-wrap: nowrap;
     // position
-    position: fixed;
+    position: relative;
     top: 0;
     z-index: 1;
     // animation
@@ -27,6 +27,7 @@ $side_margin: 4%;
 }
 .root_container_unvisible{
     top: calc(var(--vh)*-10);
+    position: fixed;
 }
 
 // 림그일기 제목 그룹

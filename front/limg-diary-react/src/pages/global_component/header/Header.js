@@ -9,26 +9,26 @@ import profile from './profile.jpeg'
 
 
 
-function Header({authorized}){
+function Header({authorized, parendBodyRef}){
 
     const [visible, setVisible] = useState(true)
     let lastScrollY = 0
 
     function scrollHandle(){
         // 스크롤 업
-        if (lastScrollY > window.scrollY){
+        if (lastScrollY > parendBodyRef.current.scrollTop){
             setVisible(true)
         }
         // 스크롤 다운
         else{
             setVisible(false)
         }
-        lastScrollY = window.scrollY
+        lastScrollY = parendBodyRef.current.scrollTop
     }
 
     useEffect(()=>{
-        window.addEventListener('scroll', scrollHandle)
-        return ()=>{window.removeEventListener("scroll", scrollHandle)}
+        parendBodyRef.current.addEventListener('scroll', scrollHandle)
+        return ()=>{parendBodyRef.current.removeEventListener("scroll", scrollHandle)}
     }, [])
 
     return (

@@ -7,10 +7,12 @@ import MonthDiary from './month_diary/MonthDiary'
 import { BlueTag } from '../global_component/tag/Tag'
 import Footer from '../global_component/fotter/Fotter'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 
 function MainPage(){
+
+    const bodyRef = useRef()
 
     const tag_arr = ['해시태그', "매우긴 해시태그", '태그', '태그', '해시태그', '똥', '뚱이는 멋지다', '악동 뮤지션',
         '해시태그', "매우긴 해시태그", '태그', '태그', '해시태그', '똥', '뚱이는 멋지다', '악동 뮤지션']
@@ -18,10 +20,10 @@ function MainPage(){
     
     return (
         <div id={css.root_container} className={css.page_root_container}>
-            <Header/>
-            <Footer/>
+            <Header parendBodyRef={bodyRef}/>
+            <Footer parentBodyRef={bodyRef}/>
 
-            <div id={css.body_container} className={css.container}>
+            <div id={css.body_container} className={css.container} ref={bodyRef}>
 
                 {/* 오늘 날짜 */}
                 <div id={css.title_box} className={[css.container, css.bottom_margin].join(" ")}>
