@@ -5,6 +5,9 @@ import WhiteBox from '../global_component/white_box/WhiteBox'
 import TodayDiary from './today_diary/TodayDiary'
 import MonthDiary from './month_diary/MonthDiary'
 import { BlueTag } from '../global_component/tag/Tag'
+import Footer from '../global_component/fotter/Fotter'
+
+import { useEffect } from 'react'
 
 
 function MainPage(){
@@ -12,6 +15,7 @@ function MainPage(){
     const tag_arr = ['해시태그', "매우긴 해시태그", '태그', '태그', '해시태그', '똥', '뚱이는 멋지다', '악동 뮤지션',
         '해시태그', "매우긴 해시태그", '태그', '태그', '해시태그', '똥', '뚱이는 멋지다', '악동 뮤지션']
 
+    
     return (
         <div id={css.root_container} className={css.container}>
             <Header/>
@@ -52,6 +56,9 @@ function MainPage(){
                 </div>
 
             </div>
+            
+           {/* 푸터 */}
+           <Footer/>
         </div>
     )
 }
