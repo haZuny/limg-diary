@@ -2,17 +2,24 @@ import css from './Header.module.scss'
 
 import { useEffect, useState } from 'react';
 
+import Menu from '../menu/Menu';
+
 import logo_icon from './../../resource/img/logo.png'
 import title_img from './title.png'
-import profile from './profile.jpeg'
+import profile from '../../resource/img/profile.jpeg'
 
 
 
 
-function Header({authorized, parendBodyRef}){
+function Header({nonAuth, parendBodyRef}){
 
+    // 헤더 Visible
     const [visible, setVisible] = useState(true)
     let lastScrollY = 0
+
+    // 메뉴 Visible
+    const [menuVisible, setMenuVisible] = useState(false)
+
 
     function scrollHandle(){
         // 스크롤 업
@@ -27,8 +34,10 @@ function Header({authorized, parendBodyRef}){
     }
 
     useEffect(()=>{
-        parendBodyRef.current.addEventListener('scroll', scrollHandle)
-        return ()=>{parendBodyRef.current.removeEventListener("scroll", scrollHandle)}
+        if(parendBodyRef != null){
+            parendBodyRef.current.addEventListener('scroll', scrollHandle)
+            return ()=>{parendBodyRef.current.removeEventListener("scroll", scrollHandle)}    
+        }
     }, [])
 
     return (
@@ -42,9 +51,14 @@ function Header({authorized, parendBodyRef}){
                 <div id={css.title_img_box}><img src={title_img}/></div>
             </div>
             {/* 프로필 이미지 */}
-            <div id={css.user_img_box}>
+            <div id={css.user_img_box} onClick={()=>{
+                setMenuVisible(true)
+            }}>
                 <img src={profile}/>
             </div>
+
+            {/* 메뉴 팝업 */}
+            {!nonAuth&&menuVisible&&<Menu setUnvisible={()=>setMenuVisible(false)}/>}
         </div>
     )
 }

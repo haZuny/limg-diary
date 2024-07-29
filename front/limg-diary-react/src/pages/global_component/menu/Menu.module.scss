@@ -1,1 +1,125 @@
-@import '../../Global.scss'
+@import '../../Global.scss';
+
+#root_container{
+    // size
+    width: calc(var(--vw)*100);
+    height: calc(var(--vh)*100);
+    // position
+    position: absolute;
+    top: 0;
+    left: 0;
+    // overflow
+    overflow: hidden;
+}
+
+#bg_box{
+    // size
+    width: 100%;
+    height: 100%;
+    // color
+    background-color: $color_black_t30;
+    // align
+    justify-content: end;
+    // position
+    right: 0;
+}
+
+.menu_box{
+    // size
+    width: 60%;
+    height: 100%;
+    // color
+    background-color: $color_white;
+    // align
+    flex-direction: column;
+    // position
+    position: absolute; // 애니메이션 위해 필요
+    // animation
+    right: 0;
+    transition: right 0.2s;
+
+}
+.bg_box_unvisible{
+    right: -60%;
+}
+
+#upper_box{
+    // size
+    width: 100%;
+    // color
+    background-color: $color_yello;
+    // align
+    flex-direction: column;
+    align-items: center;
+    // padding
+    padding: calc(var(--vh)*3) 10% calc(var(--vh)*3) 10%;
+    box-sizing: border-box;
+}
+
+#profile_img_box{
+    // size
+    width: 50%;
+    // radious
+    border-radius: 100%;
+    overflow: hidden;
+    //margin
+    margin-bottom: calc(var(--vw)*1);
+}
+
+#email{
+    // size
+    width: 100%;
+    // align
+    text-align: center;
+    // font
+    font-size: calc(var(--vw)*4);
+    font-weight: bold;
+    //overflow
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // margin
+    margin-bottom: calc(var(--vw)*1);
+}
+#email::-webkit-scrollbar{
+    display: none;
+}
+
+#nickname{
+    // size
+    width: 100%;
+    // align
+    text-align: center;
+    // font
+    font-size: calc(var(--vw)*3);
+    font-weight: bold;
+    color: $color_black_t30;
+    //overflow
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#nickname::-webkit-scrollbar{
+    display: none;
+}
+
+#lower_box{
+    // padding
+    // padding: 0 5% 0 5%;    
+}
+
+.menu_text{
+    // size
+    width: 100%;
+    height: calc(var(--vh)*8);
+    // font
+    font-size: calc(var(--vw)*5);
+    font-weight: bold;
+    //align
+    align-items: center;
+    // margin
+    padding-left: 5%;
+    // border
+    border-bottom: 1px $color_black_t30 solid;
+}
+.menu_text:active{
+    background-color: $color_black_t01;
+}

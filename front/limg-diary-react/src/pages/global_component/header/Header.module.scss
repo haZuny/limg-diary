@@ -21,9 +21,9 @@ $side_margin: 4%;
     // position
     position: relative;
     top: 0;
-    z-index: 1;
+    z-index: 2;
     // animation
-    transition: top 0.2s;
+    transition: top 0.3s;
 }
 .root_container_unvisible{
     top: calc(var(--vh)*-10);

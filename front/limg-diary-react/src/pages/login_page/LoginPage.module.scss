@@ -5,7 +5,7 @@
 /// 
 
 // 최상단 컨테이너
-#container{
+#root_container{
     width: calc(var(--vw)*100);
     height: calc(var(--vh)*100);
     flex-direction: column;

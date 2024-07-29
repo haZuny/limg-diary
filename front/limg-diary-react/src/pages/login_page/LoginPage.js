@@ -15,9 +15,8 @@ function LoginPage(){
     const [signupModalState, setSignupModalState] = useState(false)
 
     return (
-        <div>
-            <Header/>
-            <div id={css.container} className={css.container}>
+            <div id={css.root_container} className={css.container}>
+                <Header nonAuth={true}/>
                 {/* 상단 컨테이너 */}
                 <div id={css.upper_container} className={css.container}>
                     {/* 공백 */}
@@ -44,8 +43,6 @@ function LoginPage(){
                         <TextButton text='회원가입' func={()=>setSignupModalState(true)}/>
                     </div>
                 </div>
-            </div>
-
             {/* 회원가입 모달 */}
             {signupModalState &&
             <Modal title={'회원가입'} body={<SignupModalBody modal_off_handle={()=>setSignupModalState(false)}/>} modalOffHandle={()=>setSignupModalState(false)}/>}

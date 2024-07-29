@@ -13,7 +13,7 @@
     bottom: 0;
     z-index: 1;
     // animation
-    transition: bottom .2s;
+    transition: bottom .3s;
 }
 .root_container_unvisible{
     bottom: calc(var(--vh)*-10);
