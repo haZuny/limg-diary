@@ -14,8 +14,20 @@ function MainPage(){
 
     const bodyRef = useRef()
 
-    const tag_arr = ['해시태그', "매우긴 해시태그", '태그', '태그', '해시태그', '똥', '뚱이는 멋지다', '악동 뮤지션',
+    const tagStrArr = ['해시태그', "매우긴 해시태그", '태그', '태그', '해시태그', '똥', '뚱이는 멋지다', '악동 뮤지션',
         '해시태그', "매우긴 해시태그", '태그', '태그', '해시태그', '똥', '뚱이는 멋지다', '악동 뮤지션']
+
+    // 태그 선택된 상태 알 수 있게함
+    const tagArr = []
+    tagStrArr.forEach((tag)=>{
+        tagArr.push({
+            tag: `${tag}`,
+            state: false,
+            changeState: function changeState(){
+                this.state = this.state?false:true
+            }
+        })
+    })
 
     
     return (
@@ -47,8 +59,8 @@ function MainPage(){
                     <WhiteBox title="태그" child={
                         <div id={css.tag_box} className={css.container}>
                             {
-                                tag_arr.map((tag, idx)=>(
-                                        <BlueTag text={tag}/>
+                                tagArr.map((tag, idx)=>(
+                                        <BlueTag text={tag.tag} tag={tag}/>
                                 ))
                             }
                         </div>

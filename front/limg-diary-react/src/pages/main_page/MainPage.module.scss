@@ -65,6 +65,13 @@
     // align
     flex-wrap: wrap;
     justify-content: center;
+    // size
+    height: calc(var(--vh)*20);
+    // overflow
+    overflow: scroll;
+}
+#tag_box::-webkit-scrollbar{
+    display: none;
 }
 
 #search_btn_box{

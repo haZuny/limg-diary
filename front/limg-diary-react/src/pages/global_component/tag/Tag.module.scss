@@ -1,10 +1,8 @@
 @import '../../Global.scss';
 
-#tag_selected{
+#tag_selected, #tag_unselected{
     // size
     width: auto;
-    // color
-    background-color: $color_blue;
     // border
     border: none;
     border-radius: 50px;
@@ -16,7 +14,16 @@
     font-size: calc(var(--vw)*4);
     font-weight: bold;
     color: $color_white;
+    // shadow
+    box-shadow: 0 3px 5px 0px $color_black_t30;
 }
-#tag_selected:active{
+
+#tag_selected{
+    // color
     background-color: $color_blue_b;
+}
+
+#tag_unselected{
+    // color
+    background-color: $color_blue;
 }
