@@ -3,8 +3,10 @@ package com.hayden.limg_diary.entity.diary;
 import com.hayden.limg_diary.entity.diary.dto.DiaryAddRequestDto;
 import com.hayden.limg_diary.entity.diary.dto.DiaryIdResponseDto;
 import com.hayden.limg_diary.entity.diary.dto.DiaryTodayResponseDto;
+import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagEntity;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagRepository;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagService;
+import com.hayden.limg_diary.entity.hashtag.HashtagEntity;
 import com.hayden.limg_diary.entity.today_rate.DiaryAndTodayRateService;
 import com.hayden.limg_diary.entity.today_rate.TodayRateEntity;
 import com.hayden.limg_diary.entity.today_rate.TodayRateRepository;
@@ -85,13 +87,21 @@ public class DiaryService {
             diaryIdResponseDto.setState(HttpStatus.NOT_FOUND, false, "fail");
             diaryIdResponseDto.setData(null);
             return new ResponseEntity<>(diaryIdResponseDto, HttpStatus.BAD_REQUEST);
-        } else if (idDiary.getUser() != userEntity) {
-            diaryIdResponseDto.setState(HttpStatus.UNAUTHORIZED, false, "fail");
+        }
+        if (idDiary.getUser().getId() != userEntity.getId()) {
+            diaryIdResponseDto.setState(HttpStatus.UNAUTHORIZED, false, "user not authenticatied");
             diaryIdResponseDto.setData(null);
             return new ResponseEntity<>(diaryIdResponseDto, HttpStatus.UNAUTHORIZED);
         }
-        diaryAndHashtagRepository.findByDiary(idDiary);
+        ArrayList<DiaryAndHashtagEntity> hashtagById = diaryAndHashtagRepository.findAllByDiary(idDiary);
+        ArrayList<String> hashtag = new ArrayList<>();
+        int index = 0;
+        while(index < hashtagById.size()){
+            hashtag.add(hashtagById.get(index).getHashtag().getTag());
+            ++index;
+        }
         diaryIdResponseDto.setState(HttpStatus.OK, true, "success");
-        diaryIdResponseDto.getData().setDataValue(idDiary.getId(), idDiary.getContent(), null, idDiary.getCreatedData(), idDiary.getUpdatedData(),);
+        diaryIdResponseDto.getData().setDataValue(idDiary.getId(), idDiary.getContent(), null, idDiary.getCreatedData(), idDiary.getUpdatedData(), hashtag);
+        return new ResponseEntity<>(diaryIdResponseDto, HttpStatus.OK);
     }
 }
