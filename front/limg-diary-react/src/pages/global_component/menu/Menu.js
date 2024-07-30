@@ -9,10 +9,7 @@ function Menu({setUnvisible}){
 
     // 등장 애니메이션
     useEffect(()=>{
-        const startTimer = setInterval(()=>{
-            setVisible(true)
-            clearInterval(startTimer)
-        }, 100)
+        setTimeout(()=>setVisible(true), 1)
     }, [])
 
     return (
