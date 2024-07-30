@@ -27,7 +27,15 @@
     margin-bottom: calc(var(--vh)*2);
 }
 
-#btn_box{
+
+#btn_box_single{
+    // size
+    width: 100%;
+    // align
+    justify-content: center;
+}
+
+#btn_box_double{
     // size
     width: 100%;
     // align
