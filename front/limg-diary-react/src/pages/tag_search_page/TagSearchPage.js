@@ -109,10 +109,11 @@ function TagSearchPage() {
                         </div>
                     } />
 
+                    {/* 그레이 태그 */}
                     <div id={css.gray_tag_container} className={css.container}>
                         {
                             tagArr.map((tag, idx) => (
-                                <GrayTag tag={tag} />
+                                tag.state&&<GrayTag tag={tag.tag} />
                             ))
                         }
                     </div>

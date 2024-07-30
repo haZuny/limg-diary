@@ -48,3 +48,41 @@
     // color
     background-color: $color_black_t30;
 }
+
+// Removeable Gray Tag
+#delete_gray_tag{
+    // size
+    width: auto;
+    flex-shrink: 0;
+    // padding
+    padding: calc(var(--vw)*1) calc(var(--vw)*4) calc(var(--vw)*1) calc(var(--vw)*4);
+    // border
+    border: none;
+    border-radius: 50px;
+    // margin
+    margin: calc(var(--vw)*0.5);
+    // font
+    font-size: calc(var(--vw)*3.5);
+    font-weight: bold;
+    color: $color_white;
+    // color
+    background-color: $color_black_t30;
+    // position
+    position: relative;
+    // overflow
+    overflow: visible;
+}
+
+#deleteBox{
+    // posion
+    position: absolute;
+    top:calc(var(--vw)*-3);
+    right:calc(var(--vw)*-3);
+    // size
+    width: calc(var(--vw)*5);
+    height: calc(var(--vw)*5);
+}
+
+#deleteImg{
+    display: block;
+}

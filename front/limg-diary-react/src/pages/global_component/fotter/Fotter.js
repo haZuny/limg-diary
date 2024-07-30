@@ -24,7 +24,6 @@ function Footer({parentBodyRef}){
     // 이벤트 등록
     useEffect(()=>{
         parentBodyRef.current.addEventListener('scroll', scrollHandle)
-        // return ()=>{parentBodyRef.current.removeEventListener("scroll", scrollHandle)}
     }, [])
 
     

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import LoginPage from './pages/login_page/LoginPage';
 import MainPage from './pages/main_page/MainPage';
 import TagSearchPage from './pages/tag_search_page/TagSearchPage';
+import WritePage from './pages/write_page/WritePage';
 
 
 function Router({authorized, component})  {
@@ -42,6 +43,7 @@ function Router({authorized, component})  {
             <Route path='/' element={<Center child={<MainPage/>}/>} />
             <Route path='/login' element={<Center child={<LoginPage/>}/>}/>
             <Route path='/tagsearch' element={<Center child={<TagSearchPage/>}/>}/>
+            <Route path='/write' element={<Center child={<WritePage/>}/>}/>
         </Routes>
     </BrowserRouter>)
 }
