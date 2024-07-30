@@ -30,8 +30,8 @@ function Router({authorized, component})  {
 
     // 반응형 설정
     // useEffect(()=>{
-    //     // window.addEventListener('resize', setScreenSize)
-    //     // return ()=>window.removeEventListener('resize', setScreenSize)
+    //     window.addEventListener('resize', setScreenSize)
+    //     return ()=>window.removeEventListener('resize', setScreenSize)
     // }, [])
 
 

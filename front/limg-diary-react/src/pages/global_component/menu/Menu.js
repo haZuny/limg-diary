@@ -11,20 +11,24 @@ function Menu({setUnvisible}){
     useEffect(()=>{
         const startTimer = setInterval(()=>{
             setVisible(true)
+            clearInterval(startTimer)
         }, 100)
-        visible&&clearInterval(startTimer)
     }, [])
 
     return (
         <div id={css.root_container}>
             {/* 반투명 박스 */}
             <div id={css.bg_box} className={css.container} onClick={(e)=>{
-                if (e.target == e.currentTarget)
-                    setUnvisible()
+                if (e.target == e.currentTarget){
+                    // 메뉴 사라지는 애니메이션
+                    setVisible(false)
+                    // 메뉴 제거
+                    setTimeout(()=>setUnvisible(), 200)
+                }
             }}>
 
                 {/* 메뉴 박스 */}
-                <div className={[!visible&&css.bg_box_unvisible, css.menu_box, css.container].join(" ")}>
+                <div className={[!visible&&css.menu_box_unvisible, css.menu_box, css.container].join(" ")}>
                     {/* 상단 프로필 */}
                     <div id={css.upper_box} className={css.container}>
                         <div id={css.profile_img_box}><img src={DefaultProfileImg}/></div>

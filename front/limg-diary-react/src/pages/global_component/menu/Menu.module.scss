@@ -39,7 +39,7 @@
     transition: right 0.2s;
 
 }
-.bg_box_unvisible{
+.menu_box_unvisible{
     right: -60%;
 }
 
@@ -112,7 +112,7 @@
     height: calc(var(--vh)*8);
     // font
     font-size: calc(var(--vw)*5);
-    font-weight: bold;
+    // font-weight: bold;
     //align
     align-items: center;
     // margin
