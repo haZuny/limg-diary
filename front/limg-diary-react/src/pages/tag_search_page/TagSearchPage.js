@@ -12,21 +12,39 @@ import DiaryImg from '../resource/img/default_diary_img.png'
 
 function TagSearchPage() {
 
-    const location = useLocation()
-    const selectedTagAtMain = location.state.selectedTagArr
-
+    
     // 태그 배열_원본
     const tag_default_Arr = []
-    selectedTagAtMain.forEach((tag, idx) => {
-        tag_default_Arr.push({
-            id: idx,
-            tag: tag.tag,
-            state: tag.state,
-            changeState: function changeState() {
-                this.state = this.state ? false : true
-            }
+        // 정석 루트로 접근
+    try{    
+        const location = useLocation()
+        const selectedTagAtMain = location.state.selectedTagArr
+
+        selectedTagAtMain.forEach((tag, idx) => {
+            tag_default_Arr.push({
+                id: idx,
+                tag: tag.tag,
+                state: tag.state,
+                changeState: function changeState() {
+                    this.state = this.state ? false : true
+                }
+            })
         })
-    })
+    }
+        // 주소로 바로 접근해서 인자가 없을 때
+    catch{
+        ['a', 'b', 'c'].forEach((tag, idx) => {
+            tag_default_Arr.push({
+                id: idx,
+                tag: tag,
+                state: false,
+                changeState: function changeState() {
+                    this.state = this.state ? false : true
+                }
+            })
+        })
+    }
+    
 
     // 태그 배열_상태관리
     const [tagArr, setTagArr] = useState(tag_default_Arr)
