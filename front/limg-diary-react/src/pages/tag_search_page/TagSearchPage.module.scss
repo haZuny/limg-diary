@@ -1,0 +1,86 @@
+@import '../Global.scss';
+
+#root_container{
+    // size
+    width: calc(var(--vw)*100);
+    // color
+    background-color: $color_beige;
+}
+
+#body_container{
+    // size
+    flex-grow: 1;
+    // align
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+///
+/// tag
+/// 
+#tag_container{
+    
+}
+
+
+#tag_box{
+    // align
+    justify-content: center;
+    flex-wrap: wrap;
+    // size
+    height:calc(var(--vh)*18);
+    // overflow
+    overflow: scroll;
+}
+#tag_box::-webkit-scrollbar{
+    display: none;
+}
+
+
+///
+/// diary
+/// 
+#diarys_container{
+    // size
+    width: $size_width_component;
+    // align
+    flex-direction: column;
+}
+
+#diaries_box{
+    // size
+    height: calc(var(--vh)*35);
+    // align
+    justify-content: space-between;
+    flex-wrap: wrap;
+    // overflow
+    overflow: scroll;
+}
+#diaries_box::-webkit-scrollbar{
+    display: none;
+}
+
+#diary_img{
+    // size
+    width: calc(var(--vw)*17);
+    height: calc(var(--vw)*17);
+    // margin
+    margin-bottom: 3%;
+}
+
+#gray_tag_container{
+    // size
+    width: 100%;
+    height: calc(var(--vh)*7);
+    // align
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    // overflow
+    overflow-y: hidden;
+    overflow-x: scroll;
+}
+#gray_tag_container::-webkit-scrollbar{
+    display: none;
+}

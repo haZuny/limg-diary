@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 import LoginPage from './pages/login_page/LoginPage';
 import MainPage from './pages/main_page/MainPage';
+import TagSearchPage from './pages/tag_search_page/TagSearchPage';
 
 
 function Router({authorized, component})  {
@@ -40,6 +41,7 @@ function Router({authorized, component})  {
         <Routes>
             <Route path='/' element={<Center child={<MainPage/>}/>} />
             <Route path='/login' element={<Center child={<LoginPage/>}/>}/>
+            <Route path='/tagsearch' element={<Center child={<TagSearchPage/>}/>}/>
         </Routes>
     </BrowserRouter>)
 }

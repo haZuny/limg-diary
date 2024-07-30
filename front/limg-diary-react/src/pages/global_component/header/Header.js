@@ -35,8 +35,7 @@ function Header({nonAuth, parendBodyRef}){
 
     useEffect(()=>{
         if(parendBodyRef != null){
-            parendBodyRef.current.addEventListener('scroll', scrollHandle)
-            return ()=>{parendBodyRef.current.removeEventListener("scroll", scrollHandle)}    
+            parendBodyRef.current.addEventListener('scroll', scrollHandle)   
         }
     }, [])
 
