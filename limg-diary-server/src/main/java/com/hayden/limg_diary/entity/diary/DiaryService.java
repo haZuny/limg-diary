@@ -1,8 +1,6 @@
 package com.hayden.limg_diary.entity.diary;
 
-import com.hayden.limg_diary.entity.diary.dto.DiaryAddRequestDto;
-import com.hayden.limg_diary.entity.diary.dto.DiaryIdResponseDto;
-import com.hayden.limg_diary.entity.diary.dto.DiaryTodayResponseDto;
+import com.hayden.limg_diary.entity.diary.dto.*;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagEntity;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagRepository;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagService;
@@ -18,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -103,5 +103,55 @@ public class DiaryService {
         diaryIdResponseDto.setState(HttpStatus.OK, true, "success");
         diaryIdResponseDto.getData().setDataValue(idDiary.getId(), idDiary.getContent(), null, idDiary.getCreatedData(), idDiary.getUpdatedData(), hashtag);
         return new ResponseEntity<>(diaryIdResponseDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<DiaryMonthResponseDto> diaryMonth(int year, int month, CustomUserDetails user) {
+        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
+        DiaryMonthResponseDto diaryMonthResponseDto = new DiaryMonthResponseDto();
+        UserEntity userEntity = user.getUserEntity();
+        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
+        List<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDataDesc(userEntity);
+        if (diaryList.size() > 0) {
+            int index = 0;
+            while(index < diaryList.size()){
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(diaryList.get(index).getCreatedData());
+                if(calendar.get(Calendar.YEAR) == year &&
+                        calendar.get(Calendar.MONTH)+1 == month){
+                    diaryTodayResponseDto.getData().setDataValue(diaryList.get(index).getId(),null,diaryList.get(index).getCreatedData());
+                    diaryTodayResponseDto.setState(HttpStatus.OK, true, "success");
+                    diaryMonthResponseDto.getDataList().add(diaryTodayResponseDto);
+                }
+                ++index;
+            }
+        }
+        diaryMonthResponseDto.setState(HttpStatus.OK, true, "success");
+        return new ResponseEntity<>(diaryMonthResponseDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<DiaryRequestResponseDto> diaryRequest(Date sdate, Date edate, String keyword, String align, CustomUserDetails user) {
+        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
+        DiaryRequestResponseDto diaryRequestResponseDto = new DiaryRequestResponseDto();
+        UserEntity userEntity = user.getUserEntity();
+        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
+        List<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDataDesc(userEntity);
+        if (diaryList.size() > 0) {
+            int index = 0;
+            while(index < diaryList.size()){
+                Calendar scalendar = Calendar.getInstance();
+                Calendar ecalendar = Calendar.getInstance();
+                scalendar.setTime(sdate);
+                ecalendar.setTime(edate);
+                if(scalendar.get(Calendar.MONTH) >11 || scalendar.get(Calendar.MONTH) < 0
+                || ecalendar.get(Calendar.MONTH) >11 || ecalendar.get(Calendar.MONTH) < 0){
+                    diaryRequestResponseDto.setDataList(null);
+                    return new ResponseEntity<>(diaryRequestResponseDto, HttpStatus.BAD_REQUEST);
+                }
+                if(scalendar.get(Calendar.MONTH) == null)
+
+            }
+        }
+        diaryRequestResponseDto.setState(HttpStatus.OK, true, "success");
+        return new ResponseEntity<>(diaryRequestResponseDto, HttpStatus.OK);
     }
 }
