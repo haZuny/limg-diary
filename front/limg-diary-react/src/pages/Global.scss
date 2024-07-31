@@ -26,6 +26,10 @@ $size_width_component: calc((var(--vw)*90));
     flex-wrap: nowrap;
 }
 
+#root_container{
+    width: calc(var(--vw)*100);
+}
+
 .page_root_container{
     // size
     width: calc(var(--vw)*100);
@@ -33,16 +37,15 @@ $size_width_component: calc((var(--vw)*90));
     // align
     display: flex;
     flex-direction: column;
+    align-items: center;
     flex-wrap: nowrap;
     box-sizing: border-box;
     // position
     position: relative;
     // overflow
     overflow: hidden;
-}
-
-#root_container{
-    width: calc(var(--vw)*100);
+    // color
+    background-color: $color_beige;
 }
 
 #body_container{

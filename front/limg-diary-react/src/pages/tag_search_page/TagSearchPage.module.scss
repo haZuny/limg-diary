@@ -1,26 +1,11 @@
 @import '../Global.scss';
 
-#root_container{
-    // size
-    width: calc(var(--vw)*100);
-    // color
-    background-color: $color_beige;
-}
-
-#body_container{
-    // size
-    flex-grow: 1;
-    // align
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-}
 
 ///
 /// tag
 /// 
 #tag_container{
-    
+    margin-bottom: calc(var(--vh)*5);
 }
 
 
@@ -29,7 +14,7 @@
     justify-content: center;
     flex-wrap: wrap;
     // size
-    height:calc(var(--vh)*18);
+    height:calc(var(--vh)*25);
     // overflow
     overflow: scroll;
 }
@@ -50,7 +35,7 @@
 
 #diaries_box{
     // size
-    height: calc(var(--vh)*35);
+    height: calc(var(--vh)*40);
     // align
     justify-content: space-between;
     flex-wrap: wrap;

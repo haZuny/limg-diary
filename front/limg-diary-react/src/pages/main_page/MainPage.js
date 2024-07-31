@@ -46,7 +46,7 @@ function MainPage() {
 
     return (
         <div id={css.root_container} className={css.page_root_container}>
-            <Header parendBodyRef={bodyRef} />
+            <Header parentBodyRef={bodyRef} />
             <Footer parentBodyRef={bodyRef} />
 
             <div id={css.body_container} className={css.container} ref={bodyRef}>

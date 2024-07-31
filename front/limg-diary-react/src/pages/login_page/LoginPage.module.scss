@@ -4,17 +4,11 @@
 /// Id
 /// 
 
-// 최상단 컨테이너
-#root_container{
-    width: calc(var(--vw)*100);
-    height: calc(var(--vh)*100);
-    flex-direction: column;
-}
 
 // 위쪽 컨테이너 박스
 #upper_container{
     // size
-    height: calc(var(--vh)*50);;
+    height: calc(var(--vh)*40);;
     flex-grow: 1;
 
     // color
@@ -46,7 +40,7 @@
 
 #lower_container{
     // size
-    height: calc(var(--vh)*50);
+    height: calc(var(--vh)*40);
     flex-grow: 1;
     // color
     background-color: $color_white;
@@ -80,6 +74,7 @@
     font-size: calc(var(--vw)*5);
     // padding
     padding-left: 2%;
+    box-sizing: border-box;
 }
 input::placeholder{
     color: $color_black_t30;

@@ -3,11 +3,15 @@ import css from './WritePage.module.scss'
 import { useRef, useState } from 'react'
 
 import Header from '../global_component/header/Header'
+import Footer from '../global_component/fotter/Fotter'
 import WhiteBox from '../global_component/white_box/WhiteBox'
 import { RemoveableGrayTag } from '../global_component/tag/Tag'
 import { SingleButton } from '../global_component/button/Button'
 
 function WritePage() {
+    // Ref
+    const bodyRef = useRef()
+
     //  일기 받아왔을 경우(수정 case) 기본값 설정하기
 
     // textarea state
@@ -38,9 +42,10 @@ function WritePage() {
 
     return (
         <div id={css.root_container} className={css.page_root_container}>
-            <Header />
+            <Header parentBodyRef={bodyRef}/>
+            <Footer parentBodyRef={bodyRef}/>
 
-            <div id={css.body_container} className={css.container}>
+            <div id={css.body_container} className={css.container} ref={bodyRef}>
                 {/* 일기 작성 */}
                 <div id={css.diary_write_container}>
                     <WhiteBox title={'일기 작성'} child={

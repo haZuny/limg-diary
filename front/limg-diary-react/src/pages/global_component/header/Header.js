@@ -11,7 +11,7 @@ import profile from '../../resource/img/profile.jpeg'
 
 
 
-function Header({nonAuth, parendBodyRef}){
+function Header({nonAuth, parentBodyRef}){
 
     // 헤더 Visible
     const [visible, setVisible] = useState(true)
@@ -23,19 +23,19 @@ function Header({nonAuth, parendBodyRef}){
 
     function scrollHandle(){
         // 스크롤 업
-        if (lastScrollY > parendBodyRef.current.scrollTop){
+        if (lastScrollY > parentBodyRef.current.scrollTop){
             setVisible(true)
         }
         // 스크롤 다운
         else{
             setVisible(false)
         }
-        lastScrollY = parendBodyRef.current.scrollTop
+        lastScrollY = parentBodyRef.current.scrollTop
     }
 
     useEffect(()=>{
-        if(parendBodyRef != null){
-            parendBodyRef.current.addEventListener('scroll', scrollHandle)   
+        if(parentBodyRef != null){
+            parentBodyRef.current.addEventListener('scroll', scrollHandle)   
         }
     }, [])
 

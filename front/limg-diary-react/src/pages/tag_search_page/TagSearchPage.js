@@ -1,9 +1,10 @@
 import css from './TagSearchPage.module.scss'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import Header from '../global_component/header/Header'
+import Footer from '../global_component/fotter/Fotter'
 import WhiteBox from '../global_component/white_box/WhiteBox'
 import { SellectedBlueTag, UnsellectedBlueTag, GrayTag } from '../global_component/tag/Tag'
 
@@ -11,6 +12,8 @@ import DiaryImg from '../resource/img/default_diary_img.png'
 
 
 function TagSearchPage() {
+    // Ref
+    const bodyRef = useRef()
 
     
     // 태그 배열_원본
@@ -69,9 +72,10 @@ function TagSearchPage() {
 
     return (
         <div id={css.root_container} className={css.page_root_container}>
-            <Header />
+            <Header parendBodyRef={bodyRef}/>
+            <Footer parentBodyRef={bodyRef}/>
 
-            <div id={css.body_container} className={css.container}>
+            <div id={css.body_container} className={css.container} ref={bodyRef}>
 
                 {/* 태그 */}
                 <div id={css.tag_container} className={css.bottom_margin}>
