@@ -1,0 +1,50 @@
+@import './../../Global.scss';
+
+// margin
+$side_margin: 4%;
+
+//
+// Id
+//
+
+// 최상단 컨테이너
+#container{
+    // size
+    width: calc(var(--vw) * 100);
+    height: calc(var(--vh) * 10);
+    // color
+    background-color: $color_green;
+    // item-align
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+// 림그일기 제목 그룹
+#title_container{
+    width: 80%;
+    height: 70%;
+    margin-left: $side_margin;
+    // item-align
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+#logo_box {
+    height: 60%;
+}
+#title_margin_box{
+    width: 3%;
+    height: 100%;
+}
+#title_img_box{
+    height: 45%;
+}
+
+// 프로필 이미지 박스
+#user_img_box{
+    height: 60%;
+    margin-right: $side_margin;
+    border-radius: 100%;
+    overflow: hidden;
+}
