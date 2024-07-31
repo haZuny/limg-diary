@@ -5,6 +5,7 @@ import { useRef, useState } from 'react'
 import Header from '../global_component/header/Header'
 import WhiteBox from '../global_component/white_box/WhiteBox'
 import { RemoveableGrayTag } from '../global_component/tag/Tag'
+import { SingleButton } from '../global_component/button/Button'
 
 function WritePage() {
     //  일기 받아왔을 경우(수정 case) 기본값 설정하기
@@ -41,14 +42,16 @@ function WritePage() {
 
             <div id={css.body_container} className={css.container}>
                 {/* 일기 작성 */}
-                <WhiteBox title={'일기 작성'} child={
-                    <div id={css.diary_write_box}>
-                        <textarea id={css.diary_textarea} value={diaryContent} onChange={(e) => {
-                            setDiaryContent(e.target.value)
-                        }}></textarea>
-                        <div id={css.diary_length}>{diaryContent.length}/1000</div>
-                    </div>
-                } />
+                <div id={css.diary_write_container}>
+                    <WhiteBox title={'일기 작성'} child={
+                        <div id={css.diary_write_box}>
+                            <textarea id={css.diary_textarea} value={diaryContent} onChange={(e) => {
+                                setDiaryContent(e.target.value)
+                            }}></textarea>
+                            <div id={css.diary_length}>{diaryContent.length}/1000</div>
+                        </div>
+                    } />
+                </div>
 
                 {/* 화풍 선택 */}
                 <div className={[css.container, css.select_style_container].join(" ")}>
@@ -86,9 +89,9 @@ function WritePage() {
                         <button id={css.tag_add_btn} onClick={(e) => {
                             // 한글자 이상일때만 리스트에 추가
                             if (tagInputStr.length > 0) {
-                                tagInputStr = '#'?tagInputStr:'#'+tagInputStr
+                                tagInputStr = tagInputStr[0] === '#' ? tagInputStr : '#' + tagInputStr
                                 // check already exist
-                                if (!tagArr.includes(tagInputStr)){
+                                if (!tagArr.includes(tagInputStr)) {
                                     // update state
                                     tagArr.push(tagInputStr)
                                     setTagArr(Array.from(tagArr))
@@ -102,13 +105,15 @@ function WritePage() {
 
                 {/* 추가된 태그 */}
                 <div id={css.tags_container} className={css.container}>
-                    {tagArr.map((tag) => (
-                        <RemoveableGrayTag tag={tag} />
+                    {tagArr.map((tag, idx) => (
+                        <RemoveableGrayTag tag={tag} func={() => {
+                            tagArr.splice(idx, 1)
+                            setTagArr(Array.from(tagArr))
+                        }} />
                     ))}
                 </div>
 
-
-
+                <SingleButton text={'작성 완료'} />
             </div>
         </div>
     )

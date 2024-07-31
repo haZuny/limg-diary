@@ -49,18 +49,16 @@
     background-color: $color_black_t30;
 }
 
-// Removeable Gray Tag
 #delete_gray_tag{
     // size
     width: auto;
+    height: fit-content;
     flex-shrink: 0;
     // padding
     padding: calc(var(--vw)*1) calc(var(--vw)*4) calc(var(--vw)*1) calc(var(--vw)*4);
     // border
     border: none;
     border-radius: 50px;
-    // margin
-    margin: calc(var(--vw)*0.5);
     // font
     font-size: calc(var(--vw)*3.5);
     font-weight: bold;
@@ -69,15 +67,14 @@
     background-color: $color_black_t30;
     // position
     position: relative;
-    // overflow
-    overflow: visible;
+    margin: calc(var(--vw)*2);
 }
 
 #deleteBox{
     // posion
     position: absolute;
-    top:calc(var(--vw)*-3);
-    right:calc(var(--vw)*-3);
+    top:calc(var(--vw)*-1);
+    right:calc(var(--vw)*-1);
     // size
     width: calc(var(--vw)*5);
     height: calc(var(--vw)*5);

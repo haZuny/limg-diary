@@ -14,25 +14,10 @@
     align-items: center;
 }
 
-#body_container{
-    // size
-    width: $size_width_component;
-    // item align
-    flex-direction: column;
-    align-items: center;
-    // overflow
-    overflow: scroll;
-}
-#body_container::-webkit-scrollbar{
-    display: none;
-}
-
 //
 // 오늘 날짜
 //
 #title_box{
-    // margin
-    margin-top: calc(var(--vh)*5);
 }
 
 #today_text_sub{

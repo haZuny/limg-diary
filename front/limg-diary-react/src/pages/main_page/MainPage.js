@@ -69,7 +69,7 @@ function MainPage() {
                 </div>
 
                 {/* 태그 */}
-                <div id={css.tag_container} className={css.bottom_margin}>
+                <div id={css.tag_container}>
                     <WhiteBox title="태그" child={
                         <div id={css.tag_box} className={css.container}>
                             {
@@ -95,7 +95,6 @@ function MainPage() {
                             })
 
                             navigate('/tagsearch', {state: {selectedTagArr: Array.from(tagStateArr)}})
-                            // navigate('/tagsearch')
                         }}>search→</button>
                     </div>
                 </div>

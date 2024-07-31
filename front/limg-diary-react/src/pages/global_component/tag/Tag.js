@@ -1,6 +1,6 @@
 import css from './Tag.module.scss'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import DeleteIconImage from './img/delete_icon.png';
 
@@ -36,15 +36,17 @@ function GrayTag({tag}){
 }
 
 
-function RemoveableGrayTag({tag}){
+function RemoveableGrayTag({tag, func}){
 
     const [sellected, setSellected] = useState(tag.state)
 
     return (
         <div id={css.delete_gray_tag} className={css.container}>
             {tag}
-            <div id={css.deleteBox} className={css.container}>
-                <img id={css.deleteImg} scr={DeleteIconImage}/>
+            <div id={css.deleteBox} className={css.container} onClick={()=>{
+                func()
+            }}>
+                <img id={css.deleteImg} src={DeleteIconImage}/>
             </div>
         </div>
     )

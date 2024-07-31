@@ -1,27 +1,26 @@
 @import '../Global.scss';
 
 #root_container{
-    align-items: center;
-    background-color: $color_beige;
-}
-
-#body_container{
     // size
-    width: $size_width_component;
-    height: 100%;
-    // align
+    width: calc(var(--vw)*100);
+    // aligin
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    // color
+    background-color: $color_beige;
 }
 
 ///
 /// 일기 작성
 /// 
+#diary_write_container{
+    // margin
+    margin-bottom: calc(var(--vh)*5);
+}
 #diary_write_box{
     // size
     width: 100%;
-    height: calc(var(--vh)*40);
+    height: calc(var(--vh)*60);
     // position
     position: relative;
 }
@@ -62,11 +61,16 @@
     font-size: calc(var(--vw)*6);
 }
 
+$ling_height: calc(var(--vh)*50);
+
+// 화풍 선택, 하루 평가
 .select_style_container{
     // size
     width: 100%;
     // align
     justify-content: space-between;
+    // margin
+    margin-bottom: calc(var(--vh)*2);
 }
 
 .select{
@@ -84,6 +88,7 @@
     background-color: $color_white;
 }
 
+// 태그 추가
 #tag_add_container{
     // size
     width: 100%;
@@ -102,6 +107,8 @@
 
 #tag_input{
     // size
+    width: 60%;
+    flex-shrink: 0;
     height: fit-content;
     // color
     background-color: $color_transparency;
@@ -132,11 +139,15 @@
 
 #tags_container{
     // size
+    height: calc(var(--vh)*7);
     width: 100%;
-    height: max-content;
-    // overflow
+    //overflow
     overflow-x: scroll;
-    overflow-y: visible;
+    // align
+    align-items: end;
+    position: relative;
+    // margin
+    margin-bottom: calc(var(--vw)*5);
 }
 #tags_container::-webkit-scrollbar{
     display: none;

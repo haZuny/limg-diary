@@ -32,8 +32,8 @@ $size_width_component: calc((var(--vw)*90));
     height: calc(var(--vh)*100);
     // align
     display: flex;
-    flex-wrap: nowrap;
     flex-direction: column;
+    flex-wrap: nowrap;
     box-sizing: border-box;
     // position
     position: relative;
@@ -43,6 +43,28 @@ $size_width_component: calc((var(--vw)*90));
 
 #root_container{
     width: calc(var(--vw)*100);
+}
+
+#body_container{
+    // size
+    width: $size_width_component;
+    flex-grow: 1;
+    height: 0;
+    // overflow
+    overflow-y: scroll;
+    // align
+    flex-direction: column;
+    align-items: center;
+    // padding
+    padding-top: calc(var(--vh)*5);
+    padding-bottom: calc(var(--vh)*5);
+}
+#body_container::-webkit-scrollbar{
+    display: none;
+}
+
+* {
+    flex-shrink: 0;
 }
 
 img {
