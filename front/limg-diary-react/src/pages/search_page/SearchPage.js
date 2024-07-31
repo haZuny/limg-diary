@@ -1,6 +1,7 @@
 import css from './SearchPage.module.scss'
 
 import { useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import Header from '../global_component/header/Header'
 import Footer from '../global_component/fotter/Fotter'
@@ -14,6 +15,9 @@ function SearchPage() {
     const sdateRef = useRef()
     const edateRef = useRef()
     const keywordRef = useRef()
+
+    // navigate
+    const navigate = useNavigate()
 
     // search param
     const [align, setAlign] = useState('recent')
@@ -46,7 +50,9 @@ function SearchPage() {
                 } child={
                     <div id={css.list_container} className={css.container}>
                         {diaryDefaultArr.map((diary, idc) => (
-                            <div id={css.list_box} className={css.container}>
+                            <div id={css.list_box} className={css.container} onClick={()=>{
+                                navigate(`/diary/${diary.id}`)
+                            }}>
                                 <div id={css.list_box_date}>{diary.date}</div>
                                 <div id={css.list_box_content}>{diary.content}</div>
                                 <hr id={css.list_box_hr} />

@@ -2,10 +2,15 @@ import { useEffect, useState } from 'react'
 import css from './Menu.module.scss'
 
 import DefaultProfileImg from '../../resource/img/profile.jpeg'
+import { useNavigate } from 'react-router-dom'
 
 function Menu({setUnvisible}){
 
+    // visible state
     const [visible, setVisible] = useState(false)
+
+    // navigate
+    const navigate = useNavigate()
 
     // 등장 애니메이션
     useEffect(()=>{
@@ -36,7 +41,9 @@ function Menu({setUnvisible}){
                     {/* 하단 메뉴들 */}
                     <div id={css.lower_box}>
                         <div className={[css.menu_text, css.container].join(" ")}>개인 정보 설정</div>
-                        <div className={[css.menu_text, css.container].join(" ")}>이전 일기 보기</div>
+                        <div className={[css.menu_text, css.container].join(" ")} onClick={()=>{
+                            navigate('/search')
+                        }}>이전 일기 보기</div>
                         <div className={[css.menu_text, css.container].join(" ")}>내가 취득한 업적</div>
                     </div>
                 </div>

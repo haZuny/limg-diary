@@ -42,8 +42,6 @@
     // size
     height: calc(var(--vh)*40);
     flex-grow: 1;
-    // color
-    background-color: $color_white;
     // item-align
     flex-direction: column;
     justify-content: space-around;
@@ -75,6 +73,8 @@
     // padding
     padding-left: 2%;
     box-sizing: border-box;
+    // color
+    background-color: $color_transparency;
 }
 input::placeholder{
     color: $color_black_t30;
@@ -92,4 +92,4 @@ input::placeholder{
 }
 
 
-
+// 태그 변경

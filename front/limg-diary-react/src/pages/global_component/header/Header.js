@@ -1,6 +1,7 @@
 import css from './Header.module.scss'
 
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Menu from '../menu/Menu';
 
@@ -10,8 +11,9 @@ import profile from '../../resource/img/profile.jpeg'
 
 
 
-
 function Header({nonAuth, parentBodyRef}){
+    // navigate
+    const navigate = useNavigate()
 
     // 헤더 Visible
     const [visible, setVisible] = useState(true)
@@ -19,7 +21,6 @@ function Header({nonAuth, parentBodyRef}){
 
     // 메뉴 Visible
     const [menuVisible, setMenuVisible] = useState(false)
-
 
     function scrollHandle(){
         // 스크롤 업
@@ -41,7 +42,9 @@ function Header({nonAuth, parentBodyRef}){
 
     return (
         <div className={[css.container, css.root_container, !visible&&css.root_container_unvisible].join(" ")}>
-            <div className={css.container} id={css.title_container}>
+            <div className={css.container} id={css.title_container} onClick={()=>{
+                navigate('/')
+            }}>
                 {/* 로고 이미지 */}
                 <div id={css.logo_box}><img src={logo_icon}/></div>
                 {/* 공백 */}
