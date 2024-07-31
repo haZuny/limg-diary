@@ -27,6 +27,17 @@ function UnsellectedBlueTag({tag, setTagArr}){
     )
 }
 
+// 블루태그(선택 안됨)
+function NoActionBlueTag({tag}){
+
+    return (
+        <button id={css.tag_unselected}>
+            {tag}
+        </button>
+    )
+}
+
+// 회색태그
 function GrayTag({tag}){
     return (
         <div id={css.gray_tag}>
@@ -35,7 +46,7 @@ function GrayTag({tag}){
     )
 }
 
-
+// 삭제되는 회색 태그
 function RemoveableGrayTag({tag, func}){
 
     const [sellected, setSellected] = useState(tag.state)
@@ -52,4 +63,4 @@ function RemoveableGrayTag({tag, func}){
     )
 }
 
-export {SellectedBlueTag, UnsellectedBlueTag, GrayTag, RemoveableGrayTag}
+export {SellectedBlueTag, UnsellectedBlueTag, NoActionBlueTag, GrayTag, RemoveableGrayTag}

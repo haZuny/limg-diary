@@ -1,2 +1,119 @@
 @import '../Global.scss';
 
+$content_gab: calc(var(--vh)*5);
+
+#body_container{
+    align-items: center;
+}
+
+// 날짜
+#date{
+    // font
+    font-size: calc(var(--vw)*8);
+    font-weight: bold;
+    // margin
+    margin-bottom: $content_gab;
+}
+
+// 하루 기분
+#today_rate_container{
+    // size
+    width: 100%;
+    // align
+    justify-content: center;
+    // margin
+    margin-bottom: calc(var(--vw)*3);
+}
+
+#today_rate_title{
+    font-size: calc(var(--vw)*5);
+    font-weight: bold;
+}
+
+#today_rate_space{
+    width: calc(var(--vw)*5);
+}
+
+#today_rate_rate{
+    font-size: calc(var(--vw)*5);
+}
+
+// 이미지
+#diary_img_box{
+    // size
+    width: 100%;
+    // border
+    border-radius: 20px;
+    // overflow
+    overflow: hidden;
+    // margin
+    margin-bottom:  $content_gab;
+}
+
+// 일기
+#diary_content_container{
+    margin-bottom:  $content_gab;
+}
+
+#diary_content_box{
+    // size
+    width: 100%;
+    height: calc(var(--vh)*40);
+    // font
+    font-size: 20px;
+    // align
+    text-align: center;
+    // overflow
+    overflow-y: scroll;
+}
+#diary_content_box::-webkit-scrollbar{
+    display: none;
+}
+
+// 태그
+#tag_title_container{
+    // size
+    width: 100%;
+    // align
+    justify-content: center;
+    // margin
+    margin-bottom: calc(var(--vh)*2);
+    // position
+    position: relative;
+    // padding
+    // padding-right: calc(var(--vw)*5);
+}
+
+#tag_title{
+    // font
+    font-size: calc(var(--vw)*6);
+    font-weight: bold;
+    
+}
+
+
+#tag_change_btn{
+    // position
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    // color
+    background-color: $color_transparency;
+    // border
+    border: none;
+    // font
+    font-size: calc(var(--vw)*4);
+    font-weight: bold;
+    color: $color_black_t30;
+    // margin
+    margin-right: calc(var(--vw)*3);
+}
+
+#tag_box{
+    // size
+    width: 100%;
+    // align
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
