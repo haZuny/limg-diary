@@ -1,6 +1,7 @@
 import css from './WritePage.module.scss'
 
 import { useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import Header from '../global_component/header/Header'
 import Footer from '../global_component/fotter/Fotter'
@@ -9,6 +10,9 @@ import { RemoveableGrayTag } from '../global_component/tag/Tag'
 import { SingleButton } from '../global_component/button/Button'
 
 function WritePage() {
+    // navigate
+    const navigate = useNavigate()
+
     // Ref
     const bodyRef = useRef()
 
@@ -118,7 +122,9 @@ function WritePage() {
                     ))}
                 </div>
 
-                <SingleButton text={'작성 완료'} />
+                <SingleButton text={'작성 완료'} func={()=>{
+                    navigate('/', {replace:true})
+                }}/>
             </div>
         </div>
     )
