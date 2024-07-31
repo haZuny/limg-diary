@@ -119,6 +119,9 @@ $ling_height: calc(var(--vh)*50);
     // padding
     padding: 10px;
 }
+#tag_input::placeholder{
+    font-size: 25px;
+}
 
 #tag_add_btn{
     // size

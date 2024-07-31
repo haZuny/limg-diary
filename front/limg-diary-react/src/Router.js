@@ -5,6 +5,7 @@ import LoginPage from './pages/login_page/LoginPage';
 import MainPage from './pages/main_page/MainPage';
 import TagSearchPage from './pages/tag_search_page/TagSearchPage';
 import WritePage from './pages/write_page/WritePage';
+import SearchPage from './pages/search_page/SearchPage';
 
 
 function Router({authorized, component})  {
@@ -44,6 +45,7 @@ function Router({authorized, component})  {
             <Route path='/login' element={<Center child={<LoginPage/>}/>}/>
             <Route path='/tagsearch' element={<Center child={<TagSearchPage/>}/>}/>
             <Route path='/write' element={<Center child={<WritePage/>}/>}/>
+            <Route path='/search' element={<Center child={<SearchPage/>}/>}/>
         </Routes>
     </BrowserRouter>)
 }
