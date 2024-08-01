@@ -5,6 +5,9 @@ import { useEffect, useRef, useState } from 'react'
 import Header from '../global_component/header/Header'
 import Footer from '../global_component/fotter/Fotter'
 import WhiteBox from '../global_component/white_box/WhiteBox'
+import Modal from '../global_component/modal/Modal'
+
+import DefaultImg from '../resource/img/default_diary_img.png'
 
 
 
@@ -26,8 +29,10 @@ function ChallengePage() {
     }
 
     // 업적 모달
-    const [modalState, setModalState] = useState(false)
-    
+    const [achievedModalState, setAchievedModalState] = useState(false)
+    const [unachievedModalState, setUnachievedModalState] = useState(false)
+    // 업적 모달이 표시할 정보
+    const [challengeInfo, setChallengeInfo] = useState({})
 
     // animation
     useEffect(() => {
@@ -72,15 +77,33 @@ function ChallengePage() {
                 <WhiteBox title={'도전 과제 목록'} child={
                     <div id={css.challenge_list_container} className={css.container}>
                         {achieved.map(() => (
-                            <div className={css.challenge_img_box}>
+                            <div className={css.challenge_img_box} onClick={() => {
 
+                                setChallengeInfo({
+                                    title: '업적이름',
+                                    img_path: '',
+                                    specific: '취득 상세 조건, 대충 긴 문장, 이정도 길이면 될까?',
+                                    date: '2024.06.07'
+                                })
+
+                                setAchievedModalState(true)
+                            }}>
+                                <img src={DefaultImg}/>
                             </div>
                         )
                         )}
 
                         {unachieved.map(() => (
-                            <div className={css.challenge_img_box}>
+                            <div className={css.challenge_img_box} onClick={() => {
 
+                                setChallengeInfo({
+                                    title: '업적이름',
+                                    img_path: ''
+                                })
+
+                                setAchievedModalState(true)
+                            }}>
+                                <img src={DefaultImg}/>
                             </div>
                         )
                         )}
@@ -95,14 +118,21 @@ function ChallengePage() {
                 } />
 
             </div>
+
+            {achievedModalState && <Modal modalOffHandle={() => setAchievedModalState(false)} title={'업적'} body={<ChallengeInfo challengeInfo={challengeInfo} />} />}
         </div>
     )
 }
 
 
-function ChallengeInfo(){
+function ChallengeInfo({ challengeInfo }) {
     return (
-        <div></div>
+        <div id={css.challenge_modal_container} className={css.container}>
+            <div id={css.challenge_modal_img_box}><img src={DefaultImg}/></div>
+            <div id={css.challenge_modal_title}>{challengeInfo.title}</div>
+            <div id={css.challenge_modal_specific}>{challengeInfo.specific ? challengeInfo.specific : '???'}</div>
+            {challengeInfo.date&&<div id={css.challenge_modal_date}>취득 날짜: {challengeInfo.date}</div>}
+        </div>
     )
 }
 

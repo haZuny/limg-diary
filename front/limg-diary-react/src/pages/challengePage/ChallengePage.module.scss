@@ -58,7 +58,7 @@
     height: calc(var(--vh)*5);
 }
 
-// 업적
+// 업적 리스트
 #challenge_list_container{
     // size
     width: 100%;
@@ -83,6 +83,51 @@
     overflow: hidden;
     // margin
     margin-bottom: calc(var(--vh)*1);
+}
 
-    background-color: red;
+// 업적 모달
+#challenge_modal_container{
+    // size
+    width: 100%;
+    // align
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#challenge_modal_img_box{
+    // size
+    width: 80%;
+    aspect-ratio: 1;
+    // border
+    border-radius: 20px;
+    // overflow
+    overflow: hidden;
+    // margin
+    margin-bottom: calc(var(--vh)*2);
+}
+
+#challenge_modal_title{
+    // font
+    font-size: calc(var(--vw)*6);
+    font-weight: bold;
+    // margin
+    margin-bottom: calc(var(--vw)*1);
+}
+
+#challenge_modal_specific{
+    // font
+    font-size: calc(var(--vw)*5);
+    // align
+    text-align: center;
+    // margin
+    margin-bottom: calc(var(--vw)*5);
+}
+
+#challenge_modal_date{
+    // color
+    color: $color_black_t30;
+    // font
+    font-size: calc(var(--vw)*5);
+    font-weight: bold;
 }
