@@ -7,6 +7,8 @@ import TagSearchPage from './pages/tag_search_page/TagSearchPage';
 import WritePage from './pages/write_page/WritePage';
 import SearchPage from './pages/search_page/SearchPage';
 import ReadDiaryPage from './pages/read_diary_page/ReadDiaryPage';
+import SettingPage from './pages/SettingPage/SettingPage';
+import ChallengePage from './pages/challengePage/ChallengePage';
 
 
 function Router({authorized, component})  {
@@ -48,6 +50,8 @@ function Router({authorized, component})  {
             <Route path='/tagsearch' element={<Center child={<TagSearchPage/>}/>}/>
             <Route path='/write' element={<Center child={<WritePage/>}/>}/>
             <Route path='/search' element={<Center child={<SearchPage/>}/>}/>
+            <Route path='/setting' element={<Center child={<SettingPage/>}/>}/>
+            <Route path='/challenge' element={<Center child={<ChallengePage/>}/>}/>
             <Route path='/diary/:diaryid' element={<Center child={<ReadDiaryPage/>}/>}/>
         </Routes>
     </BrowserRouter>)

@@ -1,0 +1,88 @@
+@import '../Global.scss';
+
+// 퍼센트
+#percent_container{
+    // size
+    width: 100%;
+    aspect-ratio: 1;
+    // align
+    justify-content: center;
+    align-items: center;
+    // position
+    position: relative;
+}
+
+#percent_circle_out{
+    // size
+    width: 90%;
+    aspect-ratio: 1;
+    // border
+    border-radius: 100%;
+    // transition
+    transition: all 0.2s;
+}
+
+#percent_circle_in{
+    // size
+    width: 80%;
+    aspect-ratio: 1;
+    // border
+    border-radius: 100%;
+    // postion
+    position: absolute;
+    // color
+    background-color: $color_white;
+    // align
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+#percent_title_percent{
+    // font
+    font-size: calc(var(--vw)*18);
+    font-weight: bold;
+    // align
+    text-align: center;
+}
+
+#percent_title_sub{
+    // font
+    font-size: calc(var(--vw)*6);
+    // align
+    text-align: center;
+}
+
+// 공백
+#blank{
+    height: calc(var(--vh)*5);
+}
+
+// 업적
+#challenge_list_container{
+    // size
+    width: 100%;
+    height: calc(var(--vh)*35);
+    // align
+    justify-content: space-between;
+    flex-wrap: wrap;
+    // overflow
+    overflow: scroll;
+}
+#challenge_list_container::-webkit-scrollbar{
+    display: none;
+}
+
+.challenge_img_box{
+    // size
+    width: calc(var(--vw)*18);
+    height: calc(var(--vw)*18);
+    // border
+    border-radius: 20px;
+    // overflow
+    overflow: hidden;
+    // margin
+    margin-bottom: calc(var(--vh)*1);
+
+    background-color: red;
+}

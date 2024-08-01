@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import css from './Menu.module.scss'
 
 import DefaultProfileImg from '../../resource/img/profile.jpeg'
-import { useNavigate } from 'react-router-dom'
+
 
 function Menu({setUnvisible}){
 
@@ -40,11 +42,17 @@ function Menu({setUnvisible}){
 
                     {/* 하단 메뉴들 */}
                     <div id={css.lower_box}>
-                        <div className={[css.menu_text, css.container].join(" ")}>개인 정보 설정</div>
+                        <div className={[css.menu_text, css.container].join(" ")} onClick={()=>{
+                            navigate('/setting')
+                        }}>개인 정보 설정</div>
+
                         <div className={[css.menu_text, css.container].join(" ")} onClick={()=>{
                             navigate('/search')
                         }}>이전 일기 보기</div>
-                        <div className={[css.menu_text, css.container].join(" ")}>내가 취득한 업적</div>
+
+                        <div className={[css.menu_text, css.container].join(" ")} onClick={()=>{
+                            navigate('/challenge')
+                        }}>내가 취득한 업적</div>
                     </div>
                 </div>
             </div>

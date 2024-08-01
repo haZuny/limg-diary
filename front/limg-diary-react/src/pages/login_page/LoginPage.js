@@ -1,6 +1,7 @@
 import css from './LoginPage.module.scss'
 
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import TitleImage from './img/title_img.png'
 import HelpTextImage from './img/help_text.png'
@@ -11,6 +12,9 @@ import { SingleButton, TextButton } from './../global_component/button/Button'
 import SignupModalBody from './SignupModalBody'
 
 function LoginPage() {
+    // Navigate
+    const navigate = useNavigate()
+
     // 모달 제어
     const [signupModalState, setSignupModalState] = useState(false)
 
@@ -40,13 +44,17 @@ function LoginPage() {
                     </div>
 
                     <div id={css.btn_box} className={css.container}>
-                        <SingleButton text='로그인' func={() => console.log('클릭됨')} />
+                        <SingleButton text='로그인' func={() => {
+                            navigate('/')
+                        }} />
                         <TextButton text='회원가입' func={() => setSignupModalState(true)} />
                     </div>
                 </div>
+
                 {/* 회원가입 모달 */}
                 {signupModalState &&
                     <Modal title={'회원가입'} body={<SignupModalBody modal_off_handle={() => setSignupModalState(false)} />} modalOffHandle={() => setSignupModalState(false)} />}
+
             </div>
 
         </div>

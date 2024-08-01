@@ -43,7 +43,8 @@ function Header({nonAuth, parentBodyRef}){
     return (
         <div className={[css.container, css.root_container, !visible&&css.root_container_unvisible].join(" ")}>
             <div className={css.container} id={css.title_container} onClick={()=>{
-                navigate('/', {replace:true})
+                if(!nonAuth)
+                    navigate('/', {replace:true})
             }}>
                 {/* 로고 이미지 */}
                 <div id={css.logo_box}><img src={logo_icon}/></div>

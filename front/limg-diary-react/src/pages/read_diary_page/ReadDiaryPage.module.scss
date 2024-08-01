@@ -192,7 +192,8 @@ $content_gab: calc(var(--vh)*5);
     align-items: end;
     position: relative;
     // margin
-    margin-bottom: calc(var(--vw)*5);
+    margin-top: calc(var(--vh)*1);
+    margin-bottom: calc(var(--vh)*3);
 }
 #tags_container::-webkit-scrollbar{
     display: none;

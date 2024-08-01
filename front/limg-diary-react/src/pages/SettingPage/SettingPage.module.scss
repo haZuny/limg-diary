@@ -1,0 +1,47 @@
+@import '../Global.scss';
+
+#body_container{
+    justify-content: center;
+}
+
+#setting_container{
+    width: 100%;
+    height: calc((var(--vh)*50));
+}
+
+// 설정 각 항목
+.setting_list_box{
+    // size
+    width: 100%;
+    height: calc(var(--vh)*8);
+    // align
+    justify-content: space-between;
+    align-items: center;
+    // padding
+    padding-left: calc(var(--vw)*2);
+    padding-right: calc(var(--vw)*2);
+    box-sizing: border-box;
+}
+.setting_list_box:active{
+    background-color: $color_black_t01;
+}
+
+.setting_list_text{
+    // font
+    font-size: calc(var(--vw)*6);
+    // align
+    align-items: center;
+}
+
+.setting_list_arrow_box{
+    height: 50%;
+}
+
+.divider{
+    margin: 0;
+}
+
+
+#bottom_space{
+    height: calc(var(--vh)*10);
+}
