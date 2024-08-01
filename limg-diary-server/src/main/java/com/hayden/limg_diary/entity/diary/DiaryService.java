@@ -15,12 +15,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class DiaryService {
@@ -129,27 +127,103 @@ public class DiaryService {
         return new ResponseEntity<>(diaryMonthResponseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<DiaryRequestResponseDto> diaryRequest(Date sdate, Date edate, String keyword, String align, CustomUserDetails user) {
+    public ResponseEntity<DiaryRequestResponseDto> diaryRequest(String sdate, String edate, String keyword, String align, CustomUserDetails user) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
         DiaryRequestResponseDto diaryRequestResponseDto = new DiaryRequestResponseDto();
         UserEntity userEntity = user.getUserEntity();
         //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
-        List<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDataDesc(userEntity);
+        ArrayList<DiaryEntity> diaryList;
+        if(align == null || align.equals("recent")) {
+            diaryList = diaryRepository.findAllByUserOrderByCreatedDataDesc(userEntity);
+        }
+        else {
+            diaryList = diaryRepository.findAllByUserOrderByCreatedDataAsc(userEntity);
+        }
         if (diaryList.size() > 0) {
-            int index = 0;
-            while(index < diaryList.size()){
-                Calendar scalendar = Calendar.getInstance();
-                Calendar ecalendar = Calendar.getInstance();
-                scalendar.setTime(sdate);
-                ecalendar.setTime(edate);
-                if(scalendar.get(Calendar.MONTH) >11 || scalendar.get(Calendar.MONTH) < 0
-                || ecalendar.get(Calendar.MONTH) >11 || ecalendar.get(Calendar.MONTH) < 0){
-                    diaryRequestResponseDto.setDataList(null);
-                    return new ResponseEntity<>(diaryRequestResponseDto, HttpStatus.BAD_REQUEST);
+            if(keyword != null) {
+                int index = 0;
+                ArrayList<DiaryEntity> tempList = new ArrayList<>();
+                while (index < diaryList.size()) {
+                    if(diaryList.get(index).getContent().contains(keyword)){
+                        tempList.add(diaryList.get(index));
+                        System.out.println(keyword);
+                    }
+                    ++index;
                 }
-                if(scalendar.get(Calendar.MONTH) == null)
-
+                diaryList = tempList;
+                System.out.println(keyword);
             }
+
+            if(sdate != null){
+                Date sDate = simpleDateFormat.parse(sdate);
+                int index = 0;
+                ArrayList<DiaryEntity> tempList = new ArrayList<>();
+                if(align == null || align.equals("recent")){
+                    while(index < diaryList.size()){
+                        if (sDate.compareTo(diaryList.get(index).getCreatedData()) < 1) {
+                            tempList.add(diaryList.get(index));
+                        }
+                        ++index;
+                    }
+                    diaryList = tempList;
+                }
+                else{
+                    Collections.reverse(diaryList);
+                    while(index < diaryList.size()){
+                        if (sDate.compareTo(diaryList.get(index).getCreatedData()) < 1) {
+                            tempList.add(diaryList.get(index));
+                        }
+                        ++index;
+                    }
+                    Collections.reverse(tempList);
+                    diaryList = tempList;
+                }
+            }
+
+            if(edate != null){
+                Date eDate = simpleDateFormat.parse(edate);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(eDate);
+                cal.set(Calendar.HOUR_OF_DAY, 23);
+                cal.set(Calendar.MINUTE, 59);
+                cal.set(Calendar.SECOND, 59);
+                cal.set(Calendar.MILLISECOND, 999);
+                eDate = cal.getTime();
+
+                int index = 0;
+                ArrayList<DiaryEntity> tempList = new ArrayList<>();
+                if(align == null || align.equals("recent")){
+                    Collections.reverse(diaryList);
+                    while(index < diaryList.size()){
+                        System.out.println(eDate.compareTo(diaryList.get(index).getCreatedData()));
+                        if (eDate.compareTo(diaryList.get(index).getCreatedData()) > -1) {
+                            tempList.add(diaryList.get(index));
+                        }
+                        ++index;
+                    }
+                    Collections.reverse(tempList);
+                    diaryList = tempList;
+                }
+                else{
+                    while(index < diaryList.size()){
+                        if (eDate.compareTo(diaryList.get(index).getCreatedData()) > -1) {
+                            tempList.add(diaryList.get(index));
+                        }
+                        ++index;
+                    }
+                    diaryList = tempList;
+                }
+            }
+        }
+        int index = 0;
+        while(index < diaryList.size()){
+            DiaryTodayResponseDto diaryTodayResponseDto2 = new DiaryTodayResponseDto();
+            diaryTodayResponseDto2.getData().setDataValue(diaryList.get(index).getId(), null, diaryList.get(index).getCreatedData());
+            diaryTodayResponseDto2.setState(HttpStatus.OK, true, "success");
+            diaryRequestResponseDto.getDataList().add(diaryTodayResponseDto2);
+            ++index;
         }
         diaryRequestResponseDto.setState(HttpStatus.OK, true, "success");
         return new ResponseEntity<>(diaryRequestResponseDto, HttpStatus.OK);
