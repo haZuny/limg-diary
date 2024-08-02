@@ -1,0 +1,91 @@
+@import '../Global.scss';
+
+.bottom_margin{
+    margin-bottom: calc(var(--vh)*5);
+}
+
+#root_container{
+    // size
+    width: calc(var(--vw)*100);
+    height: calc(var(--vh)*100);
+    // color
+    background-color: $color_beige;
+    // item align
+    flex-direction: column;
+    align-items: center;
+}
+
+#body_container{
+    // size
+    width: $size_width_component;
+    // item align
+    flex-direction: column;
+    align-items: center;
+    // overflow
+    overflow: scroll;
+}
+#body_container::-webkit-scrollbar{
+    display: none;
+}
+
+//
+// 오늘 날짜
+//
+#title_box{
+    // margin
+    margin-top: calc(var(--vh)*5);
+}
+
+#today_text_sub{
+    // font
+    font-size: calc(var(--vw)*4);
+    // text align
+    display: flex;
+    align-items: end;
+}
+
+#today_text_main{
+    // font
+    font-size: calc(var(--vw)*6);
+    font-weight: bold;
+    // margin
+    margin-left: calc(var(--vw)*2);
+    margin-right: calc(var(--vw)*2);
+}
+
+
+///
+/// 태그
+/// 
+#tag_container{
+    // item align
+    flex-direction: column;
+}
+
+#tag_box{
+    // align
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#search_btn_box{
+    // size
+    width: 100%;
+    // position
+    justify-content: end;
+}
+
+#search_btn{
+    // shape
+    border:none;
+    background-color: $color_transparency;
+    // font
+    font-size: calc(var(--vw)*3.5);
+    font-weight: bold;
+    color: $color_green;
+    // margin
+    margin-right: calc(var(--vw)*5);
+}
+#search_btn:active{
+    color: $color_green_b;
+}

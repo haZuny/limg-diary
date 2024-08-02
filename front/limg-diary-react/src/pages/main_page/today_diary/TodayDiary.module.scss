@@ -1,0 +1,35 @@
+@import '../../Global.scss';
+
+#root_container{
+    width: 100%;
+    // align
+    flex-direction: column;
+}
+
+#img_box{
+    // size
+    width: 100%;
+    // radious
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: calc(var(--vh)*5);
+}
+
+#img_change_text{
+    // size
+    width: 100%;
+    // align
+    text-align: center;
+    // font
+    font-size: calc(var(--vw)*3.5);
+    font-weight: bold;
+    // margin
+    margin-bottom: calc(var(--vh)*2);
+}
+
+#btn_box{
+    // size
+    width: 100%;
+    // align
+    justify-content: space-between;
+}
