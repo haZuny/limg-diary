@@ -73,8 +73,9 @@ public class SecurityConfig {
                     .requestMatchers(
                             "/test"
                             , "/user/modify", "/user/self"
-                            , "/challenge/achieved", "/challenge/unachieved",
-                            "/drawstyle/list"
+                            , "/challenge/achieved", "/challenge/unachieved"
+                            ,"/drawstyle/list"
+                            ,"/todayrate/list"
                             , "/diary/add", "/diary/today", "/diary/*", "/diary/month", "/diary/request").hasRole(roleRepository.findByLevel(1).getName())
 
                     .requestMatchers(
