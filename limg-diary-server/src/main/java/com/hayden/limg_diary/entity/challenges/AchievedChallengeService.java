@@ -25,7 +25,7 @@ public class AchievedChallengeService {
         this.challengeRepository = challengeRepository;
     }
 
-    public ResponseEntity<GetAchievedResponseDto> getAchievedByUser(UserEntity user){
+    public ResponseEntity<GetAchievedResponseDto> getAchievedByUser(UserEntity user) throws MalformedURLException {
         List<AchievedChallengeEntity> achievedChallenges = achievedChallengeRepository.findAllByUser(user);
 
         GetAchievedResponseDto responseDto = new GetAchievedResponseDto();
