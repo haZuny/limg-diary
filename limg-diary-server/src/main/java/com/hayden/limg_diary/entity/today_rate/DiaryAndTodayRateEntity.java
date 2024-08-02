@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="diary_and_today_entity")
+@Table(name="diary_and_today_rate")
 @Getter
 @Setter
 public class DiaryAndTodayRateEntity extends BaseTimeEntity {
