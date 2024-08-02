@@ -26,3 +26,23 @@ insert into user_and_role (role_id, user_id) values (2, 1)
 -- user
 insert into "USERS" (NICKNAME, PASSWORD, USERNAME) VALUES ('hayden', '$2a$10$FA89.0pAwJu9Hff/i1C82e.nKlEhCN.P/eHsth/UBDBL5/ajowxkm', '1234')
 insert into user_and_role (role_id, user_id) values (1, 2)
+
+
+-- add tags
+insert into "HASHTAG" (TAG, DIARY_CNT) VALUES ('태그1번', 0)
+insert into "HASHTAG" (TAG, DIARY_CNT) VALUES ('태그2번', 0)
+insert into "HASHTAG" (TAG, DIARY_CNT) VALUES ('태그3번', 0)
+insert into "HASHTAG" (TAG, DIARY_CNT) VALUES ('태그4번', 0)
+
+-- add diaries (포함된 태그: 1번 ,2번 ,3번)
+insert into "DIARY"  (USER_ID, CREATED_DATE, CONTENT) VALUES (2, '2024-08-02 00:00:00', '안녕하세요. 이건 테스트 일기 1번 입니다.')
+insert into "DIARY_AND_TODAY_RATE" (DIARY_ID, RATE_ID) VALUES (1, 3)
+insert into "DIARY_AND_HASHTAG" (DIARY_ID, HASHTAG_ID) VALUES (1, 1)
+insert into "DIARY_AND_HASHTAG" (DIARY_ID, HASHTAG_ID) VALUES (1, 2)
+insert into "DIARY_AND_HASHTAG" (DIARY_ID, HASHTAG_ID) VALUES (1, 3)
+
+-- (포함된 태그: 3번, 4번)
+insert into "DIARY"  (USER_ID, CREATED_DATE, CONTENT) VALUES (2, '2024-07-27 00:00:00', '안녕못해요. 이건 테스트 일기 2번 입니다.')
+insert into "DIARY_AND_TODAY_RATE" (DIARY_ID, RATE_ID) VALUES (2, 3)
+insert into "DIARY_AND_HASHTAG" (DIARY_ID, HASHTAG_ID) VALUES (2, 3)
+insert into "DIARY_AND_HASHTAG" (DIARY_ID, HASHTAG_ID) VALUES (2, 4)
