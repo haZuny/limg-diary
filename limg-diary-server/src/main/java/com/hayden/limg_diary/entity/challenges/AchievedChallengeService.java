@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,7 +44,7 @@ public class AchievedChallengeService {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<GetUnachievedResponseDto> getUnachievedByUser(UserEntity user){
+    public ResponseEntity<GetUnachievedResponseDto> getUnachievedByUser(UserEntity user) {
 
         // find unachieved
         List<ChallengeEntity> unachievedChallenges = challengeRepository.findAll();
@@ -60,7 +61,7 @@ public class AchievedChallengeService {
 
             responseDto.addData(
                     entity.getId()
-                    , entity.getAchievedIconPath()
+                    , entity.getUnachievedIconPath()
                     , entity.getName()
                     , entity.getSpecific());
         }
