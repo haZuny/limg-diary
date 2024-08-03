@@ -8,6 +8,8 @@ import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagEntity;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagRepository;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagService;
 import com.hayden.limg_diary.entity.hashtag.HashtagEntity;
+import com.hayden.limg_diary.entity.picture.PictureEntity;
+import com.hayden.limg_diary.entity.picture.PictureRepository;
 import com.hayden.limg_diary.entity.picture.PictureService;
 import com.hayden.limg_diary.entity.today_rate.DiaryAndTodayRateService;
 import com.hayden.limg_diary.entity.today_rate.TodayRateEntity;
@@ -15,11 +17,18 @@ import com.hayden.limg_diary.entity.today_rate.TodayRateRepository;
 import com.hayden.limg_diary.entity.user.CustomUserDetails;
 import com.hayden.limg_diary.entity.user.UserEntity;
 import org.apache.coyote.Response;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
+import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -34,7 +43,11 @@ public class DiaryService {
 
     DrawStyleRepository drawStyleRepository;
 
+    PictureRepository pictureRepository;
     PictureService pictureService;
+
+    @Value("${path.resources}")
+    String resPath;
 
     @Autowired
     public DiaryService(DiaryAndHashtagRepository diaryAndHashtagRepository,
@@ -43,13 +56,37 @@ public class DiaryService {
                         DiaryAndTodayRateService diaryAndTodayRateService,
                         TodayRateRepository todayRateRepository,
                         DrawStyleRepository drawStyleRepository,
-                        PictureService pictureService) {
+                        PictureService pictureService,
+                        PictureRepository pictureRepository) {
         this.diaryRepository = diaryRepository;
         this.diaryAndTodayRateService = diaryAndTodayRateService;
         this.diaryAndHashtagService = diaryAndHashtagService;
         this.diaryAndHashtagRepository = diaryAndHashtagRepository;
         this.drawStyleRepository = drawStyleRepository;
+        this.pictureRepository = pictureRepository;
         this.pictureService = pictureService;
+    }
+
+    public Resource getDiaryImage(int diaryId, CustomUserDetails userDetails) throws MalformedURLException {
+
+        UserEntity userEntity = userDetails.getUserEntity();
+
+        DiaryEntity diary = diaryRepository.findById(diaryId);
+
+        // diary null check
+        if (diary == null)  throw new NoSuchFieldError("diary not found");
+        // user check
+        if (diary.getUser().getId() != userEntity.getId())  throw new IllegalAccessError("user not match with diary");
+
+        PictureEntity picture = pictureRepository.findByDiary(diary);
+
+        // picture null check
+        if (picture == null) return null;
+
+        // picture path null check
+        if (picture.getPath() != null)
+            return new UrlResource(String.format("file:%s%s", resPath, picture.getPath()));
+        return null;
     }
 
     public ResponseEntity<DefaultResponseDto> diaryAdd(DiaryAddRequestDto diaryAddRequestDto, CustomUserDetails user) {
