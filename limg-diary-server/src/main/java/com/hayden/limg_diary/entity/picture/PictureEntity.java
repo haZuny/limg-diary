@@ -19,7 +19,7 @@ public class PictureEntity extends BaseTimeEntity {
     @JoinColumn(name = "DIARY_ID")
     DiaryEntity diary;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "DRAW_STYLE_ID")
     DrawStyleEntity drawStyle;
 }
