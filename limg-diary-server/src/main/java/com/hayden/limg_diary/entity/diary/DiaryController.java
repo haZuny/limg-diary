@@ -1,5 +1,6 @@
 package com.hayden.limg_diary.entity.diary;
 
+import com.hayden.limg_diary.entity.DefaultResponseDto;
 import com.hayden.limg_diary.entity.diary.dto.*;
 import com.hayden.limg_diary.entity.user.CustomUserDetails;
 import com.hayden.limg_diary.entity.user.UserEntity;
@@ -26,18 +27,9 @@ public class DiaryController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<DiaryAddResponseDto> diaryAdd(@RequestBody DiaryAddRequestDto diaryAddRequestDto, @AuthenticationPrincipal CustomUserDetails user){
-        boolean res = diaryService.diaryAdd(diaryAddRequestDto, user);
+    public ResponseEntity<DefaultResponseDto> diaryAdd(@RequestBody DiaryAddRequestDto diaryAddRequestDto, @AuthenticationPrincipal CustomUserDetails user){
 
-        DiaryAddResponseDto diaryAddResponseDto = new DiaryAddResponseDto();
-
-        //성공
-        diaryAddResponseDto.setSuccess();
-        if(res)return new ResponseEntity<>(diaryAddResponseDto, HttpStatus.CREATED);
-
-        //실패
-        diaryAddResponseDto.setFail();
-        return new ResponseEntity<>(diaryAddResponseDto, HttpStatus.BAD_REQUEST);
+        return diaryService.diaryAdd(diaryAddRequestDto, user);
     }
 
     @GetMapping("/today")

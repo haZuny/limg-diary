@@ -1,15 +1,20 @@
 package com.hayden.limg_diary.entity.diary;
 
+import com.hayden.limg_diary.entity.DefaultResponseDto;
 import com.hayden.limg_diary.entity.diary.dto.*;
+import com.hayden.limg_diary.entity.draw_style.DrawStyleEntity;
+import com.hayden.limg_diary.entity.draw_style.DrawStyleRepository;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagEntity;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagRepository;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagService;
 import com.hayden.limg_diary.entity.hashtag.HashtagEntity;
+import com.hayden.limg_diary.entity.picture.PictureService;
 import com.hayden.limg_diary.entity.today_rate.DiaryAndTodayRateService;
 import com.hayden.limg_diary.entity.today_rate.TodayRateEntity;
 import com.hayden.limg_diary.entity.today_rate.TodayRateRepository;
 import com.hayden.limg_diary.entity.user.CustomUserDetails;
 import com.hayden.limg_diary.entity.user.UserEntity;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,23 +32,47 @@ public class DiaryService {
     DiaryAndHashtagService diaryAndHashtagService;
     DiaryAndHashtagRepository diaryAndHashtagRepository;
 
+    DrawStyleRepository drawStyleRepository;
+
+    PictureService pictureService;
+
     @Autowired
-    public DiaryService(DiaryAndHashtagRepository diaryAndHashtagRepository, DiaryAndHashtagService diaryAndHashtagService, DiaryRepository diaryRepository, DiaryAndTodayRateService diaryAndTodayRateService, TodayRateRepository todayRateRepository) {
+    public DiaryService(DiaryAndHashtagRepository diaryAndHashtagRepository,
+                        DiaryAndHashtagService diaryAndHashtagService,
+                        DiaryRepository diaryRepository,
+                        DiaryAndTodayRateService diaryAndTodayRateService,
+                        TodayRateRepository todayRateRepository,
+                        DrawStyleRepository drawStyleRepository,
+                        PictureService pictureService) {
         this.diaryRepository = diaryRepository;
         this.diaryAndTodayRateService = diaryAndTodayRateService;
         this.diaryAndHashtagService = diaryAndHashtagService;
         this.diaryAndHashtagRepository = diaryAndHashtagRepository;
+        this.drawStyleRepository = drawStyleRepository;
+        this.pictureService = pictureService;
     }
 
-    public boolean diaryAdd(DiaryAddRequestDto diaryAddRequestDto, CustomUserDetails user) {
-        if (diaryAddRequestDto.getContent() == null) return false;
-        if (diaryAddRequestDto.getDraw_style() == null) return false;
+    public ResponseEntity<DefaultResponseDto> diaryAdd(DiaryAddRequestDto diaryAddRequestDto, CustomUserDetails user) {
+        DefaultResponseDto responseDto = new DefaultResponseDto();
+
+        // get drawStyle Entity
+        Optional<DrawStyleEntity> drawStyleOptional = drawStyleRepository.findByStyleEng(diaryAddRequestDto.getDraw_style());
+        if (drawStyleOptional.isEmpty()){
+            responseDto.setState(HttpStatus.BAD_REQUEST, false, "diary drawstyle is empty");
+            return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+        }
+
+        // content null check
+        if (diaryAddRequestDto.getContent() == null) {
+            responseDto.setState(HttpStatus.BAD_REQUEST, false, "diary content is empty");
+            return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+        }
 
         //다이어리 엔티티에 컨텐츠 저장
         DiaryEntity diaryEntity = new DiaryEntity();
         diaryEntity.setContent(diaryAddRequestDto.getContent());
         diaryEntity.setUser(user.getUserEntity());
-        diaryRepository.save(diaryEntity);
+        diaryEntity = diaryRepository.save(diaryEntity);
 
         //하루 평가 저장
         diaryAndTodayRateService.DiaryAndTodayRateAdd(diaryEntity, diaryAddRequestDto.getToday_rate());
@@ -51,7 +80,12 @@ public class DiaryService {
         //해시태그 저장
         diaryAndHashtagService.DiaryAndHashtagAdd(diaryEntity, diaryAddRequestDto.getHashtag());
 
-        return true;
+        // 그림 생성
+        boolean prictureRes = pictureService.createPicture(diaryEntity, drawStyleOptional.get());
+
+        // return
+        responseDto.setState(HttpStatus.OK, true, "success");
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     public ResponseEntity<DiaryTodayResponseDto> diaryToday(CustomUserDetails user) {
