@@ -37,25 +37,15 @@ public class PictureService {
 
         // create img
         String savePath = String.format("%s\\img\\diary_img\\%d\\%d.png", resourceDirPath, diary.getUser().getId(), diary.getId());
-
         boolean karloRes = karloApiHelper.createAndSaveImage(imgPrompt, savePath);
-        if(karloRes){
-            // save picture entity
-            PictureEntity pictureEntity = new PictureEntity();
-            pictureEntity.setPath(String.format("\\img\\diary_img\\%d\\%d.png", diary.getUser().getId(), diary.getId()));
-            pictureEntity.setDiary(diary);
-            pictureEntity.setDrawStyle(drawStyle);
-            pictureRepository.save(pictureEntity);
-        }
-        else{
-            // save picture entity
-            PictureEntity pictureEntity = new PictureEntity();
-            pictureEntity.setPath(null);
-            pictureEntity.setDiary(diary);
-            pictureEntity.setDrawStyle(drawStyle);
-            pictureRepository.save(pictureEntity);
-        }
+        if (!karloRes)  return false;
 
+        // save picture entity
+        PictureEntity pictureEntity = new PictureEntity();
+        pictureEntity.setPath(String.format("\\img\\diary_img\\%d\\%d.png", diary.getUser().getId(), diary.getId()));
+        pictureEntity.setDiary(diary);
+        pictureEntity.setDrawStyle(drawStyle);
+        pictureRepository.save(pictureEntity);
         return true;
     }
 }
