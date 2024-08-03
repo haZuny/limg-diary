@@ -13,28 +13,12 @@ insert into "DRAW_STYLE" (STYLE_ENG, STYLE_KOR) values ('Draw in pointillism, ',
 insert into "DRAW_STYLE" (STYLE_ENG, STYLE_KOR) values ('Draw in Van Gogh style, ', '반 고흐');
 
 
--- insert challenges
-insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('C:\\Users\\gkwns\\hajunFolder\\Limg-Diary\\limg-diary-server\\src\\main\\resources\\static\\img\\challenge_icon\\test_icon.png', 'C:\\Users\\gkwns\\hajunFolder\\Limg-Diary\\limg-diary-server\\src\\main\\resources\\static\\img\\challenge_icon\\test_icon.png', '일기 쪼가리', '일기를 10일 연속으로 작성하셨습니다.');
---
---insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values (
---'C:\\Users\\gkwns\\hajunFolder\\Limg-Diary\\limg-diary-server\\src\\main\\resources\\static\\img\\challenge_icon\\test_icon.png',
---'C:\\Users\\gkwns\\hajunFolder\\Limg-Diary\\limg-diary-server\\src\\main\\resources\\static\\img\\challenge_icon\\test_icon.png',
---'일기 책', '대단해요! 일기를 20일 연속으로 작성하셨습니다.')
---
---insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values (
---'C:\\Users\\gkwns\\hajunFolder\\Limg-Diary\\limg-diary-server\\src\\main\\resources\\static\\img\\challenge_icon\\test_icon.png',
---'C:\\Users\\gkwns\\hajunFolder\\Limg-Diary\\limg-diary-server\\src\\main\\resources\\static\\img\\challenge_icon\\test_icon.png',
---'일기 대장경', '당신은 사람입니까? 일기를 30일 연속으로 작성하셨습니다.')
---
---insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values (
---'C:\\Users\\gkwns\\hajunFolder\\Limg-Diary\\limg-diary-server\\src\\main\\resources\\static\\img\\challenge_icon\\test_icon.png',
---'C:\\Users\\gkwns\\hajunFolder\\Limg-Diary\\limg-diary-server\\src\\main\\resources\\static\\img\\challenge_icon\\test_icon.png',
---'편 - 안', '하고싶은 말이 많은 당신! 1000글자를 꽉 채우셨네요.')
---
---insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values (
---'C:\\Users\\gkwns\\hajunFolder\\Limg-Diary\\limg-diary-server\\src\\main\\resources\\static\\img\\challenge_icon\\test_icon.png',
---'C:\\Users\\gkwns\\hajunFolder\\Limg-Diary\\limg-diary-server\\src\\main\\resources\\static\\img\\challenge_icon\\test_icon.png',
---'엔간히 해라', '시간이 많으신가요? 그림을 10번이나 수정했습니다.')
+insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('C:\Users\gkwns\Pictures\Screenshots\스크린샷 2024-07-25 005854.png', 'C:\Users\gkwns\Pictures\Screenshots\스크린샷 2024-07-25 005854.png', '일기 쪼가리', '일기를 10일 연속으로 작성하셨습니다.')
+insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('', '', '일기 책', '대단해요! 일기를 20일 연속으로 작성하셨습니다.')
+insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('', '', '일기 대장경', '당신은 사람입니까? 일기를 30일 연속으로 작성하셨습니다.')
+insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('', '', '편 - 안', '하고싶은 말이 많은 당신! 1000글자를 꽉 채우셨네요.')
+insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('', '', '엔간히 해라', '시간이 많으신가요? 그림을 10번이나 수정했습니다.')
+
 
 -- admin user
 insert into "USERS" (NICKNAME, PASSWORD, USERNAME) VALUES ('admin', '$2a$10$FA89.0pAwJu9Hff/i1C82e.nKlEhCN.P/eHsth/UBDBL5/ajowxkm', 'admin')

@@ -44,7 +44,7 @@ public class AchievedChallengeService {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<GetUnachievedResponseDto> getUnachievedByUser(UserEntity user) throws MalformedURLException {
+    public ResponseEntity<GetUnachievedResponseDto> getUnachievedByUser(UserEntity user) {
 
         // find unachieved
         List<ChallengeEntity> unachievedChallenges = challengeRepository.findAll();
@@ -61,7 +61,7 @@ public class AchievedChallengeService {
 
             responseDto.addData(
                     entity.getId()
-                    , entity.getAchievedIconPath()
+                    , entity.getUnachievedIconPath()
                     , entity.getName()
                     , entity.getSpecific());
         }
