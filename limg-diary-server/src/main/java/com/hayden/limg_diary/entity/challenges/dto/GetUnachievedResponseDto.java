@@ -4,6 +4,8 @@ import com.hayden.limg_diary.entity.DefaultResponseDto;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
 import java.net.MalformedURLException;
@@ -23,13 +25,13 @@ public class GetUnachievedResponseDto extends DefaultResponseDto {
     @Data
     private class DataClass{
         int challenge_id;
-        UrlResource icon_path;
+        String icon_path;
         String name;
         String specific;
 
         private DataClass(int challenge_id, String icon_path, String name, String specific) throws MalformedURLException {
             this.challenge_id = challenge_id;
-            this.icon_path = new UrlResource("file:"+icon_path);
+            this.icon_path = icon_path;
             this.name = name;
             this.specific = specific;
         }

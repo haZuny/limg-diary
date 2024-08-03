@@ -13,7 +13,7 @@ insert into "DRAW_STYLE" (STYLE_ENG, STYLE_KOR) values ('Draw in pointillism, ',
 insert into "DRAW_STYLE" (STYLE_ENG, STYLE_KOR) values ('Draw in Van Gogh style, ', '반 고흐');
 
 
-insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('C:\Users\gkwns\Pictures\Screenshots\스크린샷 2024-07-25 005854.png', 'C:\Users\gkwns\Pictures\Screenshots\스크린샷 2024-07-25 005854.png', '일기 쪼가리', '일기를 10일 연속으로 작성하셨습니다.')
+insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('\img\challenge_icon\test_icon.png', '\img\challenge_icon\test_icon.png', '일기 쪼가리', '일기를 10일 연속으로 작성하셨습니다.')
 insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('', '', '일기 책', '대단해요! 일기를 20일 연속으로 작성하셨습니다.')
 insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('', '', '일기 대장경', '당신은 사람입니까? 일기를 30일 연속으로 작성하셨습니다.')
 insert into "CHALLENGES" (ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, SPECIFIC) values ('', '', '편 - 안', '하고싶은 말이 많은 당신! 1000글자를 꽉 채우셨네요.')
