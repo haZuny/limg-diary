@@ -7,49 +7,81 @@ import com.hayden.limg_diary.entity.draw_style.DrawStyleRepository;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagEntity;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagRepository;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagService;
-import com.hayden.limg_diary.entity.hashtag.HashtagEntity;
+import com.hayden.limg_diary.entity.picture.PictureEntity;
+import com.hayden.limg_diary.entity.picture.PictureRepository;
 import com.hayden.limg_diary.entity.picture.PictureService;
-import com.hayden.limg_diary.entity.today_rate.DiaryAndTodayRateService;
 import com.hayden.limg_diary.entity.today_rate.TodayRateEntity;
 import com.hayden.limg_diary.entity.today_rate.TodayRateRepository;
 import com.hayden.limg_diary.entity.user.CustomUserDetails;
 import com.hayden.limg_diary.entity.user.UserEntity;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 @Service
 public class DiaryService {
     DiaryRepository diaryRepository;
-    DiaryAndTodayRateService diaryAndTodayRateService;
     DiaryAndHashtagService diaryAndHashtagService;
+    TodayRateRepository todayRateRepository;
     DiaryAndHashtagRepository diaryAndHashtagRepository;
 
     DrawStyleRepository drawStyleRepository;
 
+    PictureRepository pictureRepository;
     PictureService pictureService;
+
+    @Value("${path.resources}")
+    String resPath;
+
+    @Value("${path.uri}")
+    String uriPath;
 
     @Autowired
     public DiaryService(DiaryAndHashtagRepository diaryAndHashtagRepository,
                         DiaryAndHashtagService diaryAndHashtagService,
-                        DiaryRepository diaryRepository,
-                        DiaryAndTodayRateService diaryAndTodayRateService,
                         TodayRateRepository todayRateRepository,
+                        DiaryRepository diaryRepository,
                         DrawStyleRepository drawStyleRepository,
-                        PictureService pictureService) {
+                        PictureService pictureService,
+                        PictureRepository pictureRepository) {
         this.diaryRepository = diaryRepository;
-        this.diaryAndTodayRateService = diaryAndTodayRateService;
         this.diaryAndHashtagService = diaryAndHashtagService;
+        this.todayRateRepository = todayRateRepository;
         this.diaryAndHashtagRepository = diaryAndHashtagRepository;
         this.drawStyleRepository = drawStyleRepository;
+        this.pictureRepository = pictureRepository;
         this.pictureService = pictureService;
+    }
+
+    public Resource getDiaryImage(int diaryId, CustomUserDetails userDetails) throws MalformedURLException {
+
+        UserEntity userEntity = userDetails.getUserEntity();
+
+        DiaryEntity diary = diaryRepository.findById(diaryId);
+
+        // diary null check
+        if (diary == null)  throw new NoSuchFieldError("diary not found");
+        // user check
+        if (diary.getUser().getId() != userEntity.getId())  throw new IllegalAccessError("user not match with diary");
+
+        PictureEntity picture = pictureRepository.findByDiary(diary);
+
+        // picture null check
+        if (picture == null) return null;
+
+        // picture path null check
+        if (picture.getPath() != null)
+            return new UrlResource(String.format("file:%s%s", resPath, picture.getPath()));
+        return null;
     }
 
     public ResponseEntity<DefaultResponseDto> diaryAdd(DiaryAddRequestDto diaryAddRequestDto, CustomUserDetails user) {
@@ -68,20 +100,26 @@ public class DiaryService {
             return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
         }
 
+        // get todayRate Entity
+        TodayRateEntity todayRateEntity = todayRateRepository.findByRateNum(diaryAddRequestDto.getToday_rate());
+        if (todayRateEntity == null){
+            responseDto.setState(HttpStatus.BAD_REQUEST, false, "today rate is not match");
+            return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+        }
+
         //다이어리 엔티티에 컨텐츠 저장
         DiaryEntity diaryEntity = new DiaryEntity();
         diaryEntity.setContent(diaryAddRequestDto.getContent());
         diaryEntity.setUser(user.getUserEntity());
+        diaryEntity.setTodayRate(todayRateEntity);
         diaryEntity = diaryRepository.save(diaryEntity);
 
-        //하루 평가 저장
-        diaryAndTodayRateService.DiaryAndTodayRateAdd(diaryEntity, diaryAddRequestDto.getToday_rate());
 
         //해시태그 저장
         diaryAndHashtagService.DiaryAndHashtagAdd(diaryEntity, diaryAddRequestDto.getHashtag());
 
-        // 그림 생성
-        boolean prictureRes = pictureService.createPicture(diaryEntity, drawStyleOptional.get());
+        // 그림 생성 및 저장
+        pictureService.createPicture(diaryEntity, drawStyleOptional.get());
 
         // return
         responseDto.setState(HttpStatus.OK, true, "success");
@@ -89,9 +127,20 @@ public class DiaryService {
     }
 
     public ResponseEntity<DiaryTodayResponseDto> diaryToday(CustomUserDetails user) {
+
+        // response dto
         DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
+
+        // get user
         UserEntity userEntity = user.getUserEntity();
-        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
+
+        // get today diary
+        Date today_s = new Date();
+        Date today_e = new Date();
+        today_s.setTime();
+
+
+
         List<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDataDesc(userEntity);
         DiaryEntity todayDiary;
         if (diaryList.size() > 0) {
@@ -110,30 +159,58 @@ public class DiaryService {
         return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity<DiaryIdResponseDto> diaryId(int diaryId, CustomUserDetails user) {
+    // Get By Id
+    public ResponseEntity<DiaryIdResponseDto> getByDiaryId(int diaryId, CustomUserDetails user) {
+
+        // response dto
         DiaryIdResponseDto diaryIdResponseDto = new DiaryIdResponseDto();
+
+        // find user and diary
         UserEntity userEntity = user.getUserEntity();
-        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
-        DiaryEntity idDiary = diaryRepository.findById(diaryId);
-        if (idDiary == null) {
+        DiaryEntity diaryEntity = diaryRepository.findById(diaryId);
+
+        // diary null check
+        if (diaryEntity == null) {
             diaryIdResponseDto.setState(HttpStatus.NOT_FOUND, false, "fail");
             diaryIdResponseDto.setData(null);
             return new ResponseEntity<>(diaryIdResponseDto, HttpStatus.BAD_REQUEST);
         }
-        if (idDiary.getUser().getId() != userEntity.getId()) {
+
+        // user matching check
+        if (diaryEntity.getUser().getId() != userEntity.getId()) {
             diaryIdResponseDto.setState(HttpStatus.UNAUTHORIZED, false, "user not authenticatied");
             diaryIdResponseDto.setData(null);
             return new ResponseEntity<>(diaryIdResponseDto, HttpStatus.UNAUTHORIZED);
         }
-        ArrayList<DiaryAndHashtagEntity> hashtagById = diaryAndHashtagRepository.findAllByDiary(idDiary);
-        ArrayList<String> hashtag = new ArrayList<>();
-        int index = 0;
-        while(index < hashtagById.size()){
-            hashtag.add(hashtagById.get(index).getHashtag().getTag());
-            ++index;
-        }
+
+        // find picture
+        PictureEntity picture = pictureRepository.findByDiary(diaryEntity);
+
+        // find hashtag
+        ArrayList<DiaryAndHashtagEntity> tagEntities = diaryAndHashtagRepository.findAllByDiary(diaryEntity);
+        ArrayList<String> tags = new ArrayList<>();
+        for (DiaryAndHashtagEntity tag : tagEntities)  tags.add(tag.getHashtag().getTag());
+
+
+        // set response entity
         diaryIdResponseDto.setState(HttpStatus.OK, true, "success");
-        diaryIdResponseDto.getData().setDataValue(idDiary.getId(), idDiary.getContent(), null, idDiary.getCreatedData(), idDiary.getUpdatedData(), hashtag);
+        diaryIdResponseDto.getData().setDiary_id(diaryEntity.getId());
+        diaryIdResponseDto.getData().setContent(diaryEntity.getContent());
+        if (picture.getPath() == null){
+            diaryIdResponseDto.getData().setPicture(null);
+        }
+        else{
+            diaryIdResponseDto.getData().setPicture(String.format("%s/diary/img/%d", uriPath, diaryEntity.getId()));
+        }
+        diaryIdResponseDto.getData().setCreated_date(diaryEntity.getCreatedData());
+        diaryIdResponseDto.getData().setUpdated_date(diaryEntity.getUpdatedData());
+        diaryIdResponseDto.getData().getToday_rate().setRate_num(diaryEntity.getTodayRate().getRateNum());
+        diaryIdResponseDto.getData().getToday_rate().setRate_str(diaryEntity.getTodayRate().getRateStr());
+        diaryIdResponseDto.getData().setHashtag(tags);
+        diaryIdResponseDto.getData().getDraw_style().setStyle_eng(picture.getDrawStyle().getStyleEng());
+        diaryIdResponseDto.getData().getDraw_style().setStyle_kor(picture.getDrawStyle().getStyleKor());
+
+        // return
         return new ResponseEntity<>(diaryIdResponseDto, HttpStatus.OK);
     }
 

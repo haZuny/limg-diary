@@ -78,7 +78,7 @@ public class SecurityConfig {
                             ,"/todayrate/list"
                             , "/hashtag/search"
                             , "/challenge/achieved", "/challenge/unachieved", "challenge/*"
-                            , "/diary/add", "/diary/today", "/diary/*", "/diary/month", "/diary/request").hasRole(roleRepository.findByLevel(1).getName())
+                            , "/diary/add", "/diary/today", "/diary/*", "/diary/month", "/diary/request", "/diary/img/*").hasRole(roleRepository.findByLevel(1).getName())
 
                     .requestMatchers(
                             "/test/admin"

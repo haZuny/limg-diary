@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -14,4 +15,6 @@ public interface DiaryRepository extends JpaRepository<DiaryEntity, Integer> {
 
     ArrayList<DiaryEntity> findAllByUserOrderByCreatedDataDesc(UserEntity user);    // 최신순
     ArrayList<DiaryEntity> findAllByUserOrderByCreatedDataAsc(UserEntity user);     // 오래된순
+
+    ArrayList<DiaryEntity> findAllByCreateAtBetween(Date sdate, Date edate);
 }

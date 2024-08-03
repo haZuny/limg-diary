@@ -3,18 +3,15 @@ package com.hayden.limg_diary.entity.diary;
 import com.hayden.limg_diary.entity.DefaultResponseDto;
 import com.hayden.limg_diary.entity.diary.dto.*;
 import com.hayden.limg_diary.entity.user.CustomUserDetails;
-import com.hayden.limg_diary.entity.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
 import java.text.ParseException;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/diary")
@@ -39,7 +36,7 @@ public class DiaryController {
 
     @GetMapping("/{diaryId}")
     public ResponseEntity<DiaryIdResponseDto> diaryId(@PathVariable int diaryId, @AuthenticationPrincipal CustomUserDetails user){
-        return diaryService.diaryId(diaryId, user);
+        return diaryService.getByDiaryId(diaryId, user);
     }
 
     @GetMapping("/month")
@@ -50,5 +47,12 @@ public class DiaryController {
     @GetMapping("/request")
     public ResponseEntity<DiaryRequestResponseDto> diaryRequset(@RequestParam(value = "sdate", required = false) String sdate, @RequestParam(value = "edate", required = false) String edate,@RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "align", required = false) String align, @AuthenticationPrincipal CustomUserDetails user) throws ParseException {
         return diaryService.diaryRequest(sdate, edate, keyword, align, user);
+    }
+
+
+    // image resource
+    @GetMapping(value = "/img/{diaryId}", produces = MediaType.IMAGE_PNG_VALUE)
+    public Resource getDiaryImage(@PathVariable int diaryId, @AuthenticationPrincipal CustomUserDetails userDetails) throws MalformedURLException {
+        return diaryService.getDiaryImage(diaryId, userDetails);
     }
 }
