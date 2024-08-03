@@ -4,14 +4,9 @@ import com.hayden.limg_diary.entity.DefaultResponseDto;
 import com.hayden.limg_diary.entity.diary.dto.*;
 import com.hayden.limg_diary.entity.draw_style.DrawStyleEntity;
 import com.hayden.limg_diary.entity.draw_style.DrawStyleRepository;
-import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagEntity;
-import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagRepository;
-import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagService;
-import com.hayden.limg_diary.entity.hashtag.HashtagEntity;
+import com.hayden.limg_diary.entity.hashtag.*;
 import com.hayden.limg_diary.entity.picture.PictureService;
-import com.hayden.limg_diary.entity.today_rate.DiaryAndTodayRateService;
-import com.hayden.limg_diary.entity.today_rate.TodayRateEntity;
-import com.hayden.limg_diary.entity.today_rate.TodayRateRepository;
+import com.hayden.limg_diary.entity.today_rate.*;
 import com.hayden.limg_diary.entity.user.CustomUserDetails;
 import com.hayden.limg_diary.entity.user.UserEntity;
 import org.apache.coyote.Response;
@@ -35,6 +30,8 @@ public class DiaryService {
     DrawStyleRepository drawStyleRepository;
 
     PictureService pictureService;
+    DiaryAndTodayRateRepository diaryAndTodayRateRepository;
+    HashtagRepository hashtagRepository;
 
     @Autowired
     public DiaryService(DiaryAndHashtagRepository diaryAndHashtagRepository,
@@ -43,8 +40,12 @@ public class DiaryService {
                         DiaryAndTodayRateService diaryAndTodayRateService,
                         TodayRateRepository todayRateRepository,
                         DrawStyleRepository drawStyleRepository,
-                        PictureService pictureService) {
+                        PictureService pictureService,
+                        DiaryAndTodayRateRepository diaryAndTodayRateRepository,
+                        HashtagRepository hashtagRepository) {
         this.diaryRepository = diaryRepository;
+        this.hashtagRepository = hashtagRepository;
+        this.diaryAndTodayRateRepository = diaryAndTodayRateRepository;
         this.diaryAndTodayRateService = diaryAndTodayRateService;
         this.diaryAndHashtagService = diaryAndHashtagService;
         this.diaryAndHashtagRepository = diaryAndHashtagRepository;
@@ -261,5 +262,48 @@ public class DiaryService {
         }
         diaryRequestResponseDto.setState(HttpStatus.OK, true, "success");
         return new ResponseEntity<>(diaryRequestResponseDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<DefaultResponseDto> diaryModify(int diaryId, DiaryModifyRequestDto diaryModifyRequestDto, CustomUserDetails user) {
+        DefaultResponseDto responseDto = new DefaultResponseDto();
+
+        DiaryEntity modifyDiary = diaryRepository.findById(diaryId);
+
+        if (modifyDiary.getUser().getId() != user.getUserEntity().getId()) {
+            responseDto.setState(HttpStatus.UNAUTHORIZED, false, "user not authenticatied");
+            return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
+        }
+
+        // 컨텐츠 변경
+        if (diaryModifyRequestDto.getContent() != null) {
+            modifyDiary.setContent(diaryModifyRequestDto.getContent());
+            diaryRepository.save(modifyDiary);
+        }
+
+        //하루 평가 변경
+        if(diaryModifyRequestDto.getToday_rate() != -1){
+            DiaryAndTodayRateEntity diaryAndTodayRateEntity = diaryAndTodayRateRepository.findByDiary(modifyDiary);
+            diaryAndTodayRateRepository.delete(diaryAndTodayRateEntity);
+            diaryAndTodayRateService.DiaryAndTodayRateAdd(modifyDiary, diaryModifyRequestDto.getToday_rate());
+        }
+
+        //해시태그 변경
+        if(diaryModifyRequestDto.getHashtag() != null) {
+            ArrayList<DiaryAndHashtagEntity> modifyHashtag = diaryAndHashtagRepository.findAllByDiary(modifyDiary);
+            int index = 0;
+            while(index < modifyHashtag.size()){
+                modifyHashtag.get(index).getHashtag().setDiary_cnt(modifyHashtag.get(index).getHashtag().getDiary_cnt()-1);
+                diaryAndHashtagRepository.delete(modifyHashtag.get(index));
+                if(modifyHashtag.get(index).getHashtag().getDiary_cnt() < 1){
+                    hashtagRepository.delete(modifyHashtag.get(index).getHashtag());
+                }
+                ++index;
+            }
+            diaryAndHashtagService.DiaryAndHashtagAdd(modifyDiary, diaryModifyRequestDto.getHashtag());
+        }
+
+        // return
+        responseDto.setState(HttpStatus.OK, true, "success");
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }
