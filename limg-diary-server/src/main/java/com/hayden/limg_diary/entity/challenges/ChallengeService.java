@@ -16,6 +16,8 @@ import java.util.Optional;
 public class ChallengeService {
     ChallengeRepository challengeRepository;
 
+    @Value("${path.uri}")
+    String uri;
     @Value("${path.resources}")
     String resPath;
 
@@ -38,8 +40,9 @@ public class ChallengeService {
                     challenge.getId()
                     , challenge.getName()
                     , challenge.getSpecific()
-                    , challenge.getAchievedIconPath()
-                    , challenge.getUnachievedIconPath());
+                    , String.format("%s/challenge/icon/%d/true", uri, challenge.getId())
+                    , String.format("%s/challenge/icon/%d/false", uri, challenge.getId())
+            );
             return new ResponseEntity<>(getByIdResponseDto, HttpStatus.OK);
         }
 
