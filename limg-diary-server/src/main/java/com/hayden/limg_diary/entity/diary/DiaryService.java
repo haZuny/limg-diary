@@ -4,20 +4,15 @@ import com.hayden.limg_diary.entity.DefaultResponseDto;
 import com.hayden.limg_diary.entity.diary.dto.*;
 import com.hayden.limg_diary.entity.draw_style.DrawStyleEntity;
 import com.hayden.limg_diary.entity.draw_style.DrawStyleRepository;
-<<<<<<< HEAD
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagEntity;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagRepository;
 import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagService;
+import com.hayden.limg_diary.entity.hashtag.HashtagRepository;
 import com.hayden.limg_diary.entity.picture.PictureEntity;
 import com.hayden.limg_diary.entity.picture.PictureRepository;
 import com.hayden.limg_diary.entity.picture.PictureService;
 import com.hayden.limg_diary.entity.today_rate.TodayRateEntity;
 import com.hayden.limg_diary.entity.today_rate.TodayRateRepository;
-=======
-import com.hayden.limg_diary.entity.hashtag.*;
-import com.hayden.limg_diary.entity.picture.PictureService;
-import com.hayden.limg_diary.entity.today_rate.*;
->>>>>>> 3ad0c851efd2b132668dacc111df42de3971d4ea
 import com.hayden.limg_diary.entity.user.CustomUserDetails;
 import com.hayden.limg_diary.entity.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,38 +131,40 @@ public class DiaryService {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<DiaryTodayResponseDto> diaryToday(CustomUserDetails user) {
-
-        // response dto
-        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
-
-        // get user
-        UserEntity userEntity = user.getUserEntity();
-
-        // get today diary
-        Date today_s = new Date();
-        Date today_e = new Date();
-        today_s.setTime();
-
-
-
-        List<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDataDesc(userEntity);
-        DiaryEntity todayDiary;
-        if (diaryList.size() > 0) {
-            todayDiary = diaryList.get(0);
-
-            Date now = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            if (dateFormat.format(todayDiary.getCreatedData()).equals(dateFormat.format(now))) {
-                diaryTodayResponseDto.setState(HttpStatus.OK, true, "success");
-                diaryTodayResponseDto.getData().setDataValue(todayDiary.getId(), null, todayDiary.getCreatedData());
-                return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.OK);
-            }
-        }
-        diaryTodayResponseDto.setState(HttpStatus.NOT_FOUND, false, "fail");
-        diaryTodayResponseDto.setData(null);
-        return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.BAD_REQUEST);
-    }
+//    public ResponseEntity<DiaryTodayResponseDto> getDiaryByToday(CustomUserDetails user) {
+//
+//        // response dto
+//        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
+//
+//        // get user
+//        UserEntity userEntity = user.getUserEntity();
+//
+//        // get today diary
+////        Calendar calendar = Calendar.getInstance();
+////        Date today_s = new Date();
+////        Date today_e = new Date();
+//////        calendar.set(today_s.get)
+////        today_s.
+//
+//
+//
+//        List<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDateDesc(userEntity);
+//        DiaryEntity todayDiary;
+//        if (diaryList.size() > 0) {
+//            todayDiary = diaryList.get(0);
+//
+//            Date now = new Date();
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//            if (dateFormat.format(todayDiary.getCreatedDate()).equals(dateFormat.format(now))) {
+//                diaryTodayResponseDto.setState(HttpStatus.OK, true, "success");
+//                diaryTodayResponseDto.getData().setDataValue(todayDiary.getId(), null, todayDiary.getCreatedDate());
+//                return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.OK);
+//            }
+//        }
+//        diaryTodayResponseDto.setState(HttpStatus.NOT_FOUND, false, "fail");
+//        diaryTodayResponseDto.setData(null);
+//        return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.BAD_REQUEST);
+//    }
 
     // Get By Id
     public ResponseEntity<DiaryIdResponseDto> getByDiaryId(int diaryId, CustomUserDetails user) {
@@ -212,8 +209,8 @@ public class DiaryService {
         else{
             diaryIdResponseDto.getData().setPicture(String.format("%s/diary/img/%d", uriPath, diaryEntity.getId()));
         }
-        diaryIdResponseDto.getData().setCreated_date(diaryEntity.getCreatedData());
-        diaryIdResponseDto.getData().setUpdated_date(diaryEntity.getUpdatedData());
+        diaryIdResponseDto.getData().setCreated_date(diaryEntity.getCreatedDate());
+        diaryIdResponseDto.getData().setUpdated_date(diaryEntity.getUpdatedDate());
         diaryIdResponseDto.getData().getToday_rate().setRate_num(diaryEntity.getTodayRate().getRateNum());
         diaryIdResponseDto.getData().getToday_rate().setRate_str(diaryEntity.getTodayRate().getRateStr());
         diaryIdResponseDto.getData().setHashtag(tags);
@@ -224,131 +221,131 @@ public class DiaryService {
         return new ResponseEntity<>(diaryIdResponseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<DiaryMonthResponseDto> diaryMonth(int year, int month, CustomUserDetails user) {
-        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
-        DiaryMonthResponseDto diaryMonthResponseDto = new DiaryMonthResponseDto();
-        UserEntity userEntity = user.getUserEntity();
-        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
-        List<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDataDesc(userEntity);
-        if (diaryList.size() > 0) {
-            int index = 0;
-            while(index < diaryList.size()){
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(diaryList.get(index).getCreatedData());
-                if(calendar.get(Calendar.YEAR) == year &&
-                        calendar.get(Calendar.MONTH)+1 == month){
-                    diaryTodayResponseDto.getData().setDataValue(diaryList.get(index).getId(),null,diaryList.get(index).getCreatedData());
-                    diaryTodayResponseDto.setState(HttpStatus.OK, true, "success");
-                    diaryMonthResponseDto.getDataList().add(diaryTodayResponseDto);
-                }
-                ++index;
-            }
-        }
-        diaryMonthResponseDto.setState(HttpStatus.OK, true, "success");
-        return new ResponseEntity<>(diaryMonthResponseDto, HttpStatus.OK);
-    }
+//    public ResponseEntity<DiaryMonthResponseDto> diaryMonth(int year, int month, CustomUserDetails user) {
+//        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
+//        DiaryMonthResponseDto diaryMonthResponseDto = new DiaryMonthResponseDto();
+//        UserEntity userEntity = user.getUserEntity();
+//        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
+//        List<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDateDesc(userEntity);
+//        if (diaryList.size() > 0) {
+//            int index = 0;
+//            while(index < diaryList.size()){
+//                Calendar calendar = Calendar.getInstance();
+//                calendar.setTime(diaryList.get(index).getCreatedDate());
+//                if(calendar.get(Calendar.YEAR) == year &&
+//                        calendar.get(Calendar.MONTH)+1 == month){
+//                    diaryTodayResponseDto.getData().setDataValue(diaryList.get(index).getId(),null,diaryList.get(index).getCreatedDate());
+//                    diaryTodayResponseDto.setState(HttpStatus.OK, true, "success");
+//                    diaryMonthResponseDto.getDataList().add(diaryTodayResponseDto);
+//                }
+//                ++index;
+//            }
+//        }
+//        diaryMonthResponseDto.setState(HttpStatus.OK, true, "success");
+//        return new ResponseEntity<>(diaryMonthResponseDto, HttpStatus.OK);
+//    }
 
-    public ResponseEntity<DiaryRequestResponseDto> diaryRequest(String sdate, String edate, String keyword, String align, CustomUserDetails user) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
-        DiaryRequestResponseDto diaryRequestResponseDto = new DiaryRequestResponseDto();
-        UserEntity userEntity = user.getUserEntity();
-        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
-        ArrayList<DiaryEntity> diaryList;
-        if(align == null || align.equals("recent")) {
-            diaryList = diaryRepository.findAllByUserOrderByCreatedDataDesc(userEntity);
-        }
-        else {
-            diaryList = diaryRepository.findAllByUserOrderByCreatedDataAsc(userEntity);
-        }
-        if (diaryList.size() > 0) {
-            if(keyword != null) {
-                int index = 0;
-                ArrayList<DiaryEntity> tempList = new ArrayList<>();
-                while (index < diaryList.size()) {
-                    if(diaryList.get(index).getContent().contains(keyword)){
-                        tempList.add(diaryList.get(index));
-                        System.out.println(keyword);
-                    }
-                    ++index;
-                }
-                diaryList = tempList;
-                System.out.println(keyword);
-            }
-
-            if(sdate != null){
-                Date sDate = simpleDateFormat.parse(sdate);
-                int index = 0;
-                ArrayList<DiaryEntity> tempList = new ArrayList<>();
-                if(align == null || align.equals("recent")){
-                    while(index < diaryList.size()){
-                        if (sDate.compareTo(diaryList.get(index).getCreatedData()) < 1) {
-                            tempList.add(diaryList.get(index));
-                        }
-                        ++index;
-                    }
-                    diaryList = tempList;
-                }
-                else{
-                    Collections.reverse(diaryList);
-                    while(index < diaryList.size()){
-                        if (sDate.compareTo(diaryList.get(index).getCreatedData()) < 1) {
-                            tempList.add(diaryList.get(index));
-                        }
-                        ++index;
-                    }
-                    Collections.reverse(tempList);
-                    diaryList = tempList;
-                }
-            }
-
-            if(edate != null){
-                Date eDate = simpleDateFormat.parse(edate);
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(eDate);
-                cal.set(Calendar.HOUR_OF_DAY, 23);
-                cal.set(Calendar.MINUTE, 59);
-                cal.set(Calendar.SECOND, 59);
-                cal.set(Calendar.MILLISECOND, 999);
-                eDate = cal.getTime();
-
-                int index = 0;
-                ArrayList<DiaryEntity> tempList = new ArrayList<>();
-                if(align == null || align.equals("recent")){
-                    Collections.reverse(diaryList);
-                    while(index < diaryList.size()){
-                        System.out.println(eDate.compareTo(diaryList.get(index).getCreatedData()));
-                        if (eDate.compareTo(diaryList.get(index).getCreatedData()) > -1) {
-                            tempList.add(diaryList.get(index));
-                        }
-                        ++index;
-                    }
-                    Collections.reverse(tempList);
-                    diaryList = tempList;
-                }
-                else{
-                    while(index < diaryList.size()){
-                        if (eDate.compareTo(diaryList.get(index).getCreatedData()) > -1) {
-                            tempList.add(diaryList.get(index));
-                        }
-                        ++index;
-                    }
-                    diaryList = tempList;
-                }
-            }
-        }
-        int index = 0;
-        while(index < diaryList.size()){
-            DiaryTodayResponseDto diaryTodayResponseDto2 = new DiaryTodayResponseDto();
-            diaryTodayResponseDto2.getData().setDataValue(diaryList.get(index).getId(), null, diaryList.get(index).getCreatedData());
-            diaryTodayResponseDto2.setState(HttpStatus.OK, true, "success");
-            diaryRequestResponseDto.getDataList().add(diaryTodayResponseDto2);
-            ++index;
-        }
-        diaryRequestResponseDto.setState(HttpStatus.OK, true, "success");
-        return new ResponseEntity<>(diaryRequestResponseDto, HttpStatus.OK);
-    }
+//    public ResponseEntity<DiaryRequestResponseDto> diaryRequest(String sdate, String edate, String keyword, String align, CustomUserDetails user) throws ParseException {
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//
+//        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
+//        DiaryRequestResponseDto diaryRequestResponseDto = new DiaryRequestResponseDto();
+//        UserEntity userEntity = user.getUserEntity();
+//        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
+//        ArrayList<DiaryEntity> diaryList;
+//        if(align == null || align.equals("recent")) {
+//            diaryList = diaryRepository.findAllByUserOrderByCreatedDateDesc(userEntity);
+//        }
+//        else {
+//            diaryList = diaryRepository.findAllByUserOrderByCreatedDateAsc(userEntity);
+//        }
+//        if (diaryList.size() > 0) {
+//            if(keyword != null) {
+//                int index = 0;
+//                ArrayList<DiaryEntity> tempList = new ArrayList<>();
+//                while (index < diaryList.size()) {
+//                    if(diaryList.get(index).getContent().contains(keyword)){
+//                        tempList.add(diaryList.get(index));
+//                        System.out.println(keyword);
+//                    }
+//                    ++index;
+//                }
+//                diaryList = tempList;
+//                System.out.println(keyword);
+//            }
+//
+//            if(sdate != null){
+//                Date sDate = simpleDateFormat.parse(sdate);
+//                int index = 0;
+//                ArrayList<DiaryEntity> tempList = new ArrayList<>();
+//                if(align == null || align.equals("recent")){
+//                    while(index < diaryList.size()){
+//                        if (sDate.compareTo(diaryList.get(index).getCreatedDate()) < 1) {
+//                            tempList.add(diaryList.get(index));
+//                        }
+//                        ++index;
+//                    }
+//                    diaryList = tempList;
+//                }
+//                else{
+//                    Collections.reverse(diaryList);
+//                    while(index < diaryList.size()){
+//                        if (sDate.compareTo(diaryList.get(index).getCreatedDate()) < 1) {
+//                            tempList.add(diaryList.get(index));
+//                        }
+//                        ++index;
+//                    }
+//                    Collections.reverse(tempList);
+//                    diaryList = tempList;
+//                }
+//            }
+//
+//            if(edate != null){
+//                Date eDate = simpleDateFormat.parse(edate);
+//                Calendar cal = Calendar.getInstance();
+//                cal.setTime(eDate);
+//                cal.set(Calendar.HOUR_OF_DAY, 23);
+//                cal.set(Calendar.MINUTE, 59);
+//                cal.set(Calendar.SECOND, 59);
+//                cal.set(Calendar.MILLISECOND, 999);
+//                eDate = cal.getTime();
+//
+//                int index = 0;
+//                ArrayList<DiaryEntity> tempList = new ArrayList<>();
+//                if(align == null || align.equals("recent")){
+//                    Collections.reverse(diaryList);
+//                    while(index < diaryList.size()){
+//                        System.out.println(eDate.compareTo(diaryList.get(index).getCreatedDate()));
+//                        if (eDate.compareTo(diaryList.get(index).getCreatedDate()) > -1) {
+//                            tempList.add(diaryList.get(index));
+//                        }
+//                        ++index;
+//                    }
+//                    Collections.reverse(tempList);
+//                    diaryList = tempList;
+//                }
+//                else{
+//                    while(index < diaryList.size()){
+//                        if (eDate.compareTo(diaryList.get(index).getCreatedDate()) > -1) {
+//                            tempList.add(diaryList.get(index));
+//                        }
+//                        ++index;
+//                    }
+//                    diaryList = tempList;
+//                }
+//            }
+//        }
+//        int index = 0;
+//        while(index < diaryList.size()){
+//            DiaryTodayResponseDto diaryTodayResponseDto2 = new DiaryTodayResponseDto();
+//            diaryTodayResponseDto2.getData().setDataValue(diaryList.get(index).getId(), null, diaryList.get(index).getCreatedDate());
+//            diaryTodayResponseDto2.setState(HttpStatus.OK, true, "success");
+//            diaryRequestResponseDto.getDataList().add(diaryTodayResponseDto2);
+//            ++index;
+//        }
+//        diaryRequestResponseDto.setState(HttpStatus.OK, true, "success");
+//        return new ResponseEntity<>(diaryRequestResponseDto, HttpStatus.OK);
+//    }
 
     public ResponseEntity<DefaultResponseDto> diaryModify(int diaryId, DiaryModifyRequestDto diaryModifyRequestDto, CustomUserDetails user) {
         DefaultResponseDto responseDto = new DefaultResponseDto();
@@ -367,11 +364,11 @@ public class DiaryService {
         }
 
         //하루 평가 변경
-        if(diaryModifyRequestDto.getToday_rate() != -1){
-            DiaryAndTodayRateEntity diaryAndTodayRateEntity = diaryAndTodayRateRepository.findByDiary(modifyDiary);
-            diaryAndTodayRateRepository.delete(diaryAndTodayRateEntity);
-            diaryAndTodayRateService.DiaryAndTodayRateAdd(modifyDiary, diaryModifyRequestDto.getToday_rate());
-        }
+//        if(diaryModifyRequestDto.getToday_rate() != -1){
+//            DiaryAndTodayRateEntity diaryAndTodayRateEntity = diaryAndTodayRateRepository.findByDiary(modifyDiary);
+//            diaryAndTodayRateRepository.delete(diaryAndTodayRateEntity);
+//            diaryAndTodayRateService.DiaryAndTodayRateAdd(modifyDiary, diaryModifyRequestDto.getToday_rate());
+//        }
 
         //해시태그 변경
         if(diaryModifyRequestDto.getHashtag() != null) {

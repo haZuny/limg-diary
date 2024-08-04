@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @MappedSuperclass   // BaseTimeEntity를 상속한 클래스는, BaseTimeEntity의 필드를 칼럼으로 인식
@@ -21,9 +22,9 @@ public class BaseTimeEntity {
 
     @CreatedDate
     @Column(name = "CREATED_DATE")
-    private Date createdDate;
+    private LocalDate createdDate;
 
     @LastModifiedDate
     @Column(name = "UPDATED_DATE")
-    private Date updatedDate;
+    private LocalDate updatedDate;
 }

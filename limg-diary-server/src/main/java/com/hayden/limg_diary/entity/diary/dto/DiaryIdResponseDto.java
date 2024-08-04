@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,8 +19,8 @@ public class DiaryIdResponseDto extends DefaultResponseDto {
         private int diary_id;
         private String content;
         private String picture;
-        private Date created_date;
-        private Date updated_date;
+        private LocalDate created_date;
+        private LocalDate updated_date;
         private TodayRate today_rate = new TodayRate();
         private ArrayList<String> hashtag;
         private DrawStyle draw_style = new DrawStyle();

@@ -30,25 +30,25 @@ public class DiaryController {
         return diaryService.diaryAdd(diaryAddRequestDto, user);
     }
 
-    @GetMapping("/today")
-    public ResponseEntity<DiaryTodayResponseDto> diaryToday(@AuthenticationPrincipal CustomUserDetails user) {
-        return diaryService.diaryToday(user);
-    }
+//    @GetMapping("/today")
+//    public ResponseEntity<DiaryTodayResponseDto> diaryToday(@AuthenticationPrincipal CustomUserDetails user) {
+//        return diaryService.diaryToday(user);
+//    }
 
     @GetMapping("/{diaryId}")
     public ResponseEntity<DiaryIdResponseDto> diaryId(@PathVariable int diaryId, @AuthenticationPrincipal CustomUserDetails user) {
         return diaryService.getByDiaryId(diaryId, user);
     }
 
-    @GetMapping("/month")
-    public ResponseEntity<DiaryMonthResponseDto> diaryMonth(@RequestParam int year, @RequestParam int month, @AuthenticationPrincipal CustomUserDetails user) {
-        return diaryService.diaryMonth(year, month, user);
-    }
-
-    @GetMapping("/request")
-    public ResponseEntity<DiaryRequestResponseDto> diaryRequset(@RequestParam(value = "sdate", required = false) String sdate, @RequestParam(value = "edate", required = false) String edate, @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "align", required = false) String align, @AuthenticationPrincipal CustomUserDetails user) throws ParseException {
-        return diaryService.diaryRequest(sdate, edate, keyword, align, user);
-    }
+//    @GetMapping("/month")
+//    public ResponseEntity<DiaryMonthResponseDto> diaryMonth(@RequestParam int year, @RequestParam int month, @AuthenticationPrincipal CustomUserDetails user) {
+//        return diaryService.diaryMonth(year, month, user);
+//    }
+//
+//    @GetMapping("/request")
+//    public ResponseEntity<DiaryRequestResponseDto> diaryRequset(@RequestParam(value = "sdate", required = false) String sdate, @RequestParam(value = "edate", required = false) String edate, @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "align", required = false) String align, @AuthenticationPrincipal CustomUserDetails user) throws ParseException {
+//        return diaryService.diaryRequest(sdate, edate, keyword, align, user);
+//    }
 
     @PatchMapping("/modify/{diaryId}")
     public ResponseEntity<DefaultResponseDto> diaryModify(@PathVariable int diaryId, @RequestBody DiaryModifyRequestDto diaryModifyRequestDto, @AuthenticationPrincipal CustomUserDetails user) {
