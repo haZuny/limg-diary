@@ -45,10 +45,15 @@ public class DiaryController {
         return diaryService.getDiaryByMonth(year, month, user);
     }
 //
-//    @GetMapping("/request")
-//    public ResponseEntity<DiaryRequestResponseDto> diaryRequset(@RequestParam(value = "sdate", required = false) String sdate, @RequestParam(value = "edate", required = false) String edate, @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "align", required = false) String align, @AuthenticationPrincipal CustomUserDetails user) throws ParseException {
-//        return diaryService.diaryRequest(sdate, edate, keyword, align, user);
-//    }
+    @GetMapping("/search")
+    public ResponseEntity<DiarySearchResponseDto> getSearch(
+            @RequestParam(value = "sdate", required = false) String sdate
+            ,@RequestParam(value = "edate", required = false) String edate
+            ,@RequestParam(value = "keyword", required = false) String keyword
+            ,@RequestParam(value = "align", required = false) String align
+            ,@AuthenticationPrincipal CustomUserDetails user) throws ParseException {
+        return diaryService.diarySearch(sdate, edate, keyword, align, user);
+    }
 
     @PatchMapping("/modify/{diaryId}")
     public ResponseEntity<DefaultResponseDto> diaryModify(@PathVariable int diaryId, @RequestBody DiaryModifyRequestDto diaryModifyRequestDto, @AuthenticationPrincipal CustomUserDetails user) {

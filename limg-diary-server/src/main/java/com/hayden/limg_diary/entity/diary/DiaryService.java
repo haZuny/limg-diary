@@ -25,9 +25,8 @@ import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -231,7 +230,7 @@ public class DiaryService {
         // find diaries
         LocalDate startDate = LocalDate.of(year, month, 1);
         LocalDate endDate = LocalDate.of(year, month, startDate.lengthOfMonth());
-        ArrayList<DiaryEntity> diaries = diaryRepository.findAllByCreatedDateBetweenAndUser(startDate, endDate, userEntity);
+        ArrayList<DiaryEntity> diaries = diaryRepository.findAllByCreatedDateBetweenAndUserOrderByCreatedDateDesc(startDate, endDate, userEntity);
 
         // set response dto
         DiaryMonthResponseDto diaryMonthResponseDto = new DiaryMonthResponseDto();
@@ -246,107 +245,54 @@ public class DiaryService {
         return new ResponseEntity<>(diaryMonthResponseDto, HttpStatus.OK);
     }
 
-//    public ResponseEntity<DiaryRequestResponseDto> diaryRequest(String sdate, String edate, String keyword, String align, CustomUserDetails user) throws ParseException {
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//
-//        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
-//        DiaryRequestResponseDto diaryRequestResponseDto = new DiaryRequestResponseDto();
-//        UserEntity userEntity = user.getUserEntity();
-//        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
-//        ArrayList<DiaryEntity> diaryList;
-//        if(align == null || align.equals("recent")) {
-//            diaryList = diaryRepository.findAllByUserOrderByCreatedDateDesc(userEntity);
-//        }
-//        else {
-//            diaryList = diaryRepository.findAllByUserOrderByCreatedDateAsc(userEntity);
-//        }
-//        if (diaryList.size() > 0) {
-//            if(keyword != null) {
-//                int index = 0;
-//                ArrayList<DiaryEntity> tempList = new ArrayList<>();
-//                while (index < diaryList.size()) {
-//                    if(diaryList.get(index).getContent().contains(keyword)){
-//                        tempList.add(diaryList.get(index));
-//                        System.out.println(keyword);
-//                    }
-//                    ++index;
-//                }
-//                diaryList = tempList;
-//                System.out.println(keyword);
-//            }
-//
-//            if(sdate != null){
-//                Date sDate = simpleDateFormat.parse(sdate);
-//                int index = 0;
-//                ArrayList<DiaryEntity> tempList = new ArrayList<>();
-//                if(align == null || align.equals("recent")){
-//                    while(index < diaryList.size()){
-//                        if (sDate.compareTo(diaryList.get(index).getCreatedDate()) < 1) {
-//                            tempList.add(diaryList.get(index));
-//                        }
-//                        ++index;
-//                    }
-//                    diaryList = tempList;
-//                }
-//                else{
-//                    Collections.reverse(diaryList);
-//                    while(index < diaryList.size()){
-//                        if (sDate.compareTo(diaryList.get(index).getCreatedDate()) < 1) {
-//                            tempList.add(diaryList.get(index));
-//                        }
-//                        ++index;
-//                    }
-//                    Collections.reverse(tempList);
-//                    diaryList = tempList;
-//                }
-//            }
-//
-//            if(edate != null){
-//                Date eDate = simpleDateFormat.parse(edate);
-//                Calendar cal = Calendar.getInstance();
-//                cal.setTime(eDate);
-//                cal.set(Calendar.HOUR_OF_DAY, 23);
-//                cal.set(Calendar.MINUTE, 59);
-//                cal.set(Calendar.SECOND, 59);
-//                cal.set(Calendar.MILLISECOND, 999);
-//                eDate = cal.getTime();
-//
-//                int index = 0;
-//                ArrayList<DiaryEntity> tempList = new ArrayList<>();
-//                if(align == null || align.equals("recent")){
-//                    Collections.reverse(diaryList);
-//                    while(index < diaryList.size()){
-//                        System.out.println(eDate.compareTo(diaryList.get(index).getCreatedDate()));
-//                        if (eDate.compareTo(diaryList.get(index).getCreatedDate()) > -1) {
-//                            tempList.add(diaryList.get(index));
-//                        }
-//                        ++index;
-//                    }
-//                    Collections.reverse(tempList);
-//                    diaryList = tempList;
-//                }
-//                else{
-//                    while(index < diaryList.size()){
-//                        if (eDate.compareTo(diaryList.get(index).getCreatedDate()) > -1) {
-//                            tempList.add(diaryList.get(index));
-//                        }
-//                        ++index;
-//                    }
-//                    diaryList = tempList;
-//                }
-//            }
-//        }
-//        int index = 0;
-//        while(index < diaryList.size()){
-//            DiaryTodayResponseDto diaryTodayResponseDto2 = new DiaryTodayResponseDto();
-//            diaryTodayResponseDto2.getData().setDataValue(diaryList.get(index).getId(), null, diaryList.get(index).getCreatedDate());
-//            diaryTodayResponseDto2.setState(HttpStatus.OK, true, "success");
-//            diaryRequestResponseDto.getDataList().add(diaryTodayResponseDto2);
-//            ++index;
-//        }
-//        diaryRequestResponseDto.setState(HttpStatus.OK, true, "success");
-//        return new ResponseEntity<>(diaryRequestResponseDto, HttpStatus.OK);
-//    }
+    public ResponseEntity<DiarySearchResponseDto> diarySearch(String sdate, String edate, String keyword, String align, CustomUserDetails user) throws ParseException {
+
+        // get user
+        UserEntity userEntity = user.getUserEntity();
+
+        // get diaries by date, by recent
+        ArrayList<DiaryEntity> diries;
+        if (sdate == null && edate == null)
+            diries = diaryRepository.findAllByUserOrderByCreatedDateDesc(userEntity);
+        else if (sdate != null && edate == null){
+            LocalDate srateDate = LocalDate.parse(sdate, DateTimeFormatter.ISO_DATE);
+            diries = diaryRepository.findAllByCreatedDateGreaterThanEqualAndUserOrderByCreatedDateDesc(srateDate, userEntity);
+        }
+        else if (sdate == null && edate != null){
+            LocalDate endDate = LocalDate.parse(edate, DateTimeFormatter.ISO_DATE);
+            diries = diaryRepository.findAllByCreatedDateLessThanEqualAndUserOrderByCreatedDateDesc(endDate, userEntity);
+        }
+        else{
+            LocalDate startDate = LocalDate.parse(sdate, DateTimeFormatter.ISO_DATE);
+            LocalDate endDate = LocalDate.parse(edate, DateTimeFormatter.ISO_DATE);
+            diries = diaryRepository.findAllByCreatedDateBetweenAndUserOrderByCreatedDateDesc(startDate, endDate, userEntity);
+        }
+
+        // filter by keyword
+        if (keyword != null){
+            Iterator<DiaryEntity> iterator = diries.iterator();
+            while ((iterator.hasNext())){
+                DiaryEntity diary = iterator.next();
+                if (!diary.getContent().contains(keyword)){
+                    iterator.remove();
+                }
+            }
+        }
+
+        // align
+        if (align != null && align.equals("oldest")){
+            Collections.reverse(diries);
+        }
+
+        // set response dto
+        DiarySearchResponseDto diarySearchResponseDto = new DiarySearchResponseDto();
+        diarySearchResponseDto.setState(HttpStatus.OK, true, "success");
+        for (DiaryEntity diary : diries){
+            diarySearchResponseDto.addData(diary.getId(), diary.getContent(), diary.getCreatedDate());
+        }
+
+        return new ResponseEntity<>(diarySearchResponseDto, HttpStatus.OK);
+    }
 
     public ResponseEntity<DefaultResponseDto> diaryModify(int diaryId, DiaryModifyRequestDto diaryModifyRequestDto, CustomUserDetails user) {
         DefaultResponseDto responseDto = new DefaultResponseDto();
