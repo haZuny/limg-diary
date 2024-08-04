@@ -40,10 +40,10 @@ public class DiaryController {
         return diaryService.getByDiaryId(diaryId, user);
     }
 
-//    @GetMapping("/month")
-//    public ResponseEntity<DiaryMonthResponseDto> diaryMonth(@RequestParam int year, @RequestParam int month, @AuthenticationPrincipal CustomUserDetails user) {
-//        return diaryService.diaryMonth(year, month, user);
-//    }
+    @GetMapping("/month")
+    public ResponseEntity<DiaryMonthResponseDto> getMonth(@RequestParam int year, @RequestParam int month, @AuthenticationPrincipal CustomUserDetails user) {
+        return diaryService.getDiaryByMonth(year, month, user);
+    }
 //
 //    @GetMapping("/request")
 //    public ResponseEntity<DiaryRequestResponseDto> diaryRequset(@RequestParam(value = "sdate", required = false) String sdate, @RequestParam(value = "edate", required = false) String edate, @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "align", required = false) String align, @AuthenticationPrincipal CustomUserDetails user) throws ParseException {

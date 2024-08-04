@@ -27,6 +27,7 @@ import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.*;
 
 @Service
@@ -142,7 +143,7 @@ public class DiaryService {
 
         // get today diary
         LocalDate today = LocalDate.now();
-        Optional<DiaryEntity> diaryEntityOptional = diaryRepository.findByCreatedDate(today);
+        Optional<DiaryEntity> diaryEntityOptional = diaryRepository.findByCreatedDateAndUser(today, userEntity);
 
         // return :: null case
         if (diaryEntityOptional.isEmpty()) {
@@ -222,29 +223,28 @@ public class DiaryService {
         return new ResponseEntity<>(diaryIdResponseDto, HttpStatus.OK);
     }
 
-//    public ResponseEntity<DiaryMonthResponseDto> diaryMonth(int year, int month, CustomUserDetails user) {
-//        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
-//        DiaryMonthResponseDto diaryMonthResponseDto = new DiaryMonthResponseDto();
-//        UserEntity userEntity = user.getUserEntity();
-//        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
-//        List<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDateDesc(userEntity);
-//        if (diaryList.size() > 0) {
-//            int index = 0;
-//            while(index < diaryList.size()){
-//                Calendar calendar = Calendar.getInstance();
-//                calendar.setTime(diaryList.get(index).getCreatedDate());
-//                if(calendar.get(Calendar.YEAR) == year &&
-//                        calendar.get(Calendar.MONTH)+1 == month){
-//                    diaryTodayResponseDto.getData().setDataValue(diaryList.get(index).getId(),null,diaryList.get(index).getCreatedDate());
-//                    diaryTodayResponseDto.setState(HttpStatus.OK, true, "success");
-//                    diaryMonthResponseDto.getDataList().add(diaryTodayResponseDto);
-//                }
-//                ++index;
-//            }
-//        }
-//        diaryMonthResponseDto.setState(HttpStatus.OK, true, "success");
-//        return new ResponseEntity<>(diaryMonthResponseDto, HttpStatus.OK);
-//    }
+    public ResponseEntity<DiaryMonthResponseDto> getDiaryByMonth(int year, int month, CustomUserDetails user) {
+
+        // get user
+        UserEntity userEntity = user.getUserEntity();
+
+        // find diaries
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = LocalDate.of(year, month, startDate.lengthOfMonth());
+        ArrayList<DiaryEntity> diaries = diaryRepository.findAllByCreatedDateBetweenAndUser(startDate, endDate, userEntity);
+
+        // set response dto
+        DiaryMonthResponseDto diaryMonthResponseDto = new DiaryMonthResponseDto();
+        diaryMonthResponseDto.setState(HttpStatus.OK, true, "success");
+        for (DiaryEntity diary : diaries){
+            // find picture
+            PictureEntity picture = pictureRepository.findByDiary(diary);
+            String picturePath = picture.getPath() == null ? null : String.format("%s/diary/img/%d", uriPath, diary.getId());
+            diaryMonthResponseDto.addData(diary.getId(), picturePath, diary.getCreatedDate());
+        }
+
+        return new ResponseEntity<>(diaryMonthResponseDto, HttpStatus.OK);
+    }
 
 //    public ResponseEntity<DiaryRequestResponseDto> diaryRequest(String sdate, String edate, String keyword, String align, CustomUserDetails user) throws ParseException {
 //        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
