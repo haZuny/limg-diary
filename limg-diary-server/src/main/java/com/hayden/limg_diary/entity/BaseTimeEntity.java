@@ -21,9 +21,9 @@ public class BaseTimeEntity {
 
     @CreatedDate
     @Column(name = "CREATED_DATE")
-    private Date createdData;
+    private Date createdDate;
 
     @LastModifiedDate
     @Column(name = "UPDATED_DATE")
-    private Date updatedData;
+    private Date updatedDate;
 }

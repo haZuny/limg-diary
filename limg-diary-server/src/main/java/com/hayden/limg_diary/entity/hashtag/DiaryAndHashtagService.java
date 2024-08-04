@@ -83,7 +83,7 @@ public class DiaryAndHashtagService {
         }
 
         // 01. diary by user
-        ArrayList<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDataDesc(user);
+        ArrayList<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDateDesc(user);
 
         // 02. get Hashtag list by diaryid
         for (DiaryEntity diary : diaryList){
