@@ -25,18 +25,18 @@ public class DiaryController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<DefaultResponseDto> diaryAdd(@RequestBody DiaryAddRequestDto diaryAddRequestDto, @AuthenticationPrincipal CustomUserDetails user) {
+    public ResponseEntity<DefaultResponseDto> postAdd(@RequestBody DiaryAddRequestDto diaryAddRequestDto, @AuthenticationPrincipal CustomUserDetails user) {
 
         return diaryService.diaryAdd(diaryAddRequestDto, user);
     }
 
-//    @GetMapping("/today")
-//    public ResponseEntity<DiaryTodayResponseDto> diaryToday(@AuthenticationPrincipal CustomUserDetails user) {
-//        return diaryService.diaryToday(user);
-//    }
+    @GetMapping("/today")
+    public ResponseEntity<DiaryTodayResponseDto> getToday(@AuthenticationPrincipal CustomUserDetails user) {
+        return diaryService.getDiaryByToday(user);
+    }
 
     @GetMapping("/{diaryId}")
-    public ResponseEntity<DiaryIdResponseDto> diaryId(@PathVariable int diaryId, @AuthenticationPrincipal CustomUserDetails user) {
+    public ResponseEntity<DiaryIdResponseDto> getDiaryId(@PathVariable int diaryId, @AuthenticationPrincipal CustomUserDetails user) {
         return diaryService.getByDiaryId(diaryId, user);
     }
 

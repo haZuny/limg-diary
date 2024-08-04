@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -74,9 +75,9 @@ public class DiaryService {
         DiaryEntity diary = diaryRepository.findById(diaryId);
 
         // diary null check
-        if (diary == null)  throw new NoSuchFieldError("diary not found");
+        if (diary == null) throw new NoSuchFieldError("diary not found");
         // user check
-        if (diary.getUser().getId() != userEntity.getId())  throw new IllegalAccessError("user not match with diary");
+        if (diary.getUser().getId() != userEntity.getId()) throw new IllegalAccessError("user not match with diary");
 
         PictureEntity picture = pictureRepository.findByDiary(diary);
 
@@ -94,7 +95,7 @@ public class DiaryService {
 
         // get drawStyle Entity
         Optional<DrawStyleEntity> drawStyleOptional = drawStyleRepository.findByStyleEng(diaryAddRequestDto.getDraw_style());
-        if (drawStyleOptional.isEmpty()){
+        if (drawStyleOptional.isEmpty()) {
             responseDto.setState(HttpStatus.BAD_REQUEST, false, "diary drawstyle is empty");
             return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
         }
@@ -107,7 +108,7 @@ public class DiaryService {
 
         // get todayRate Entity
         TodayRateEntity todayRateEntity = todayRateRepository.findByRateNum(diaryAddRequestDto.getToday_rate());
-        if (todayRateEntity == null){
+        if (todayRateEntity == null) {
             responseDto.setState(HttpStatus.BAD_REQUEST, false, "today rate is not match");
             return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
         }
@@ -131,40 +132,41 @@ public class DiaryService {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-//    public ResponseEntity<DiaryTodayResponseDto> getDiaryByToday(CustomUserDetails user) {
-//
-//        // response dto
-//        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
-//
-//        // get user
-//        UserEntity userEntity = user.getUserEntity();
-//
-//        // get today diary
-////        Calendar calendar = Calendar.getInstance();
-////        Date today_s = new Date();
-////        Date today_e = new Date();
-//////        calendar.set(today_s.get)
-////        today_s.
-//
-//
-//
-//        List<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDateDesc(userEntity);
-//        DiaryEntity todayDiary;
-//        if (diaryList.size() > 0) {
-//            todayDiary = diaryList.get(0);
-//
-//            Date now = new Date();
-//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//            if (dateFormat.format(todayDiary.getCreatedDate()).equals(dateFormat.format(now))) {
-//                diaryTodayResponseDto.setState(HttpStatus.OK, true, "success");
-//                diaryTodayResponseDto.getData().setDataValue(todayDiary.getId(), null, todayDiary.getCreatedDate());
-//                return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.OK);
-//            }
-//        }
-//        diaryTodayResponseDto.setState(HttpStatus.NOT_FOUND, false, "fail");
-//        diaryTodayResponseDto.setData(null);
-//        return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.BAD_REQUEST);
-//    }
+    public ResponseEntity<DiaryTodayResponseDto> getDiaryByToday(CustomUserDetails user) {
+
+        // response dto
+        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
+
+        // get user
+        UserEntity userEntity = user.getUserEntity();
+
+        // get today diary
+        LocalDate today = LocalDate.now();
+        Optional<DiaryEntity> diaryEntityOptional = diaryRepository.findByCreatedDate(today);
+
+        // return :: null case
+        if (diaryEntityOptional.isEmpty()) {
+            diaryTodayResponseDto.setState(HttpStatus.OK, true, "success :: today diary is not found");
+            diaryTodayResponseDto.setData(null);
+            return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.OK);
+        }
+        DiaryEntity diary = diaryEntityOptional.get();
+
+        // get picture
+        PictureEntity picture = pictureRepository.findByDiary(diary);
+
+        // set response dto
+
+        diaryTodayResponseDto.getData().setDiary_id(diary.getId());
+        diaryTodayResponseDto.getData().setToday(diary.getCreatedDate());
+        if (picture.getPath() != null) {
+            diaryTodayResponseDto.getData().setPicture(String.format("%s/diary/img/%d", uriPath, diary.getId()));
+        } else {
+            diaryTodayResponseDto.getData().setPicture(null);
+        }
+        diaryTodayResponseDto.setState(HttpStatus.OK, true, "success");
+        return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.OK);
+    }
 
     // Get By Id
     public ResponseEntity<DiaryIdResponseDto> getByDiaryId(int diaryId, CustomUserDetails user) {
@@ -196,17 +198,16 @@ public class DiaryService {
         // find hashtag
         ArrayList<DiaryAndHashtagEntity> tagEntities = diaryAndHashtagRepository.findAllByDiary(diaryEntity);
         ArrayList<String> tags = new ArrayList<>();
-        for (DiaryAndHashtagEntity tag : tagEntities)  tags.add(tag.getHashtag().getTag());
+        for (DiaryAndHashtagEntity tag : tagEntities) tags.add(tag.getHashtag().getTag());
 
 
         // set response entity
         diaryIdResponseDto.setState(HttpStatus.OK, true, "success");
         diaryIdResponseDto.getData().setDiary_id(diaryEntity.getId());
         diaryIdResponseDto.getData().setContent(diaryEntity.getContent());
-        if (picture.getPath() == null){
+        if (picture.getPath() == null) {
             diaryIdResponseDto.getData().setPicture(null);
-        }
-        else{
+        } else {
             diaryIdResponseDto.getData().setPicture(String.format("%s/diary/img/%d", uriPath, diaryEntity.getId()));
         }
         diaryIdResponseDto.getData().setCreated_date(diaryEntity.getCreatedDate());
@@ -371,13 +372,13 @@ public class DiaryService {
 //        }
 
         //해시태그 변경
-        if(diaryModifyRequestDto.getHashtag() != null) {
+        if (diaryModifyRequestDto.getHashtag() != null) {
             ArrayList<DiaryAndHashtagEntity> modifyHashtag = diaryAndHashtagRepository.findAllByDiary(modifyDiary);
             int index = 0;
-            while(index < modifyHashtag.size()){
-                modifyHashtag.get(index).getHashtag().setDiary_cnt(modifyHashtag.get(index).getHashtag().getDiary_cnt()-1);
+            while (index < modifyHashtag.size()) {
+                modifyHashtag.get(index).getHashtag().setDiary_cnt(modifyHashtag.get(index).getHashtag().getDiary_cnt() - 1);
                 diaryAndHashtagRepository.delete(modifyHashtag.get(index));
-                if(modifyHashtag.get(index).getHashtag().getDiary_cnt() < 1){
+                if (modifyHashtag.get(index).getHashtag().getDiary_cnt() < 1) {
                     hashtagRepository.delete(modifyHashtag.get(index).getHashtag());
                 }
                 ++index;
