@@ -73,7 +73,7 @@ public class SecurityConfig {
 
                     .requestMatchers(
                             "/test"
-                            , "/user/modify", "/user/self"
+                            , "/user/modify", "/user/self", "user/check"
                             ,"/drawstyle/list"
                             ,"/todayrate/list"
                             , "/hashtag/search"

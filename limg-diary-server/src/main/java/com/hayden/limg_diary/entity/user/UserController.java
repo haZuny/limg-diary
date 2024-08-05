@@ -45,6 +45,13 @@ public class UserController {
         return userService.refresh(refresh);
     }
 
+    @GetMapping("check")
+    public ResponseEntity<DefaultResponseDto> checkAuthorization(){
+        DefaultResponseDto responseDto = new DefaultResponseDto();
+        responseDto.setMember(HttpStatus.OK, true, "authorized");
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
     @PostMapping("/logout")
     public ResponseEntity<DefaultResponseDto> postLogout(HttpServletRequest request){
         String refresh = request.getHeader("Refresh");
