@@ -3,6 +3,7 @@ package com.hayden.limg_diary.entity.user;
 import com.hayden.limg_diary.entity.user.dto.*;
 import com.hayden.limg_diary.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,14 +36,13 @@ public class UserController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity postSignin(@RequestBody SigninRequestDto signinRequestDto){
-        return userService.signin(signinRequestDto);
+    public ResponseEntity postSignin(@RequestBody SigninRequestDto signinRequestDto, HttpServletResponse response){
+        return userService.signin(signinRequestDto, response);
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity postRefresh(HttpServletRequest request){
-        String refresh = request.getHeader("Refresh");
-        return userService.refresh(refresh);
+    public ResponseEntity postRefresh(@CookieValue(name = "Refresh", required = false) String refresh, HttpServletResponse response){
+        return userService.refresh(refresh, response);
     }
 
     @GetMapping("check")

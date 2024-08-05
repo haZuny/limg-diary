@@ -6,6 +6,8 @@ import com.hayden.limg_diary.entity.role.UserAndRoleService;
 import com.hayden.limg_diary.entity.user.dto.*;
 import com.hayden.limg_diary.jwt.JwtUtil;
 import com.hayden.limg_diary.jwt.entity.RefreshService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -68,7 +70,7 @@ public class UserService {
         return true;
     }
 
-    public ResponseEntity<SigninResponseDto> signin(SigninRequestDto signinRequestDto){
+    public ResponseEntity<SigninResponseDto> signin(SigninRequestDto signinRequestDto, HttpServletResponse response){
 
         // null check
         if(signinRequestDto.getUsername() == null || signinRequestDto.getPassword() == null)    {
@@ -99,24 +101,25 @@ public class UserService {
         String refreshToken = jwtUtil.createJwt("refresh", userEntity.getUsername(), jwtUtil.getRefreshExpMinute());   // 2weeks
         refreshService.addRefresh(refreshToken);
 
+        // create refresh cookies
+        Cookie refreshCookie = new Cookie("Refresh", refreshToken);
+        response.addCookie(refreshCookie);
 
         // Success response
         SigninResponseDto signinResponseDto = new SigninResponseDto(HttpStatus.OK.value(), true, "success");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Authentication", "Bearer " + accessToken);
-        httpHeaders.set("Refresh",  "Bearer " + refreshToken);
         return new ResponseEntity<SigninResponseDto>(signinResponseDto, httpHeaders, HttpStatus.OK);
     }
 
-    public ResponseEntity<DefaultResponseDto> refresh(String token){
+    public ResponseEntity<DefaultResponseDto> refresh(String refresh, HttpServletResponse response){
+        System.out.println(refresh);
         // response dto
         DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
 
         // check token
         defaultResponseDto.setMember(HttpStatus.BAD_REQUEST, false, "token is invalid");
-        if (token == null || !token.startsWith("Bearer "))  return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.BAD_REQUEST);
-
-        String refresh = token.split("Bearer ")[1];
+        if (refresh == null)  return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.BAD_REQUEST);
 
         // check expired
         defaultResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is expired");
@@ -142,7 +145,11 @@ public class UserService {
         defaultResponseDto.setMember(HttpStatus.OK, true, "success");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Authentication", "Bearer " + newAccess);
-        httpHeaders.set("Refresh",  "Bearer " + newRefresh);
+
+        // create refresh cookies
+        Cookie refreshCookie = new Cookie("Refresh", newRefresh);
+        response.addCookie(refreshCookie);
+
         return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, httpHeaders, HttpStatus.OK);
     }
 
