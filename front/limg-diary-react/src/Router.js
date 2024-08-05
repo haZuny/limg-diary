@@ -10,6 +10,8 @@ import ReadDiaryPage from './pages/read_diary_page/ReadDiaryPage';
 import SettingPage from './pages/SettingPage/SettingPage';
 import ChallengePage from './pages/challengePage/ChallengePage';
 
+import RestApiHelper from './Authentication';
+
 
 function Router({authorized, component})  {
 
@@ -37,6 +39,7 @@ function Router({authorized, component})  {
 
     // 반응형 설정
     useEffect(()=>{
+        console.log(localStorage.getItem("asdfasfsdfa"))
         window.addEventListener('resize', setScreenSize)
         return ()=>window.removeEventListener('resize', setScreenSize)
     }, [])
@@ -67,6 +70,11 @@ function Center({child}){
     }
 
     useEffect(()=>{
+        // 인증 확인
+        RestApiHelper.checkAuthorization(localStorage.getItem("Authentication"))
+
+
+
         window.addEventListener('resize', resizeHandle)
         return (()=>{window.removeEventListener('resize', resizeHandle)})
     }, [])
