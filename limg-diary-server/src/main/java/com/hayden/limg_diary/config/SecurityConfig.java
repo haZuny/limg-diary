@@ -40,7 +40,8 @@ public class SecurityConfig {
     @ConditionalOnProperty(name = "spring.h2.console.enabled",havingValue = "true")
     public WebSecurityCustomizer configureH2ConsoleEnable() {
         return web -> web.ignoring()
-                .requestMatchers("/h2-console/*");
+                .requestMatchers("/h2-console/*")
+                .requestMatchers("/user/signin", "/user/signup", "/user/refresh", "/user/logout");
     }
 
 
@@ -68,12 +69,12 @@ public class SecurityConfig {
             auth
 
                     .requestMatchers(
-                            "/user/signin", "/user/signup", "/user/refresh", "/user/logout"
+                            "/test"
+                            , "/user/signin", "/user/signup", "/user/refresh", "/user/logout"
                             , "/challenge/icon/*/true", "/challenge/icon/*/false").permitAll()
 
                     .requestMatchers(
-                            "/test"
-                            , "/user/modify", "/user/self", "user/check"
+                            "/user/modify", "/user/self", "user/check"
                             ,"/drawstyle/list"
                             ,"/todayrate/list"
                             , "/hashtag/search"

@@ -36,11 +36,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        // 특정 경로 무시
+        String path = request.getRequestURI();
+        if (path.startsWith("/h2-console") ||
+        path.startsWith("/user/signin") ||
+        path.startsWith("/user/signup") ||
+        path.startsWith("/user/refresh")){
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String authToken = request.getHeader("Authentication");
 
         // token check
         if (authToken == null || !authToken.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
+            response.getWriter().write("token is empty");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+//            filterChain.doFilter(request, response);
             return;
         }
 
@@ -50,6 +64,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (jwtUtil.isExpired(token)){
             response.getWriter().write("access token is expired");
             response.setStatus(401);
+
+//            filterChain.doFilter(request, response);
             return;
         }
 
@@ -58,9 +74,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 카테고리 검사(access)
         if (!category.equals("access")) {
             response.getWriter().write("invalid access token");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setStatus(400);
 
-            filterChain.doFilter(request, response);
+//            filterChain.doFilter(request, response);
             return;
         }
 

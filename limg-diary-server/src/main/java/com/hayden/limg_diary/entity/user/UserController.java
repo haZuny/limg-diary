@@ -45,7 +45,7 @@ public class UserController {
         return userService.refresh(refresh, response);
     }
 
-    @GetMapping("check")
+    @GetMapping("/check")
     public ResponseEntity<DefaultResponseDto> checkAuthorization(){
         DefaultResponseDto responseDto = new DefaultResponseDto();
         responseDto.setMember(HttpStatus.OK, true, "authorized");

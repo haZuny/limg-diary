@@ -75,13 +75,12 @@ function Center({ child, nonAuth }) {
     }
 
     useEffect(() => {
-        console.log("로그인", nonAuth)
         window.addEventListener('resize', resizeHandle)
 
         // auth check
         async function load(){
-            console.log("진행중")
             const res = await RestApiHelper.checkAuthorization(localStorage.getItem("Authentication"))
+            console.log("auth?", res)
             if (res)    setAuth(true);
             else{
                 window.confirm("로그인이 필요합니다.")
