@@ -68,13 +68,17 @@ public class SecurityConfig {
             auth
 
                     .requestMatchers(
-                            "/user/signin", "/user/signup", "/user/refresh", "/user/logout").permitAll()
+                            "/user/signin", "/user/signup", "/user/refresh", "/user/logout"
+                            , "/challenge/icon/*/true", "/challenge/icon/*/false").permitAll()
 
                     .requestMatchers(
                             "/test"
                             , "/user/modify", "/user/self"
-                            , "challenge/achieved", "challenge/unachieved"
-                            , "/diary/add", "/diary/today").hasRole(roleRepository.findByLevel(1).getName())
+                            ,"/drawstyle/list"
+                            ,"/todayrate/list"
+                            , "/hashtag/search"
+                            , "/challenge/achieved", "/challenge/unachieved", "challenge/*"
+                            , "/diary/add", "/diary/today", "/diary/*", "/diary/month", "/diary/search", "/diary/img/*", "/diary/modify/*").hasRole(roleRepository.findByLevel(1).getName())
 
                     .requestMatchers(
                             "/test/admin"

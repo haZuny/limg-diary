@@ -16,7 +16,7 @@ import java.util.*;
 public class JwtUtil {
     private SecretKey secretKey;
 
-    private int accessExpMinute = 30;
+    private int accessExpMinute = 300;
     private int refreshExpMinute = 60 * 24 * 14;
 
 

@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.ArrayList;
 
 public interface DiaryAndHashtagRepository extends JpaRepository<DiaryAndHashtagEntity, Integer> {
-    ArrayList<HashtagEntity> findByDiary(DiaryEntity diaryEntity);
+    ArrayList<DiaryAndHashtagEntity> findAllByDiary(DiaryEntity diaryEntity);
 }

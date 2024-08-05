@@ -4,13 +4,13 @@ import com.hayden.limg_diary.entity.challenges.dto.GetAchievedResponseDto;
 import com.hayden.limg_diary.entity.challenges.dto.GetUnachievedResponseDto;
 import com.hayden.limg_diary.entity.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.net.MalformedURLException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AchievedChallengeService {
@@ -18,13 +18,18 @@ public class AchievedChallengeService {
     AchievedChallengeRepository achievedChallengeRepository;
     ChallengeRepository challengeRepository;
 
+    // value
+    @Value("${path.uri}")
+    String uri;
+
+
     @Autowired
     public AchievedChallengeService(AchievedChallengeRepository achievedChallengeRepository, ChallengeRepository challengeRepository) {
         this.achievedChallengeRepository = achievedChallengeRepository;
         this.challengeRepository = challengeRepository;
     }
 
-    public ResponseEntity<GetAchievedResponseDto> getAchievedByUser(UserEntity user){
+    public ResponseEntity<GetAchievedResponseDto> getAchievedByUser(UserEntity user) throws MalformedURLException {
         List<AchievedChallengeEntity> achievedChallenges = achievedChallengeRepository.findAllByUser(user);
 
         GetAchievedResponseDto responseDto = new GetAchievedResponseDto();
@@ -34,16 +39,16 @@ public class AchievedChallengeService {
             ChallengeEntity challenge = entity.getChallenge();
 
             responseDto.addData(entity.getId()
-            , challenge.getAchievedIconPath()
+            , String.format("%s/challenge/icon/%d/%b", uri, entity.getId(), false)
             , challenge.getName()
             , challenge.getSpecific()
-            , entity.getCreatedData());
+            , entity.getCreatedDate());
         }
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<GetUnachievedResponseDto> getUnachievedByUser(UserEntity user){
+    public ResponseEntity<GetUnachievedResponseDto> getUnachievedByUser(UserEntity user) throws MalformedURLException {
 
         // find unachieved
         List<ChallengeEntity> unachievedChallenges = challengeRepository.findAll();
@@ -60,9 +65,10 @@ public class AchievedChallengeService {
 
             responseDto.addData(
                     entity.getId()
-                    , entity.getAchievedIconPath()
+                    , String.format("%s/challenge/icon/%d/%b", uri, entity.getId(), false)
                     , entity.getName()
-                    , entity.getSpecific());
+                    , entity.getSpecific()
+            );
         }
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
