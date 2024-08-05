@@ -14,8 +14,6 @@ class RestApiHelper{
                     return true;
 
                 }).catch(error => {
-                    console.log('실패')
-                    console.log(error.response)
                     return false;
                 });
                 break;
@@ -24,11 +22,9 @@ class RestApiHelper{
     }
     
     static checkAuthorization(accessToken){
-        // const header = {Authentication: `${accessToken}`}
-        const header = {Authentication: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJjYXRlZ29yeSI6ImFjY2VzcyIsInVzZXJuYW1lIjoiMTIzNCIsImlhdCI6MTcyMjg0NTc2NSwiZXhwIjoxNzIyODQ1NzY1fQ.PS8DKyOAEbOyY94hOocd6BBEdsLSPsqHOGByD8xSFpk`}
-
-        console.log("전송")
-        this.sendRequest("/user/check", "GET", {header:header})
+        const header = {Authentication: accessToken};
+        const res = this.sendRequest("/user/check", "GET", {header:header});
+        return res;
     }
 }
 
