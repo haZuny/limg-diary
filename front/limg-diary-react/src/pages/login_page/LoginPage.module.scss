@@ -4,12 +4,6 @@
 /// Id
 /// 
 
-// 최상단 컨테이너
-#container{
-    width: calc(var(--vw)*100);
-    height: calc(var(--vh)*100);
-    flex-direction: column;
-}
 
 // 위쪽 컨테이너 박스
 #upper_container{
@@ -24,6 +18,10 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+}
+
+#blank{
+    height: calc(var(--vh)*10);
 }
 
 // 타이틀 이미지 박스
@@ -42,10 +40,8 @@
 
 #lower_container{
     // size
-    height: calc(var(--vh)*50);
+    height: calc(var(--vh)*40);
     flex-grow: 1;
-    // color
-    background-color: $color_white;
     // item-align
     flex-direction: column;
     justify-content: space-around;
@@ -76,6 +72,9 @@
     font-size: calc(var(--vw)*5);
     // padding
     padding-left: 2%;
+    box-sizing: border-box;
+    // color
+    background-color: $color_transparency;
 }
 input::placeholder{
     color: $color_black_t30;
@@ -93,4 +92,4 @@ input::placeholder{
 }
 
 
-
+// 태그 변경

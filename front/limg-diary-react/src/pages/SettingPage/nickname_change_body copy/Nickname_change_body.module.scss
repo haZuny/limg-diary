@@ -1,11 +1,13 @@
-@import '../Global.scss';
+@import '../../Global.scss';
 
 #modal_body_box{
     // size
-    height: calc(var(--vh)*57);
+    height: calc(var(--vh)*40);
     // item align
     flex-direction: column;
-    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    // overflow
     overflow-y: scroll;
     
 }
@@ -19,7 +21,7 @@
 
 input{
     // size
-    width: 90%;
+    width: 100%;
     height: calc(var(--vh)*8);
     // border
     border-left: 0;
@@ -32,7 +34,7 @@ input{
     // font
     font-size: calc(var(--vw)*5);
     // padding
-    padding-left: 2%;
+    padding: 0;
     // margin
     margin-bottom: calc(var(--vh)*4);
 }

@@ -6,6 +6,7 @@
     height: calc(var(--vh)*100);
     // position
     position: absolute;
+    z-index: 10;
     top: 0;
     // item-align
     justify-content: center;

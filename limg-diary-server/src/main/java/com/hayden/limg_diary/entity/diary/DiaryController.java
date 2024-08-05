@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.MalformedURLException;
 import java.text.ParseException;
 
@@ -65,5 +64,4 @@ public class DiaryController {
     public Resource getDiaryImage(@PathVariable int diaryId, @AuthenticationPrincipal CustomUserDetails userDetails) throws MalformedURLException {
         return diaryService.getDiaryImage(diaryId, userDetails);
     }
-
 }

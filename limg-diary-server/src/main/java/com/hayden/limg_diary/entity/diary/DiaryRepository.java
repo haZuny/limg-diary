@@ -3,7 +3,6 @@ package com.hayden.limg_diary.entity.diary;
 import com.hayden.limg_diary.entity.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -19,6 +18,4 @@ public interface DiaryRepository extends JpaRepository<DiaryEntity, Integer> {
     ArrayList<DiaryEntity> findAllByCreatedDateGreaterThanEqualAndUserOrderByCreatedDateDesc(LocalDate startDate, UserEntity user);
     // edate
     ArrayList<DiaryEntity> findAllByCreatedDateLessThanEqualAndUserOrderByCreatedDateDesc(LocalDate endDate, UserEntity user);
-
-
 }

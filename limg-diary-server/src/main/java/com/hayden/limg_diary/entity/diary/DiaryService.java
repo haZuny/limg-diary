@@ -13,13 +13,13 @@ import com.hayden.limg_diary.entity.today_rate.TodayRateRepository;
 import com.hayden.limg_diary.entity.user.CustomUserDetails;
 import com.hayden.limg_diary.entity.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -32,9 +32,7 @@ public class DiaryService {
     DiaryAndHashtagService diaryAndHashtagService;
     TodayRateRepository todayRateRepository;
     DiaryAndHashtagRepository diaryAndHashtagRepository;
-
     DrawStyleRepository drawStyleRepository;
-
     PictureRepository pictureRepository;
     PictureService pictureService;
     HashtagRepository hashtagRepository;
@@ -54,7 +52,6 @@ public class DiaryService {
                         PictureService pictureService,
                         PictureRepository pictureRepository,
                         HashtagRepository hashtagRepository) {
-
         this.diaryRepository = diaryRepository;
         this.hashtagRepository = hashtagRepository;
         this.diaryAndHashtagService = diaryAndHashtagService;

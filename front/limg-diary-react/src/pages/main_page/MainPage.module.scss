@@ -7,7 +7,6 @@
 #root_container{
     // size
     width: calc(var(--vw)*100);
-    height: calc(var(--vh)*100);
     // color
     background-color: $color_beige;
     // item align
@@ -15,25 +14,10 @@
     align-items: center;
 }
 
-#body_container{
-    // size
-    width: $size_width_component;
-    // item align
-    flex-direction: column;
-    align-items: center;
-    // overflow
-    overflow: scroll;
-}
-#body_container::-webkit-scrollbar{
-    display: none;
-}
-
 //
 // 오늘 날짜
 //
 #title_box{
-    // margin
-    margin-top: calc(var(--vh)*5);
 }
 
 #today_text_sub{
@@ -46,7 +30,7 @@
 
 #today_text_main{
     // font
-    font-size: calc(var(--vw)*6);
+    font-size: calc(var(--vw)*6.5);
     font-weight: bold;
     // margin
     margin-left: calc(var(--vw)*2);
@@ -66,6 +50,13 @@
     // align
     flex-wrap: wrap;
     justify-content: center;
+    // size
+    height: calc(var(--vh)*20);
+    // overflow
+    overflow: scroll;
+}
+#tag_box::-webkit-scrollbar{
+    display: none;
 }
 
 #search_btn_box{
@@ -80,7 +71,7 @@
     border:none;
     background-color: $color_transparency;
     // font
-    font-size: calc(var(--vw)*3.5);
+    font-size: calc(var(--vw)*5);
     font-weight: bold;
     color: $color_green;
     // margin

@@ -8,12 +8,27 @@
     align-items: center;
 }
 
+#upper_container{
+    // size
+    width: 100%;
+    // align
+    justify-content: center;
+    // position
+    position: relative;
+}
+
 #title{
     // font
-    font-size: calc(var(--vw)*4.5);
+    font-size: calc(var(--vw)*6);
     font-weight: bold;
     // margin
     margin-bottom: calc(var(--vh)*1);
+}
+
+#option{
+    position:absolute;
+    right: 0;
+    bottom: 0;
 }
 
 #box{

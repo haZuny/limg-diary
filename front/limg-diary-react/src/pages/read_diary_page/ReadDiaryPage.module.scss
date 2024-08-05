@@ -1,0 +1,208 @@
+@import '../Global.scss';
+
+$content_gab: calc(var(--vh)*5);
+
+#body_container{
+    align-items: center;
+}
+
+// 날짜
+#date{
+    // font
+    font-size: calc(var(--vw)*8);
+    font-weight: bold;
+    // margin
+    margin-bottom: $content_gab;
+}
+
+// 하루 기분
+#today_rate_container{
+    // size
+    width: 100%;
+    // align
+    justify-content: center;
+    // margin
+    margin-bottom: calc(var(--vw)*3);
+}
+
+#today_rate_title{
+    font-size: calc(var(--vw)*5);
+    font-weight: bold;
+}
+
+#today_rate_space{
+    width: calc(var(--vw)*5);
+}
+
+#today_rate_rate{
+    font-size: calc(var(--vw)*5);
+}
+
+// 이미지
+#diary_img_box{
+    // size
+    width: 100%;
+    // border
+    border-radius: 20px;
+    // overflow
+    overflow: hidden;
+    // margin
+    margin-bottom:  $content_gab;
+}
+
+// 일기
+#diary_content_container{
+    margin-bottom:  $content_gab;
+}
+
+#diary_content_box{
+    // size
+    width: 100%;
+    height: calc(var(--vh)*40);
+    // font
+    font-size: 20px;
+    // align
+    text-align: center;
+    // overflow
+    overflow-y: scroll;
+}
+#diary_content_box::-webkit-scrollbar{
+    display: none;
+}
+
+// 태그
+#tag_title_container{
+    // size
+    width: 100%;
+    // align
+    justify-content: center;
+    // margin
+    margin-bottom: calc(var(--vh)*2);
+    // position
+    position: relative;
+    // padding
+    // padding-right: calc(var(--vw)*5);
+}
+
+#tag_title{
+    // font
+    font-size: calc(var(--vw)*6);
+    font-weight: bold;
+    
+}
+
+
+#tag_change_btn{
+    // position
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    // color
+    background-color: $color_transparency;
+    // border
+    border: none;
+    // font
+    font-size: calc(var(--vw)*4);
+    font-weight: bold;
+    color: $color_black_t30;
+    // margin
+    margin-right: calc(var(--vw)*3);
+}
+
+#tag_box{
+    // size
+    width: 100%;
+    // align
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+
+///
+/// 태그 추가
+/// 
+#tag_change_modal_body{
+    width: 100%;
+    flex-direction: column;
+}
+#tag_add_container{
+    // size
+    width: 100%;
+    // align
+    justify-content: space-between;
+    align-items: center;
+}
+
+#tag_change_title{
+    font-size: calc(var(--vw)*5);
+    font-weight: bold;
+}
+
+#tag_input_container{
+    // size
+    width: 80%;
+    // align
+    justify-content: space-between;
+    align-items: end;
+}
+
+#tag_input{
+    // size
+    width: 60%;
+    flex-shrink: 0;
+    height: fit-content;
+    // color
+    background-color: $color_transparency;
+    // font
+    font-size: 18px;
+    // margin
+    margin-bottom: 0;
+    // padding
+    padding: 10px;
+}
+#tag_input::placeholder{
+    font-size: 25px;
+}
+
+#tag_add_btn{
+    // size
+    height: fit-content;
+    flex-shrink: 0;
+    // color
+    background-color: $color_transparency;
+    // border
+    border: none;
+    // font
+    font-size: calc(var(--vw)*5);
+    font-weight: bold;
+    color: $color_black;
+}
+#tag_add_btn:active{
+    color: $color_black_t30
+}
+
+#tags_container{
+    // size
+    height: calc(var(--vh)*7);
+    width: 100%;
+    //overflow
+    overflow-x: scroll;
+    // align
+    align-items: end;
+    position: relative;
+    // margin
+    margin-top: calc(var(--vh)*1);
+    margin-bottom: calc(var(--vh)*3);
+}
+#tags_container::-webkit-scrollbar{
+    display: none;
+}
+
+#tag_change_btn_container{
+    // size
+    width: 100%;
+    // align
+    flex-direction: column;
+    align-items: center;
+}

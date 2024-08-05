@@ -8,7 +8,7 @@ $side_margin: 4%;
 //
 
 // 최상단 컨테이너
-#container{
+.root_container{
     // size
     width: calc(var(--vw) * 100);
     height: calc(var(--vh) * 10);
@@ -18,6 +18,16 @@ $side_margin: 4%;
     justify-content: space-between;
     align-items: center;
     flex-wrap: nowrap;
+    // position
+    position: relative;
+    top: 0;
+    z-index: 2;
+    // animation
+    transition: top 0.3s;
+}
+.root_container_unvisible{
+    top: calc(var(--vh)*-10);
+    position: fixed;
 }
 
 // 림그일기 제목 그룹

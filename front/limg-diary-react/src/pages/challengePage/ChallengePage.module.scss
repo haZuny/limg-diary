@@ -1,0 +1,133 @@
+@import '../Global.scss';
+
+// 퍼센트
+#percent_container{
+    // size
+    width: 100%;
+    aspect-ratio: 1;
+    // align
+    justify-content: center;
+    align-items: center;
+    // position
+    position: relative;
+}
+
+#percent_circle_out{
+    // size
+    width: 90%;
+    aspect-ratio: 1;
+    // border
+    border-radius: 100%;
+    // transition
+    transition: all 0.2s;
+}
+
+#percent_circle_in{
+    // size
+    width: 80%;
+    aspect-ratio: 1;
+    // border
+    border-radius: 100%;
+    // postion
+    position: absolute;
+    // color
+    background-color: $color_white;
+    // align
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+#percent_title_percent{
+    // font
+    font-size: calc(var(--vw)*18);
+    font-weight: bold;
+    // align
+    text-align: center;
+}
+
+#percent_title_sub{
+    // font
+    font-size: calc(var(--vw)*6);
+    // align
+    text-align: center;
+}
+
+// 공백
+#blank{
+    height: calc(var(--vh)*5);
+}
+
+// 업적 리스트
+#challenge_list_container{
+    // size
+    width: 100%;
+    height: calc(var(--vh)*35);
+    // align
+    justify-content: space-between;
+    flex-wrap: wrap;
+    // overflow
+    overflow: scroll;
+}
+#challenge_list_container::-webkit-scrollbar{
+    display: none;
+}
+
+.challenge_img_box{
+    // size
+    width: calc(var(--vw)*18);
+    height: calc(var(--vw)*18);
+    // border
+    border-radius: 20px;
+    // overflow
+    overflow: hidden;
+    // margin
+    margin-bottom: calc(var(--vh)*1);
+}
+
+// 업적 모달
+#challenge_modal_container{
+    // size
+    width: 100%;
+    // align
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#challenge_modal_img_box{
+    // size
+    width: 80%;
+    aspect-ratio: 1;
+    // border
+    border-radius: 20px;
+    // overflow
+    overflow: hidden;
+    // margin
+    margin-bottom: calc(var(--vh)*2);
+}
+
+#challenge_modal_title{
+    // font
+    font-size: calc(var(--vw)*6);
+    font-weight: bold;
+    // margin
+    margin-bottom: calc(var(--vw)*1);
+}
+
+#challenge_modal_specific{
+    // font
+    font-size: calc(var(--vw)*5);
+    // align
+    text-align: center;
+    // margin
+    margin-bottom: calc(var(--vw)*5);
+}
+
+#challenge_modal_date{
+    // color
+    color: $color_black_t30;
+    // font
+    font-size: calc(var(--vw)*5);
+    font-weight: bold;
+}

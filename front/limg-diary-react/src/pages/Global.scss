@@ -7,18 +7,19 @@ $color_transparency: #00000000;
 $color_white: #ffffff;
 $color_white_t30: #ffffff40;
 $color_black: #000000;
+$color_black_t01: #00000007;
 $color_black_t30: #0000004d;
+$color_black_t50: #0000007a;
 $color_green: #4BA99F;
 $color_green_b: #3D8B84;
+$color_deepgreen: #112E2E;
 $color_beige: #FEFEF5;
 $color_yello: #FFFADF;
 $color_blue: #01C4F5;
-$color_blue_b: #01B6E1;
+$color_blue_b: #07728d;
 
 // size
-$size_width_component: calc((var(--vw)*80));
-
-
+$size_width_component: calc((var(--vw)*90));
 
 .container {
     // about flex-box
@@ -30,6 +31,45 @@ $size_width_component: calc((var(--vw)*80));
     width: calc(var(--vw)*100);
 }
 
+.page_root_container{
+    // size
+    width: calc(var(--vw)*100);
+    height: calc(var(--vh)*100);
+    // align
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+    box-sizing: border-box;
+    // position
+    position: relative;
+    // overflow
+    overflow: hidden;
+    // color
+    background-color: $color_beige;
+}
+
+#body_container{
+    // size
+    width: $size_width_component;
+    flex-grow: 1;
+    height: 0;
+    // overflow
+    overflow-y: scroll;
+    // align
+    flex-direction: column;
+    align-items: center;
+    // padding
+    padding-top: calc(var(--vh)*5);
+    padding-bottom: calc(var(--vh)*5);
+}
+#body_container::-webkit-scrollbar{
+    display: none;
+}
+
+* {
+    flex-shrink: 0;
+}
 
 img {
     display: block;

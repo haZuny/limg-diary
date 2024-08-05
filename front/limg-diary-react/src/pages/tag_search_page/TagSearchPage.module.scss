@@ -1,0 +1,71 @@
+@import '../Global.scss';
+
+
+///
+/// tag
+/// 
+#tag_container{
+    margin-bottom: calc(var(--vh)*5);
+}
+
+
+#tag_box{
+    // align
+    justify-content: center;
+    flex-wrap: wrap;
+    // size
+    height:calc(var(--vh)*25);
+    // overflow
+    overflow: scroll;
+}
+#tag_box::-webkit-scrollbar{
+    display: none;
+}
+
+
+///
+/// diary
+/// 
+#diarys_container{
+    // size
+    width: $size_width_component;
+    // align
+    flex-direction: column;
+}
+
+#diaries_box{
+    // size
+    height: calc(var(--vh)*40);
+    // align
+    justify-content: space-between;
+    flex-wrap: wrap;
+    // overflow
+    overflow: scroll;
+}
+#diaries_box::-webkit-scrollbar{
+    display: none;
+}
+
+#diary_img{
+    // size
+    width: calc(var(--vw)*17);
+    height: calc(var(--vw)*17);
+    // margin
+    margin-bottom: 3%;
+}
+
+#gray_tag_container{
+    // size
+    width: 100%;
+    height: calc(var(--vh)*7);
+    // align
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    // overflow
+    overflow-y: hidden;
+    overflow-x: scroll;
+}
+#gray_tag_container::-webkit-scrollbar{
+    display: none;
+}
