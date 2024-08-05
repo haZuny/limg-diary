@@ -205,8 +205,8 @@ public class UserService {
         getUserResponseDto.setSuccess(true);
         getUserResponseDto.setMsg("success");
         getUserResponseDto.getUserSelf().setId(user.getId());
-        getUserResponseDto.getUserSelf().setCreated_date(user.getCreatedData());
-        getUserResponseDto.getUserSelf().setUpdated_date(user.getUpdatedData());
+        getUserResponseDto.getUserSelf().setCreated_date(user.getCreatedDate());
+        getUserResponseDto.getUserSelf().setUpdated_date(user.getUpdatedDate());
         getUserResponseDto.getUserSelf().setUsername(user.getUsername());
         getUserResponseDto.getUserSelf().setNickname(user.getNickname());
         getUserResponseDto.getUserSelf().setRole(new ArrayList<String>());
@@ -240,8 +240,8 @@ public class UserService {
         getUserResponseDto.setSuccess(true);
         getUserResponseDto.setMsg("success");
         getUserResponseDto.getUserSelf().setId(user.getId());
-        getUserResponseDto.getUserSelf().setCreated_date(user.getCreatedData());
-        getUserResponseDto.getUserSelf().setUpdated_date(user.getUpdatedData());
+        getUserResponseDto.getUserSelf().setCreated_date(user.getCreatedDate());
+        getUserResponseDto.getUserSelf().setUpdated_date(user.getUpdatedDate());
         getUserResponseDto.getUserSelf().setUsername(user.getUsername());
         getUserResponseDto.getUserSelf().setNickname(user.getNickname());
         getUserResponseDto.getUserSelf().setRole(new ArrayList<String>());

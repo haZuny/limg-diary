@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
-
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -17,11 +17,6 @@ public class DiaryTodayResponseDto extends DefaultResponseDto {
     public class Data{
         private int diary_id;
         private String picture;
-        private Date today;
-        public void setDataValue(int id, String picture, Date today){
-            this.diary_id = id;
-            this.picture = picture;
-            this.today = today;
-        }
+        private LocalDate today;
     }
 }
