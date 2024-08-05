@@ -26,36 +26,50 @@ public class DiaryAndHashtagService {
     }
 
     // 일기 작성시 태그 추가
-    public boolean DiaryAndHashtagAdd(DiaryEntity diaryEntity, ArrayList<String> tag){
-        int index = 0;
-        while(index< tag.size()){
+    public boolean addDiaryAndTag(DiaryEntity diaryEntity, String tag) {
+        // get Hashtag Entity
+        HashtagEntity hashtagEntity = hashtagRepository.findByTag(tag);
+        if (hashtagEntity == null) {
+            HashtagEntity newHashtagEntity = new HashtagEntity();
+            newHashtagEntity.setTag(tag);
+            newHashtagEntity.setDiary_cnt(1);
+            hashtagEntity = hashtagRepository.save(newHashtagEntity);
+        } else {
+            hashtagEntity.setDiary_cnt(hashtagEntity.getDiary_cnt() + 1);
+            hashtagEntity = hashtagRepository.save(hashtagEntity);
+        }
 
-            DiaryAndHashtagEntity diaryAndHashtagEntity = new DiaryAndHashtagEntity();
+        // add DiaryAndHashtag
+        DiaryAndHashtagEntity diaryAndHashtagEntity = new DiaryAndHashtagEntity();
+        diaryAndHashtagEntity.setHashtag(hashtagEntity);
+        diaryAndHashtagEntity.setDiary(diaryEntity);
+        diaryAndHashtagRepository.save(diaryAndHashtagEntity);
+        return true;
+    }
 
-            HashtagEntity hashtagEntity = hashtagRepository.findByTag(tag.get(index));
+    public boolean deleteAllTagOfDiary(DiaryEntity diary) {
+        ArrayList<DiaryAndHashtagEntity> diaryAndHashtagEntities = diaryAndHashtagRepository.findAllByDiary(diary);
 
-            if(hashtagEntity == null) {
-                HashtagEntity newHashtagEntity = new HashtagEntity();
-                newHashtagEntity.setTag(tag.get(index));
-                newHashtagEntity.setDiary_cnt(1);
-                hashtagEntity = hashtagRepository.save(newHashtagEntity);
+        for (DiaryAndHashtagEntity diaryAndHashtag : diaryAndHashtagEntities) {
+            // get Hashtag
+            HashtagEntity hashtagEntity = diaryAndHashtag.getHashtag();
+
+            // delete diaryAndHashtag
+            diaryAndHashtagRepository.delete(diaryAndHashtag);
+
+            // set tag cnt
+            if (hashtagEntity.getDiary_cnt() > 1) {
+                hashtagEntity.setDiary_cnt(hashtagEntity.getDiary_cnt() - 1);
+                hashtagEntity = hashtagRepository.save(hashtagEntity);
+            } else {
+                hashtagRepository.delete(hashtagEntity);
             }
-            else{
-                hashtagEntity.setDiary_cnt(hashtagEntity.getDiary_cnt() + 1);
-                hashtagRepository.save(hashtagEntity);
-            }
-            ++index;
-            diaryAndHashtagEntity.setHashtag(hashtagEntity);
-
-
-            diaryAndHashtagEntity.setDiary(diaryEntity);
-            diaryAndHashtagRepository.save(diaryAndHashtagEntity);
         }
         return true;
     }
 
 
-    public ResponseEntity<GetDiaryByTagResponseDto> getDiaryByTag(ArrayList<String> requestDto, CustomUserDetails userDetails){
+    public ResponseEntity<GetDiaryByTagResponseDto> getDiaryByTag(ArrayList<String> requestDto, CustomUserDetails userDetails) {
 
         /**
          * 1. user가 작성한 모든 diary_id get (diary_repo)
@@ -67,7 +81,7 @@ public class DiaryAndHashtagService {
         GetDiaryByTagResponseDto responseDto = new GetDiaryByTagResponseDto();
 
         // request null check
-        if (requestDto == null){
+        if (requestDto == null) {
             responseDto.setState(HttpStatus.BAD_REQUEST, false, "required parameters not received");
             responseDto.setData(null);
             return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
@@ -78,7 +92,7 @@ public class DiaryAndHashtagService {
 
         // get tag entity
         ArrayList<HashtagEntity> tags = new ArrayList<>();
-        for (String tag : requestDto){
+        for (String tag : requestDto) {
             tags.add(hashtagRepository.findByTag(tag));
         }
 
@@ -86,24 +100,24 @@ public class DiaryAndHashtagService {
         ArrayList<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDateDesc(user);
 
         // 02. get Hashtag list by diaryid
-        for (DiaryEntity diary : diaryList){
+        for (DiaryEntity diary : diaryList) {
             ArrayList<DiaryAndHashtagEntity> diaryAndHashtagList = diaryAndHashtagRepository.findAllByDiary(diary);
 
             // 03. check diary contains all tags
             boolean containAllTag = true;
-            for (HashtagEntity hashtag : tags){
+            for (HashtagEntity hashtag : tags) {
 
                 // 03_2. check one tag is contained
                 boolean tagContained = false;
-                for (DiaryAndHashtagEntity diaryAndHashtag : diaryAndHashtagList){
-                    if (diaryAndHashtag.getHashtag() == hashtag ){
+                for (DiaryAndHashtagEntity diaryAndHashtag : diaryAndHashtagList) {
+                    if (diaryAndHashtag.getHashtag() == hashtag) {
                         tagContained = true;
                         break;
                     }
                 }
 
                 // 03_2. if tag isn't container, stop checking
-                if (!tagContained){
+                if (!tagContained) {
                     containAllTag = false;
                     break;
                 }

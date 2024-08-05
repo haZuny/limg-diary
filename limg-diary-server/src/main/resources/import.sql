@@ -31,10 +31,10 @@ insert into user_and_role (role_id, user_id) values (1, 2)
 
 
 -- add tags
- insert into "HASHTAG" (TAG, DIARY_CNT) VALUES ('태그1번', 0)
- insert into "HASHTAG" (TAG, DIARY_CNT) VALUES ('태그2번', 0)
- insert into "HASHTAG" (TAG, DIARY_CNT) VALUES ('태그3번', 0)
- insert into "HASHTAG" (TAG, DIARY_CNT) VALUES ('태그4번', 0)
+ insert into "HASHTAG" (TAG, DIARY_CNT) VALUES ('태그1번', 1)
+ insert into "HASHTAG" (TAG, DIARY_CNT) VALUES ('태그2번', 1)
+ insert into "HASHTAG" (TAG, DIARY_CNT) VALUES ('태그3번', 2)
+ insert into "HASHTAG" (TAG, DIARY_CNT) VALUES ('태그4번', 1)
 
 -- add diaries (포함된 태그: 1번 ,2번 ,3번)
  insert into "DIARY"  (USER_ID, CREATED_DATE, CONTENT, TODAY_RATE_ID) VALUES (2, '2024-08-04', '안녕하세요. 이건 테스트 일기 1번 입니다.', 1)

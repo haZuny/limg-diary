@@ -4,10 +4,7 @@ import com.hayden.limg_diary.entity.DefaultResponseDto;
 import com.hayden.limg_diary.entity.diary.dto.*;
 import com.hayden.limg_diary.entity.draw_style.DrawStyleEntity;
 import com.hayden.limg_diary.entity.draw_style.DrawStyleRepository;
-import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagEntity;
-import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagRepository;
-import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagService;
-import com.hayden.limg_diary.entity.hashtag.HashtagRepository;
+import com.hayden.limg_diary.entity.hashtag.*;
 import com.hayden.limg_diary.entity.picture.PictureEntity;
 import com.hayden.limg_diary.entity.picture.PictureRepository;
 import com.hayden.limg_diary.entity.picture.PictureService;
@@ -122,7 +119,9 @@ public class DiaryService {
 
 
         //해시태그 저장
-        diaryAndHashtagService.DiaryAndHashtagAdd(diaryEntity, diaryAddRequestDto.getHashtag());
+        for (String tag : diaryAddRequestDto.getHashtag()){
+            diaryAndHashtagService.addDiaryAndTag(diaryEntity, tag);
+        }
 
         // 그림 생성 및 저장
         pictureService.createPicture(diaryEntity, drawStyleOptional.get());
@@ -295,44 +294,68 @@ public class DiaryService {
     }
 
     public ResponseEntity<DefaultResponseDto> diaryModify(int diaryId, DiaryModifyRequestDto diaryModifyRequestDto, CustomUserDetails user) {
+
+        // response dto
         DefaultResponseDto responseDto = new DefaultResponseDto();
 
-        DiaryEntity modifyDiary = diaryRepository.findById(diaryId);
+        // get diaryEntity endity
+        DiaryEntity diaryEntity= diaryRepository.findById(diaryId);
 
-        if (modifyDiary.getUser().getId() != user.getUserEntity().getId()) {
-            responseDto.setState(HttpStatus.UNAUTHORIZED, false, "user not authenticatied");
+        // check user
+        if (diaryEntity.getUser().getId() != user.getUserEntity().getId()) {
+            responseDto.setState(HttpStatus.UNAUTHORIZED, false, "user not authenticated");
             return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
         }
 
-        // 컨텐츠 변경
-        if (diaryModifyRequestDto.getContent() != null) {
-            modifyDiary.setContent(diaryModifyRequestDto.getContent());
-            diaryRepository.save(modifyDiary);
+        // modify content
+        if (diaryModifyRequestDto.getContent() != null && !diaryModifyRequestDto.getContent().isEmpty()) {
+            diaryEntity.setContent(diaryModifyRequestDto.getContent());
+            diaryEntity = diaryRepository.save(diaryEntity);
         }
 
-        //하루 평가 변경
-//        if(diaryModifyRequestDto.getToday_rate() != -1){
-//            DiaryAndTodayRateEntity diaryAndTodayRateEntity = diaryAndTodayRateRepository.findByDiary(modifyDiary);
-//            diaryAndTodayRateRepository.delete(diaryAndTodayRateEntity);
-//            diaryAndTodayRateService.DiaryAndTodayRateAdd(modifyDiary, diaryModifyRequestDto.getToday_rate());
-//        }
-
-        //해시태그 변경
-        if (diaryModifyRequestDto.getHashtag() != null) {
-            ArrayList<DiaryAndHashtagEntity> modifyHashtag = diaryAndHashtagRepository.findAllByDiary(modifyDiary);
-            int index = 0;
-            while (index < modifyHashtag.size()) {
-                modifyHashtag.get(index).getHashtag().setDiary_cnt(modifyHashtag.get(index).getHashtag().getDiary_cnt() - 1);
-                diaryAndHashtagRepository.delete(modifyHashtag.get(index));
-                if (modifyHashtag.get(index).getHashtag().getDiary_cnt() < 1) {
-                    hashtagRepository.delete(modifyHashtag.get(index).getHashtag());
-                }
-                ++index;
+        // modify today_rate
+        if(diaryModifyRequestDto.getToday_rate() != -1){
+            TodayRateEntity todayRate = todayRateRepository.findByRateNum(diaryModifyRequestDto.getToday_rate());
+            if(todayRate == null){
+                responseDto.setState(HttpStatus.BAD_REQUEST, false, "today rate is invalid");
+                return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
             }
-            diaryAndHashtagService.DiaryAndHashtagAdd(modifyDiary, diaryModifyRequestDto.getHashtag());
+            diaryEntity.setTodayRate(todayRate);
+            diaryEntity = diaryRepository.save(diaryEntity);
         }
 
-        // return
+        // modify hashtag
+        if (diaryModifyRequestDto.getHashtag() != null) {
+
+            // delete all existing tags
+            diaryAndHashtagService.deleteAllTagOfDiary(diaryEntity);
+
+            // add new tags
+            for (String tag : diaryModifyRequestDto.getHashtag()){
+                diaryAndHashtagService.addDiaryAndTag(diaryEntity, tag);
+            }
+        }
+
+        // delete existing picture
+        PictureEntity pictureEntity = pictureRepository.findByDiary(diaryEntity);
+        DrawStyleEntity drawStyleEntity = pictureEntity.getDrawStyle();
+        pictureRepository.delete(pictureEntity);
+
+        // check draw style
+        if (diaryModifyRequestDto.getDraw_style() != null){
+            Optional<DrawStyleEntity> drawStyleEntityOptional = drawStyleRepository.findByStyleEng(diaryModifyRequestDto.getDraw_style());
+            if (drawStyleEntityOptional.isEmpty()){
+                responseDto.setState(HttpStatus.BAD_REQUEST, false, "draw style not match");
+                return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+            }
+            drawStyleEntity = drawStyleEntityOptional.get();
+        }
+
+        // create new picture
+        pictureService.createPicture(diaryEntity, drawStyleEntity);
+
+
+        // response
         responseDto.setState(HttpStatus.OK, true, "success");
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
