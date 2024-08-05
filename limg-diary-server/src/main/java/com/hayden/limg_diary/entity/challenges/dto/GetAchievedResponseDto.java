@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.springframework.core.io.UrlResource;
 
 import java.net.MalformedURLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 public class GetAchievedResponseDto extends DefaultResponseDto {
     List<DataClass> data = new ArrayList<>();
 
-    public void addData(int challenge_id, String icon_path, String name, String specific, Date date) throws MalformedURLException {
+    public void addData(int challenge_id, String icon_path, String name, String specific, LocalDate date) throws MalformedURLException {
         this.data.add(new DataClass(challenge_id, icon_path, name, specific, date));
     }
 
@@ -26,9 +27,9 @@ public class GetAchievedResponseDto extends DefaultResponseDto {
         UrlResource icon_path;
         String name;
         String specific;
-        Date date;
+        LocalDate date;
 
-        private DataClass(int challenge_id, String icon_path, String name, String specific, Date date) throws MalformedURLException {
+        private DataClass(int challenge_id, String icon_path, String name, String specific, LocalDate date) throws MalformedURLException {
             this.challenge_id = challenge_id;this.icon_path = new UrlResource("file:" + icon_path);
             this.name = name;
             this.specific = specific;

@@ -4,20 +4,12 @@ import com.hayden.limg_diary.entity.DefaultResponseDto;
 import com.hayden.limg_diary.entity.diary.dto.*;
 import com.hayden.limg_diary.entity.draw_style.DrawStyleEntity;
 import com.hayden.limg_diary.entity.draw_style.DrawStyleRepository;
-<<<<<<< HEAD
-import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagEntity;
-import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagRepository;
-import com.hayden.limg_diary.entity.hashtag.DiaryAndHashtagService;
+import com.hayden.limg_diary.entity.hashtag.*;
 import com.hayden.limg_diary.entity.picture.PictureEntity;
 import com.hayden.limg_diary.entity.picture.PictureRepository;
 import com.hayden.limg_diary.entity.picture.PictureService;
 import com.hayden.limg_diary.entity.today_rate.TodayRateEntity;
 import com.hayden.limg_diary.entity.today_rate.TodayRateRepository;
-=======
-import com.hayden.limg_diary.entity.hashtag.*;
-import com.hayden.limg_diary.entity.picture.PictureService;
-import com.hayden.limg_diary.entity.today_rate.*;
->>>>>>> 3ad0c851efd2b132668dacc111df42de3971d4ea
 import com.hayden.limg_diary.entity.user.CustomUserDetails;
 import com.hayden.limg_diary.entity.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +22,8 @@ import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -79,9 +72,9 @@ public class DiaryService {
         DiaryEntity diary = diaryRepository.findById(diaryId);
 
         // diary null check
-        if (diary == null)  throw new NoSuchFieldError("diary not found");
+        if (diary == null) throw new NoSuchFieldError("diary not found");
         // user check
-        if (diary.getUser().getId() != userEntity.getId())  throw new IllegalAccessError("user not match with diary");
+        if (diary.getUser().getId() != userEntity.getId()) throw new IllegalAccessError("user not match with diary");
 
         PictureEntity picture = pictureRepository.findByDiary(diary);
 
@@ -99,7 +92,7 @@ public class DiaryService {
 
         // get drawStyle Entity
         Optional<DrawStyleEntity> drawStyleOptional = drawStyleRepository.findByStyleEng(diaryAddRequestDto.getDraw_style());
-        if (drawStyleOptional.isEmpty()){
+        if (drawStyleOptional.isEmpty()) {
             responseDto.setState(HttpStatus.BAD_REQUEST, false, "diary drawstyle is empty");
             return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
         }
@@ -112,7 +105,7 @@ public class DiaryService {
 
         // get todayRate Entity
         TodayRateEntity todayRateEntity = todayRateRepository.findByRateNum(diaryAddRequestDto.getToday_rate());
-        if (todayRateEntity == null){
+        if (todayRateEntity == null) {
             responseDto.setState(HttpStatus.BAD_REQUEST, false, "today rate is not match");
             return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
         }
@@ -126,7 +119,9 @@ public class DiaryService {
 
 
         //해시태그 저장
-        diaryAndHashtagService.DiaryAndHashtagAdd(diaryEntity, diaryAddRequestDto.getHashtag());
+        for (String tag : diaryAddRequestDto.getHashtag()){
+            diaryAndHashtagService.addDiaryAndTag(diaryEntity, tag);
+        }
 
         // 그림 생성 및 저장
         pictureService.createPicture(diaryEntity, drawStyleOptional.get());
@@ -136,7 +131,7 @@ public class DiaryService {
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<DiaryTodayResponseDto> diaryToday(CustomUserDetails user) {
+    public ResponseEntity<DiaryTodayResponseDto> getDiaryByToday(CustomUserDetails user) {
 
         // response dto
         DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
@@ -145,28 +140,31 @@ public class DiaryService {
         UserEntity userEntity = user.getUserEntity();
 
         // get today diary
-        Date today_s = new Date();
-        Date today_e = new Date();
-        today_s.setTime();
+        LocalDate today = LocalDate.now();
+        Optional<DiaryEntity> diaryEntityOptional = diaryRepository.findByCreatedDateAndUser(today, userEntity);
 
-
-
-        List<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDataDesc(userEntity);
-        DiaryEntity todayDiary;
-        if (diaryList.size() > 0) {
-            todayDiary = diaryList.get(0);
-
-            Date now = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            if (dateFormat.format(todayDiary.getCreatedData()).equals(dateFormat.format(now))) {
-                diaryTodayResponseDto.setState(HttpStatus.OK, true, "success");
-                diaryTodayResponseDto.getData().setDataValue(todayDiary.getId(), null, todayDiary.getCreatedData());
-                return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.OK);
-            }
+        // return :: null case
+        if (diaryEntityOptional.isEmpty()) {
+            diaryTodayResponseDto.setState(HttpStatus.OK, true, "success :: today diary is not found");
+            diaryTodayResponseDto.setData(null);
+            return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.OK);
         }
-        diaryTodayResponseDto.setState(HttpStatus.NOT_FOUND, false, "fail");
-        diaryTodayResponseDto.setData(null);
-        return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.BAD_REQUEST);
+        DiaryEntity diary = diaryEntityOptional.get();
+
+        // get picture
+        PictureEntity picture = pictureRepository.findByDiary(diary);
+
+        // set response dto
+
+        diaryTodayResponseDto.getData().setDiary_id(diary.getId());
+        diaryTodayResponseDto.getData().setToday(diary.getCreatedDate());
+        if (picture.getPath() != null) {
+            diaryTodayResponseDto.getData().setPicture(String.format("%s/diary/img/%d", uriPath, diary.getId()));
+        } else {
+            diaryTodayResponseDto.getData().setPicture(null);
+        }
+        diaryTodayResponseDto.setState(HttpStatus.OK, true, "success");
+        return new ResponseEntity<>(diaryTodayResponseDto, HttpStatus.OK);
     }
 
     // Get By Id
@@ -199,21 +197,20 @@ public class DiaryService {
         // find hashtag
         ArrayList<DiaryAndHashtagEntity> tagEntities = diaryAndHashtagRepository.findAllByDiary(diaryEntity);
         ArrayList<String> tags = new ArrayList<>();
-        for (DiaryAndHashtagEntity tag : tagEntities)  tags.add(tag.getHashtag().getTag());
+        for (DiaryAndHashtagEntity tag : tagEntities) tags.add(tag.getHashtag().getTag());
 
 
         // set response entity
         diaryIdResponseDto.setState(HttpStatus.OK, true, "success");
         diaryIdResponseDto.getData().setDiary_id(diaryEntity.getId());
         diaryIdResponseDto.getData().setContent(diaryEntity.getContent());
-        if (picture.getPath() == null){
+        if (picture.getPath() == null) {
             diaryIdResponseDto.getData().setPicture(null);
-        }
-        else{
+        } else {
             diaryIdResponseDto.getData().setPicture(String.format("%s/diary/img/%d", uriPath, diaryEntity.getId()));
         }
-        diaryIdResponseDto.getData().setCreated_date(diaryEntity.getCreatedData());
-        diaryIdResponseDto.getData().setUpdated_date(diaryEntity.getUpdatedData());
+        diaryIdResponseDto.getData().setCreated_date(diaryEntity.getCreatedDate());
+        diaryIdResponseDto.getData().setUpdated_date(diaryEntity.getUpdatedDate());
         diaryIdResponseDto.getData().getToday_rate().setRate_num(diaryEntity.getTodayRate().getRateNum());
         diaryIdResponseDto.getData().getToday_rate().setRate_str(diaryEntity.getTodayRate().getRateStr());
         diaryIdResponseDto.getData().setHashtag(tags);
@@ -224,171 +221,141 @@ public class DiaryService {
         return new ResponseEntity<>(diaryIdResponseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<DiaryMonthResponseDto> diaryMonth(int year, int month, CustomUserDetails user) {
-        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
-        DiaryMonthResponseDto diaryMonthResponseDto = new DiaryMonthResponseDto();
+    public ResponseEntity<DiaryMonthResponseDto> getDiaryByMonth(int year, int month, CustomUserDetails user) {
+
+        // get user
         UserEntity userEntity = user.getUserEntity();
-        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
-        List<DiaryEntity> diaryList = diaryRepository.findAllByUserOrderByCreatedDataDesc(userEntity);
-        if (diaryList.size() > 0) {
-            int index = 0;
-            while(index < diaryList.size()){
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(diaryList.get(index).getCreatedData());
-                if(calendar.get(Calendar.YEAR) == year &&
-                        calendar.get(Calendar.MONTH)+1 == month){
-                    diaryTodayResponseDto.getData().setDataValue(diaryList.get(index).getId(),null,diaryList.get(index).getCreatedData());
-                    diaryTodayResponseDto.setState(HttpStatus.OK, true, "success");
-                    diaryMonthResponseDto.getDataList().add(diaryTodayResponseDto);
-                }
-                ++index;
-            }
-        }
+
+        // find diaries
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = LocalDate.of(year, month, startDate.lengthOfMonth());
+        ArrayList<DiaryEntity> diaries = diaryRepository.findAllByCreatedDateBetweenAndUserOrderByCreatedDateDesc(startDate, endDate, userEntity);
+
+        // set response dto
+        DiaryMonthResponseDto diaryMonthResponseDto = new DiaryMonthResponseDto();
         diaryMonthResponseDto.setState(HttpStatus.OK, true, "success");
+        for (DiaryEntity diary : diaries){
+            // find picture
+            PictureEntity picture = pictureRepository.findByDiary(diary);
+            String picturePath = picture.getPath() == null ? null : String.format("%s/diary/img/%d", uriPath, diary.getId());
+            diaryMonthResponseDto.addData(diary.getId(), picturePath, diary.getCreatedDate());
+        }
+
         return new ResponseEntity<>(diaryMonthResponseDto, HttpStatus.OK);
     }
 
-    public ResponseEntity<DiaryRequestResponseDto> diaryRequest(String sdate, String edate, String keyword, String align, CustomUserDetails user) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public ResponseEntity<DiarySearchResponseDto> diarySearch(String sdate, String edate, String keyword, String align, CustomUserDetails user) throws ParseException {
 
-        DiaryTodayResponseDto diaryTodayResponseDto = new DiaryTodayResponseDto();
-        DiaryRequestResponseDto diaryRequestResponseDto = new DiaryRequestResponseDto();
+        // get user
         UserEntity userEntity = user.getUserEntity();
-        //유저의 id와 일치하는 다이어리를 생성날짜순으로 가져옴
-        ArrayList<DiaryEntity> diaryList;
-        if(align == null || align.equals("recent")) {
-            diaryList = diaryRepository.findAllByUserOrderByCreatedDataDesc(userEntity);
+
+        // get diaries by date, by recent
+        ArrayList<DiaryEntity> diries;
+        if (sdate == null && edate == null)
+            diries = diaryRepository.findAllByUserOrderByCreatedDateDesc(userEntity);
+        else if (sdate != null && edate == null){
+            LocalDate srateDate = LocalDate.parse(sdate, DateTimeFormatter.ISO_DATE);
+            diries = diaryRepository.findAllByCreatedDateGreaterThanEqualAndUserOrderByCreatedDateDesc(srateDate, userEntity);
         }
-        else {
-            diaryList = diaryRepository.findAllByUserOrderByCreatedDataAsc(userEntity);
+        else if (sdate == null && edate != null){
+            LocalDate endDate = LocalDate.parse(edate, DateTimeFormatter.ISO_DATE);
+            diries = diaryRepository.findAllByCreatedDateLessThanEqualAndUserOrderByCreatedDateDesc(endDate, userEntity);
         }
-        if (diaryList.size() > 0) {
-            if(keyword != null) {
-                int index = 0;
-                ArrayList<DiaryEntity> tempList = new ArrayList<>();
-                while (index < diaryList.size()) {
-                    if(diaryList.get(index).getContent().contains(keyword)){
-                        tempList.add(diaryList.get(index));
-                        System.out.println(keyword);
-                    }
-                    ++index;
-                }
-                diaryList = tempList;
-                System.out.println(keyword);
-            }
+        else{
+            LocalDate startDate = LocalDate.parse(sdate, DateTimeFormatter.ISO_DATE);
+            LocalDate endDate = LocalDate.parse(edate, DateTimeFormatter.ISO_DATE);
+            diries = diaryRepository.findAllByCreatedDateBetweenAndUserOrderByCreatedDateDesc(startDate, endDate, userEntity);
+        }
 
-            if(sdate != null){
-                Date sDate = simpleDateFormat.parse(sdate);
-                int index = 0;
-                ArrayList<DiaryEntity> tempList = new ArrayList<>();
-                if(align == null || align.equals("recent")){
-                    while(index < diaryList.size()){
-                        if (sDate.compareTo(diaryList.get(index).getCreatedData()) < 1) {
-                            tempList.add(diaryList.get(index));
-                        }
-                        ++index;
-                    }
-                    diaryList = tempList;
-                }
-                else{
-                    Collections.reverse(diaryList);
-                    while(index < diaryList.size()){
-                        if (sDate.compareTo(diaryList.get(index).getCreatedData()) < 1) {
-                            tempList.add(diaryList.get(index));
-                        }
-                        ++index;
-                    }
-                    Collections.reverse(tempList);
-                    diaryList = tempList;
-                }
-            }
-
-            if(edate != null){
-                Date eDate = simpleDateFormat.parse(edate);
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(eDate);
-                cal.set(Calendar.HOUR_OF_DAY, 23);
-                cal.set(Calendar.MINUTE, 59);
-                cal.set(Calendar.SECOND, 59);
-                cal.set(Calendar.MILLISECOND, 999);
-                eDate = cal.getTime();
-
-                int index = 0;
-                ArrayList<DiaryEntity> tempList = new ArrayList<>();
-                if(align == null || align.equals("recent")){
-                    Collections.reverse(diaryList);
-                    while(index < diaryList.size()){
-                        System.out.println(eDate.compareTo(diaryList.get(index).getCreatedData()));
-                        if (eDate.compareTo(diaryList.get(index).getCreatedData()) > -1) {
-                            tempList.add(diaryList.get(index));
-                        }
-                        ++index;
-                    }
-                    Collections.reverse(tempList);
-                    diaryList = tempList;
-                }
-                else{
-                    while(index < diaryList.size()){
-                        if (eDate.compareTo(diaryList.get(index).getCreatedData()) > -1) {
-                            tempList.add(diaryList.get(index));
-                        }
-                        ++index;
-                    }
-                    diaryList = tempList;
+        // filter by keyword
+        if (keyword != null){
+            Iterator<DiaryEntity> iterator = diries.iterator();
+            while ((iterator.hasNext())){
+                DiaryEntity diary = iterator.next();
+                if (!diary.getContent().contains(keyword)){
+                    iterator.remove();
                 }
             }
         }
-        int index = 0;
-        while(index < diaryList.size()){
-            DiaryTodayResponseDto diaryTodayResponseDto2 = new DiaryTodayResponseDto();
-            diaryTodayResponseDto2.getData().setDataValue(diaryList.get(index).getId(), null, diaryList.get(index).getCreatedData());
-            diaryTodayResponseDto2.setState(HttpStatus.OK, true, "success");
-            diaryRequestResponseDto.getDataList().add(diaryTodayResponseDto2);
-            ++index;
+
+        // align
+        if (align != null && align.equals("oldest")){
+            Collections.reverse(diries);
         }
-        diaryRequestResponseDto.setState(HttpStatus.OK, true, "success");
-        return new ResponseEntity<>(diaryRequestResponseDto, HttpStatus.OK);
+
+        // set response dto
+        DiarySearchResponseDto diarySearchResponseDto = new DiarySearchResponseDto();
+        diarySearchResponseDto.setState(HttpStatus.OK, true, "success");
+        for (DiaryEntity diary : diries){
+            diarySearchResponseDto.addData(diary.getId(), diary.getContent(), diary.getCreatedDate());
+        }
+
+        return new ResponseEntity<>(diarySearchResponseDto, HttpStatus.OK);
     }
 
     public ResponseEntity<DefaultResponseDto> diaryModify(int diaryId, DiaryModifyRequestDto diaryModifyRequestDto, CustomUserDetails user) {
+
+        // response dto
         DefaultResponseDto responseDto = new DefaultResponseDto();
 
-        DiaryEntity modifyDiary = diaryRepository.findById(diaryId);
+        // get diaryEntity endity
+        DiaryEntity diaryEntity= diaryRepository.findById(diaryId);
 
-        if (modifyDiary.getUser().getId() != user.getUserEntity().getId()) {
-            responseDto.setState(HttpStatus.UNAUTHORIZED, false, "user not authenticatied");
+        // check user
+        if (diaryEntity.getUser().getId() != user.getUserEntity().getId()) {
+            responseDto.setState(HttpStatus.UNAUTHORIZED, false, "user not authenticated");
             return new ResponseEntity<>(responseDto, HttpStatus.UNAUTHORIZED);
         }
 
-        // 컨텐츠 변경
-        if (diaryModifyRequestDto.getContent() != null) {
-            modifyDiary.setContent(diaryModifyRequestDto.getContent());
-            diaryRepository.save(modifyDiary);
+        // modify content
+        if (diaryModifyRequestDto.getContent() != null && !diaryModifyRequestDto.getContent().isEmpty()) {
+            diaryEntity.setContent(diaryModifyRequestDto.getContent());
+            diaryEntity = diaryRepository.save(diaryEntity);
         }
 
-        //하루 평가 변경
+        // modify today_rate
         if(diaryModifyRequestDto.getToday_rate() != -1){
-            DiaryAndTodayRateEntity diaryAndTodayRateEntity = diaryAndTodayRateRepository.findByDiary(modifyDiary);
-            diaryAndTodayRateRepository.delete(diaryAndTodayRateEntity);
-            diaryAndTodayRateService.DiaryAndTodayRateAdd(modifyDiary, diaryModifyRequestDto.getToday_rate());
-        }
-
-        //해시태그 변경
-        if(diaryModifyRequestDto.getHashtag() != null) {
-            ArrayList<DiaryAndHashtagEntity> modifyHashtag = diaryAndHashtagRepository.findAllByDiary(modifyDiary);
-            int index = 0;
-            while(index < modifyHashtag.size()){
-                modifyHashtag.get(index).getHashtag().setDiary_cnt(modifyHashtag.get(index).getHashtag().getDiary_cnt()-1);
-                diaryAndHashtagRepository.delete(modifyHashtag.get(index));
-                if(modifyHashtag.get(index).getHashtag().getDiary_cnt() < 1){
-                    hashtagRepository.delete(modifyHashtag.get(index).getHashtag());
-                }
-                ++index;
+            TodayRateEntity todayRate = todayRateRepository.findByRateNum(diaryModifyRequestDto.getToday_rate());
+            if(todayRate == null){
+                responseDto.setState(HttpStatus.BAD_REQUEST, false, "today rate is invalid");
+                return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
             }
-            diaryAndHashtagService.DiaryAndHashtagAdd(modifyDiary, diaryModifyRequestDto.getHashtag());
+            diaryEntity.setTodayRate(todayRate);
+            diaryEntity = diaryRepository.save(diaryEntity);
         }
 
-        // return
+        // modify hashtag
+        if (diaryModifyRequestDto.getHashtag() != null) {
+
+            // delete all existing tags
+            diaryAndHashtagService.deleteAllTagOfDiary(diaryEntity);
+
+            // add new tags
+            for (String tag : diaryModifyRequestDto.getHashtag()){
+                diaryAndHashtagService.addDiaryAndTag(diaryEntity, tag);
+            }
+        }
+
+        // delete existing picture
+        PictureEntity pictureEntity = pictureRepository.findByDiary(diaryEntity);
+        DrawStyleEntity drawStyleEntity = pictureEntity.getDrawStyle();
+        pictureRepository.delete(pictureEntity);
+
+        // check draw style
+        if (diaryModifyRequestDto.getDraw_style() != null){
+            Optional<DrawStyleEntity> drawStyleEntityOptional = drawStyleRepository.findByStyleEng(diaryModifyRequestDto.getDraw_style());
+            if (drawStyleEntityOptional.isEmpty()){
+                responseDto.setState(HttpStatus.BAD_REQUEST, false, "draw style not match");
+                return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+            }
+            drawStyleEntity = drawStyleEntityOptional.get();
+        }
+
+        // create new picture
+        pictureService.createPicture(diaryEntity, drawStyleEntity);
+
+
+        // response
         responseDto.setState(HttpStatus.OK, true, "success");
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }

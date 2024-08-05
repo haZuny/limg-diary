@@ -7,27 +7,27 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 @Getter
 @Setter
-public class DiaryMonthResponseDto extends DefaultResponseDto {
+public class DiarySearchResponseDto extends DefaultResponseDto {
     ArrayList<Data> data = new ArrayList<>();
 
-    @lombok.Data
-    class Data{
+    @Setter
+    @Getter
+    public class Data{
         int diary_id;
-        String picture;
+        String content;
         LocalDate date;
 
-        public Data(int diary_id, String picture, LocalDate date) {
+        public Data(int diary_id, String content, LocalDate date) {
             this.diary_id = diary_id;
-            this.picture = picture;
+            this.content = content;
             this.date = date;
         }
     }
 
-    public void addData(int diary_id, String picture, LocalDate date){
-        data.add(new Data(diary_id, picture, date));
+    public void addData(int diary_id, String content, LocalDate date){
+        this.data.add(new Data(diary_id, content, date));
     }
 }

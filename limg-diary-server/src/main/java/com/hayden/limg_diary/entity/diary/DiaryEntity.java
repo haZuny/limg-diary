@@ -23,8 +23,4 @@ public class DiaryEntity extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name="TODAY_RATE_ID")
     TodayRateEntity todayRate;
-
-    @OneToOne
-    @JoinColumn(name = "PICTURE_ID")
-    PictureEntity picture;
 }

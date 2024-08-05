@@ -25,29 +25,34 @@ public class DiaryController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<DefaultResponseDto> diaryAdd(@RequestBody DiaryAddRequestDto diaryAddRequestDto, @AuthenticationPrincipal CustomUserDetails user) {
+    public ResponseEntity<DefaultResponseDto> postAdd(@RequestBody DiaryAddRequestDto diaryAddRequestDto, @AuthenticationPrincipal CustomUserDetails user) {
 
         return diaryService.diaryAdd(diaryAddRequestDto, user);
     }
 
     @GetMapping("/today")
-    public ResponseEntity<DiaryTodayResponseDto> diaryToday(@AuthenticationPrincipal CustomUserDetails user) {
-        return diaryService.diaryToday(user);
+    public ResponseEntity<DiaryTodayResponseDto> getToday(@AuthenticationPrincipal CustomUserDetails user) {
+        return diaryService.getDiaryByToday(user);
     }
 
     @GetMapping("/{diaryId}")
-    public ResponseEntity<DiaryIdResponseDto> diaryId(@PathVariable int diaryId, @AuthenticationPrincipal CustomUserDetails user) {
+    public ResponseEntity<DiaryIdResponseDto> getDiaryId(@PathVariable int diaryId, @AuthenticationPrincipal CustomUserDetails user) {
         return diaryService.getByDiaryId(diaryId, user);
     }
 
     @GetMapping("/month")
-    public ResponseEntity<DiaryMonthResponseDto> diaryMonth(@RequestParam int year, @RequestParam int month, @AuthenticationPrincipal CustomUserDetails user) {
-        return diaryService.diaryMonth(year, month, user);
+    public ResponseEntity<DiaryMonthResponseDto> getMonth(@RequestParam int year, @RequestParam int month, @AuthenticationPrincipal CustomUserDetails user) {
+        return diaryService.getDiaryByMonth(year, month, user);
     }
-
-    @GetMapping("/request")
-    public ResponseEntity<DiaryRequestResponseDto> diaryRequset(@RequestParam(value = "sdate", required = false) String sdate, @RequestParam(value = "edate", required = false) String edate, @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "align", required = false) String align, @AuthenticationPrincipal CustomUserDetails user) throws ParseException {
-        return diaryService.diaryRequest(sdate, edate, keyword, align, user);
+//
+    @GetMapping("/search")
+    public ResponseEntity<DiarySearchResponseDto> getSearch(
+            @RequestParam(value = "sdate", required = false) String sdate
+            ,@RequestParam(value = "edate", required = false) String edate
+            ,@RequestParam(value = "keyword", required = false) String keyword
+            ,@RequestParam(value = "align", required = false) String align
+            ,@AuthenticationPrincipal CustomUserDetails user) throws ParseException {
+        return diaryService.diarySearch(sdate, edate, keyword, align, user);
     }
 
     @PatchMapping("/modify/{diaryId}")

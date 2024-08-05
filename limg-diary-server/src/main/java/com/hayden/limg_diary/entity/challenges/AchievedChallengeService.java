@@ -5,16 +5,12 @@ import com.hayden.limg_diary.entity.challenges.dto.GetUnachievedResponseDto;
 import com.hayden.limg_diary.entity.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AchievedChallengeService {
@@ -46,7 +42,7 @@ public class AchievedChallengeService {
             , String.format("%s/challenge/icon/%d/%b", uri, entity.getId(), false)
             , challenge.getName()
             , challenge.getSpecific()
-            , entity.getCreatedData());
+            , entity.getCreatedDate());
         }
 
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
