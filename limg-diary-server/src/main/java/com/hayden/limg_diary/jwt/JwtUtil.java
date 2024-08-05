@@ -1,6 +1,7 @@
 package com.hayden.limg_diary.jwt;
 
 import com.hayden.limg_diary.entity.role.RoleEntity;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,7 @@ import java.util.*;
 public class JwtUtil {
     private SecretKey secretKey;
 
-    private int accessExpMinute = 300;
+    private int accessExpMinute = 0;
     private int refreshExpMinute = 60 * 24 * 14;
 
 
@@ -52,9 +53,9 @@ public class JwtUtil {
     // 토큰 검증 - 토큰 유효기간
     public Boolean isExpired(String token){
         try{
-            System.out.println(Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration());
-            return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
-        } catch (Exception e){
+            Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration();
+            return false;
+        } catch (ExpiredJwtException e){
             return true;
         }
     }

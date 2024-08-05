@@ -12,6 +12,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,13 +47,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authToken.split("Bearer ")[1];
 
         // 토큰 만료 검증
-        try {
-            jwtUtil.isExpired(token);
-        } catch (ExpiredJwtException e) {
+        if (jwtUtil.isExpired(token)){
             response.getWriter().write("access token is expired");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-            filterChain.doFilter(request, response);
+            response.setStatus(401);
             return;
         }
 
