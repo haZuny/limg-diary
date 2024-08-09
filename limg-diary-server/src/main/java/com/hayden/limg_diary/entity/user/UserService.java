@@ -153,15 +153,13 @@ public class UserService {
         return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, httpHeaders, HttpStatus.OK);
     }
 
-    public ResponseEntity<DefaultResponseDto> logout(String token){
+    public ResponseEntity<DefaultResponseDto> logout(String refresh){
         // response dto
         DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
 
         // check token
         defaultResponseDto.setMember(HttpStatus.BAD_REQUEST, false, "token is invalid");
-        if (token == null || !token.startsWith("Bearer "))  return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.BAD_REQUEST);
-
-        String refresh = token.split("Bearer ")[1];
+        if (refresh == null)  return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, HttpStatus.BAD_REQUEST);
 
         // check expired
         defaultResponseDto.setMember(HttpStatus.UNAUTHORIZED, false, "token is expired");
@@ -211,15 +209,15 @@ public class UserService {
         getUserResponseDto.setStatus(HttpStatus.OK.value());
         getUserResponseDto.setSuccess(true);
         getUserResponseDto.setMsg("success");
-        getUserResponseDto.getUserSelf().setId(user.getId());
-        getUserResponseDto.getUserSelf().setCreated_date(user.getCreatedDate());
-        getUserResponseDto.getUserSelf().setUpdated_date(user.getUpdatedDate());
-        getUserResponseDto.getUserSelf().setUsername(user.getUsername());
-        getUserResponseDto.getUserSelf().setNickname(user.getNickname());
-        getUserResponseDto.getUserSelf().setRole(new ArrayList<String>());
+        getUserResponseDto.getData().setId(user.getId());
+        getUserResponseDto.getData().setCreated_date(user.getCreatedDate());
+        getUserResponseDto.getData().setUpdated_date(user.getUpdatedDate());
+        getUserResponseDto.getData().setUsername(user.getUsername());
+        getUserResponseDto.getData().setNickname(user.getNickname());
+        getUserResponseDto.getData().setRole(new ArrayList<String>());
 
         for (RoleEntity role:roles){
-            getUserResponseDto.getUserSelf().getRole().add(role.getRole());
+            getUserResponseDto.getData().getRole().add(role.getRole());
         }
 
         return new ResponseEntity<>(getUserResponseDto, HttpStatus.OK);
@@ -231,7 +229,7 @@ public class UserService {
         // find user and check userid
         Optional<UserEntity> userOp = userRepository.findById(userId);
         if(userOp.isEmpty())  {
-            getUserResponseDto.setUserSelf(null);
+            getUserResponseDto.setData(null);
             getUserResponseDto.setStatus(HttpStatus.BAD_REQUEST.value());
             getUserResponseDto.setMsg("user not found");
             getUserResponseDto.setSuccess(false);
@@ -246,14 +244,14 @@ public class UserService {
         getUserResponseDto.setStatus(HttpStatus.OK.value());
         getUserResponseDto.setSuccess(true);
         getUserResponseDto.setMsg("success");
-        getUserResponseDto.getUserSelf().setId(user.getId());
-        getUserResponseDto.getUserSelf().setCreated_date(user.getCreatedDate());
-        getUserResponseDto.getUserSelf().setUpdated_date(user.getUpdatedDate());
-        getUserResponseDto.getUserSelf().setUsername(user.getUsername());
-        getUserResponseDto.getUserSelf().setNickname(user.getNickname());
-        getUserResponseDto.getUserSelf().setRole(new ArrayList<String>());
+        getUserResponseDto.getData().setId(user.getId());
+        getUserResponseDto.getData().setCreated_date(user.getCreatedDate());
+        getUserResponseDto.getData().setUpdated_date(user.getUpdatedDate());
+        getUserResponseDto.getData().setUsername(user.getUsername());
+        getUserResponseDto.getData().setNickname(user.getNickname());
+        getUserResponseDto.getData().setRole(new ArrayList<String>());
         for (RoleEntity role:roles){
-            getUserResponseDto.getUserSelf().getRole().add(role.getRole());
+            getUserResponseDto.getData().getRole().add(role.getRole());
         }
 
         return new ResponseEntity<>(getUserResponseDto, HttpStatus.OK);

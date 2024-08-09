@@ -12,6 +12,7 @@ import Modal from '../global_component/modal/Modal'
 import ArrowImg from './img/arrow.png'
 import Password_change_body from './password_change_body/Password_change_body'
 import Nickname_change_body from './nickname_change_body copy/Nickname_change_body'
+import RestApiHelper from '../../Authentication'
 
 function SettingPage() {
 
@@ -65,7 +66,11 @@ function SettingPage() {
                     </div>
                 } />
 
-                <TextButton text={'로그아웃'} func={() => {
+                <TextButton text={'로그아웃'} func={async () => {
+                    const res = await RestApiHelper.sendRequest("/user/logout", "POST", {});
+                    console.log("[post] user/logout", res)
+                    localStorage.removeItem("Authentication")
+                    // document.cookie = 'Refresh=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
                     navigate('/login', { replace: true })
                 }} />
 

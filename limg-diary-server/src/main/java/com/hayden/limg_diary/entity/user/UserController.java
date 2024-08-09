@@ -53,8 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<DefaultResponseDto> postLogout(HttpServletRequest request){
-        String refresh = request.getHeader("Refresh");
+    public ResponseEntity<DefaultResponseDto> postLogout(@CookieValue(name = "Refresh", required = false) String refresh){
         return userService.logout(refresh);
     }
 

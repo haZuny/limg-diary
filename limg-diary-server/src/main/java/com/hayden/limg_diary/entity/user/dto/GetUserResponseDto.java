@@ -10,7 +10,7 @@ public class GetUserResponseDto {
     int status;
     boolean success;
     String msg;
-    UserSelf userSelf = new UserSelf();
+    UserSelf data = new UserSelf();
 
     @Data
     public class UserSelf{

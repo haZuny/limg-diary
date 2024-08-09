@@ -64,6 +64,7 @@ function LoginPage() {
                                 "username": username,
                                 "password": password
                             }}).then((res)=>{
+                                console.log("[post] user/signin",)
                                 if (res != null && res.status == "200"){
                                     localStorage.setItem("Authentication", res.headers['authentication'])
                                     navigate('/')

@@ -40,9 +40,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 특정 경로 무시
         String path = request.getRequestURI();
         if (path.startsWith("/h2-console") ||
-        path.startsWith("/user/signin") ||
-        path.startsWith("/user/signup") ||
-        path.startsWith("/user/refresh")){
+                path.startsWith("/user/signin") ||
+                path.startsWith("/user/signup") ||
+                path.startsWith("/user/logout") ||
+                path.startsWith("/user/refresh")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -61,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = authToken.split("Bearer ")[1];
 
         // 토큰 만료 검증
-        if (jwtUtil.isExpired(token)){
+        if (jwtUtil.isExpired(token)) {
             response.getWriter().write("access token is expired");
             response.setStatus(401);
 

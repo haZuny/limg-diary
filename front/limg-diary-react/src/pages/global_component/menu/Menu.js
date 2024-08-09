@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import css from './Menu.module.scss'
 
 import DefaultProfileImg from '../../resource/img/profile.jpeg'
+import RestApiHelper from '../../../Authentication'
 
 
 function Menu({setUnvisible}){
@@ -11,13 +12,36 @@ function Menu({setUnvisible}){
     // visible state
     const [visible, setVisible] = useState(false)
 
+    // ref
+    const [emailState, setEmailState] = useState('...')
+    const [nicknameState, setNicknameState] = useState('...')
+
     // navigate
     const navigate = useNavigate()
 
     // 등장 애니메이션
     useEffect(()=>{
         setTimeout(()=>setVisible(true), 1)
+        loadData().then((res)=>{
+            if(!res){
+                alert("정보 로드 실패")
+            }
+        })
     }, [])
+
+    // 정보 로드
+    async function loadData(){
+        const res = await RestApiHelper.sendRequest("/user/self", "GET", {});
+        console.log("[GET] /user/self", res)
+        if (res != null && res.status == '200'){
+            setEmailState(res.data.data.username);
+            setNicknameState(res.data.data.nickname);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     return (
         <div id={css.root_container}>
@@ -36,8 +60,8 @@ function Menu({setUnvisible}){
                     {/* 상단 프로필 */}
                     <div id={css.upper_box} className={css.container}>
                         <div id={css.profile_img_box}><img src={DefaultProfileImg}/></div>
-                        <div id={css.email}>hj3175791@gmail.com</div>
-                        <div id={css.nickname}>Hayden</div>
+                        <div id={css.email}>{emailState}</div>
+                        <div id={css.nickname}>{nicknameState}</div>
                     </div>
 
                     {/* 하단 메뉴들 */}
