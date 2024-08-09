@@ -11,6 +11,7 @@ import SettingPage from './pages/SettingPage/SettingPage';
 import ChallengePage from './pages/challengePage/ChallengePage';
 
 import RestApiHelper from './Authentication';
+import LoadPage from './pages/global_component/load_page/LoadPage';
 
 
 function Router({ authorized, component }) {
@@ -55,6 +56,7 @@ function Router({ authorized, component }) {
                 <Route path='/setting' element={<Center child={<SettingPage />} />} />
                 <Route path='/challenge' element={<Center child={<ChallengePage />} />} />
                 <Route path='/diary/:diaryid' element={<Center child={<ReadDiaryPage />} />} />
+                <Route path='/load' element={<Center child={<LoadPage />} />} />
             </Routes>
         </BrowserRouter>)
 }

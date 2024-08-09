@@ -65,16 +65,20 @@ function TodayDiary() {
                     navigate('/write', {state:{diary_id: diary_id}})
                 }} />}
                 {isDiaryWrited && <DoubleSmallButton text={'그림만 변경하기'} func={async ()=>{
+
+                    navigate('/load')
+
                     const res = await RestApiHelper.sendRequest(`/diary/modify/${diary_id}`, 'PATCH', {body:{
                         'content': diaryContent
                     }})
                     console.log("[patch] diary/modify", res)
                     if(res == null || res.status != '200'){
                         alert('그림 변경에 실패했습니다.')
+                        navigate('/', {replace:true})
                         return;
                     }
                     else{
-                        window.location.reload();
+                        navigate('/', {replace:true})
                     }
                 }}/>}
             </div>

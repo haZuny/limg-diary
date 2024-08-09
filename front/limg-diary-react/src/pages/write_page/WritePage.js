@@ -188,6 +188,8 @@ function WritePage() {
 
                     // 일기 추가
                     if (diary_id == null){
+                        navigate('/load', {replace:true})
+
                         const res = await RestApiHelper.sendRequest("/diary/add", "POST", {body:{
                             'content': diaryContent,
                             'draw_style': drawStyleVal,
@@ -197,7 +199,6 @@ function WritePage() {
                         console.log("[post] /diary/add", res)
                         if (res == null || res.status != '200'){
                             alert('일기 작성에 실패했습니다.')
-                            return;
                         }
     
                         navigate('/', {replace:true})
@@ -205,6 +206,8 @@ function WritePage() {
 
                     // 일기 수정
                     if (diary_id != null){
+                        navigate('/load', {replace:true})
+
                         const res = await RestApiHelper.sendRequest(`/diary/modify/${diary_id}`, "PATCH", {body:{
                             'content': diaryContent,
                             'draw_style': drawStyleVal,
@@ -214,16 +217,11 @@ function WritePage() {
                         console.log("[patch] /diary/modify", res)
                         if (res == null || res.status != '200'){
                             alert('일기 수정에 실패했습니다.')
-                            return;
                         }
     
                         navigate('/', {replace:true})
 
                     }
-                    
-
-
-                    
                 }}/>
             </div>
         </div>

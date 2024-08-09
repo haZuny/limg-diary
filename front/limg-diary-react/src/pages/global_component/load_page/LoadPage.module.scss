@@ -1,0 +1,19 @@
+@import '../../Global.scss';
+
+#root_container{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#text{
+    // font
+    font-size: calc(var(--vw)*4);
+    font-weight: bold;
+    // margin
+    margin-bottom: calc(var(--vh)*5);
+}
+
+#icon_box{
+    width: calc(var(--vw)*15);
+}
