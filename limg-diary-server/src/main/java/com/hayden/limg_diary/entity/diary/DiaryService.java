@@ -156,7 +156,8 @@ public class DiaryService {
         diaryTodayResponseDto.getData().setDiary_id(diary.getId());
         diaryTodayResponseDto.getData().setToday(diary.getCreatedDate());
         if (picture.getPath() != null) {
-            diaryTodayResponseDto.getData().setPicture(String.format("%s/diary/img/%d", uriPath, diary.getId()));
+//            diaryTodayResponseDto.getData().setPicture(String.format("%s/diary/img/%d", uriPath, diary.getId()));
+            diaryTodayResponseDto.getData().setPicture(String.format("/diary/img/%d", diary.getId()));
         } else {
             diaryTodayResponseDto.getData().setPicture(null);
         }
@@ -204,7 +205,8 @@ public class DiaryService {
         if (picture.getPath() == null) {
             diaryIdResponseDto.getData().setPicture(null);
         } else {
-            diaryIdResponseDto.getData().setPicture(String.format("%s/diary/img/%d", uriPath, diaryEntity.getId()));
+//            diaryIdResponseDto.getData().setPicture(String.format("%s/diary/img/%d", uriPath, diaryEntity.getId()));
+            diaryIdResponseDto.getData().setPicture(String.format("/diary/img/%d", diaryEntity.getId()));
         }
         diaryIdResponseDto.getData().setCreated_date(diaryEntity.getCreatedDate());
         diaryIdResponseDto.getData().setUpdated_date(diaryEntity.getUpdatedDate());
@@ -234,7 +236,8 @@ public class DiaryService {
         for (DiaryEntity diary : diaries){
             // find picture
             PictureEntity picture = pictureRepository.findByDiary(diary);
-            String picturePath = picture.getPath() == null ? null : String.format("%s/diary/img/%d", uriPath, diary.getId());
+//            String picturePath = picture.getPath() == null ? null : String.format("%s/diary/img/%d", uriPath, diary.getId());
+            String picturePath = picture.getPath() == null ? null : String.format("/diary/img/%d", diary.getId());
             diaryMonthResponseDto.addData(diary.getId(), picturePath, diary.getCreatedDate());
         }
 

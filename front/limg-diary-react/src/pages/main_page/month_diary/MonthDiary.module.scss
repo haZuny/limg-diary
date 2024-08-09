@@ -61,8 +61,6 @@
     height: calc(var(--vw)*10);
     // position
     position: relative;
-    // border(삭제예정)
-    border: 1px black solid;
 }
 
 #date{
@@ -71,7 +69,7 @@
     bottom: calc(var(--vw)*0.5);
     right: calc(var(--vw)*0.8);
     // font
-    font-size: calc(var(--vw)*3.5);
+    font-size: calc(var(--vw)*3);
     font-weight: bold;
 }
 

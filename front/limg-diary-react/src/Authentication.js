@@ -1,8 +1,10 @@
 import axios from "axios"
 
+import DefaultImg from './pages/resource/img/default_diary_img.png'
+
 class RestApiHelper {
 
-    static async sendRequest(uri, method, { header = {}, param = {}, body = {} }) {
+    static async sendRequest(uri, method, { header = {}, param = {}, body = {}, responseType = 'json' }) {
         // let host = "http://192.168.1.13:8080"
         const host = "http://localhost:8080"
 
@@ -16,6 +18,7 @@ class RestApiHelper {
             method: method,
             url: host + uri,
             params: param,
+            responseType: responseType,
             headers: header,
             data: body,
             withCredentials: true
@@ -65,6 +68,19 @@ class RestApiHelper {
         console.log("[get] user/check", res)
         if (res != null && res.status == "200") return true
             else    return false;
+    }
+
+
+    static async imgRequest(path){
+        if (path == null || path == ''){
+            return DefaultImg;
+        }
+        else{
+            const res = await this.sendRequest(path, "GET", {responseType: 'blob'})
+            console.log('[get] '+ path, res)
+            const imageURL = window.URL.createObjectURL(res.data)
+            return imageURL;
+        }
     }
 }
 

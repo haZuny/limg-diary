@@ -7,17 +7,52 @@ import MonthDiary from './month_diary/MonthDiary'
 import { SellectedBlueTag, UnsellectedBlueTag } from '../global_component/tag/Tag'
 import Footer from '../global_component/fotter/Fotter'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 
 function MainPage() {
 
+    // ref
     const bodyRef = useRef()
+
+    // state
+    const [today_str, setToday] = useState('')
 
     // navigate
     const navigate = useNavigate();
 
+    // today
+    const today = new Date();
+    let day_str;
+    switch (today.getDay()){
+        case 1:
+            day_str = '월요일'
+            break;
+        case 2:
+            day_str = '화요일'
+            break;
+        case 3:
+            day_str = '수요일'
+            break;
+        case 4:
+            day_str = '목요일'
+            break;
+        case 5:
+            day_str = '금요일'
+            break;
+        case 6:
+            day_str = '토요일'
+            break;
+        case 7:
+            day_str = '일요일'
+            break;
+        
+    }
+    const formattedDate = `${today.getFullYear()}.${today.getMonth() + 1}.${today.getDate()} ${day_str}`;
+    
+
+    // tags
     const tagStrArr = ['해시태그', "매우긴 해시태그", '태그', '태그', '해시태그', '똥', '뚱이는 멋지다', '악동 뮤지션',
         '해시태그', "매우긴 해시태그", '태그', '태그', '해시태그', '똥', '뚱이는 멋지다', '악동 뮤지션']
 
@@ -44,6 +79,11 @@ function MainPage() {
     }
 
 
+    useEffect((()=>{
+        setToday(formattedDate);
+    }), [])
+
+
     return (
         <div id={css.root_container} className={css.page_root_container}>
             <Header parentBodyRef={bodyRef} />
@@ -54,7 +94,7 @@ function MainPage() {
                 {/* 오늘 날짜 */}
                 <div id={css.title_box} className={[css.container, css.bottom_margin].join(" ")}>
                     <div id={css.today_text_sub}>오늘은</div>
-                    <div id={css.today_text_main}>2024.07.19 금요일</div>
+                    <div id={css.today_text_main}>{today_str}</div>
                     <div id={css.today_text_sub}>이에요!</div>
                 </div>
 
@@ -65,7 +105,7 @@ function MainPage() {
 
                 {/* 한달 기록 */}
                 <div className={css.bottom_margin}>
-                    <WhiteBox className={css.bottom_margin} title="당신의 한달" child={<MonthDiary />}></WhiteBox>
+                    <WhiteBox className={css.bottom_margin} title="당신의 한달" child={<MonthDiary year={today.getFullYear()} month={today.getMonth() + 1}/>}/>
                 </div>
 
                 {/* 태그 */}
