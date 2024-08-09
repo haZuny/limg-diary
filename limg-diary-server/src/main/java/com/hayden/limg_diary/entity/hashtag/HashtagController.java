@@ -1,6 +1,7 @@
 package com.hayden.limg_diary.entity.hashtag;
 
 import com.hayden.limg_diary.entity.hashtag.dto.GetDiaryByTagResponseDto;
+import com.hayden.limg_diary.entity.hashtag.dto.GetTagsResponseDto;
 import com.hayden.limg_diary.entity.user.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +27,10 @@ public class HashtagController {
     @GetMapping("/search")
     public ResponseEntity<GetDiaryByTagResponseDto> getSearch(@RequestParam(required = false)ArrayList<String> tags, @AuthenticationPrincipal CustomUserDetails userDetails){
         return diaryAndHashtagService.getDiaryByTag(tags, userDetails);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<GetTagsResponseDto> getTags(@AuthenticationPrincipal CustomUserDetails customUserDetails){
+        return diaryAndHashtagService.getAllTags(customUserDetails);
     }
 }

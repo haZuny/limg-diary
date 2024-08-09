@@ -3,6 +3,9 @@ package com.hayden.limg_diary.entity.hashtag;
 import com.hayden.limg_diary.entity.diary.DiaryEntity;
 import com.hayden.limg_diary.entity.diary.DiaryRepository;
 import com.hayden.limg_diary.entity.hashtag.dto.GetDiaryByTagResponseDto;
+import com.hayden.limg_diary.entity.hashtag.dto.GetTagsResponseDto;
+import com.hayden.limg_diary.entity.picture.PictureEntity;
+import com.hayden.limg_diary.entity.picture.PictureRepository;
 import com.hayden.limg_diary.entity.user.CustomUserDetails;
 import com.hayden.limg_diary.entity.user.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,18 +14,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 @Service
 public class DiaryAndHashtagService {
     DiaryAndHashtagRepository diaryAndHashtagRepository;
     HashtagRepository hashtagRepository;
     DiaryRepository diaryRepository;
+    PictureRepository pictureRepository;
 
     @Autowired
-    public DiaryAndHashtagService(DiaryAndHashtagRepository diaryAndHashtagRepository, HashtagRepository hashtagRepository, DiaryRepository diaryRepository) {
+    public DiaryAndHashtagService(DiaryAndHashtagRepository diaryAndHashtagRepository, HashtagRepository hashtagRepository, DiaryRepository diaryRepository, PictureRepository pictureRepository) {
         this.diaryAndHashtagRepository = diaryAndHashtagRepository;
         this.hashtagRepository = hashtagRepository;
         this.diaryRepository = diaryRepository;
+        this.pictureRepository = pictureRepository;
     }
 
     // 일기 작성시 태그 추가
@@ -124,13 +132,46 @@ public class DiaryAndHashtagService {
             }
 
             // 03_3. if all tag is container, add diary to response
-            if (containAllTag)
-                responseDto.addData(diary.getId(), "1234");
+            PictureEntity picture = pictureRepository.findByDiary(diary);
+            if (containAllTag) {
+                if (picture.getPath() != null) {
+//            diaryTodayResponseDto.getData().setPicture(String.format("%s/diary/img/%d", uriPath, diary.getId()));
+                    responseDto.addData(diary.getId(), String.format("/diary/img/%d", diary.getId()));
+                } else {
+                    responseDto.addData(diary.getId(), null);
+                }
+            }
         }
 
 
         // return response
         responseDto.setState(HttpStatus.OK, true, "success");
         return new ResponseEntity<GetDiaryByTagResponseDto>(responseDto, HttpStatus.OK);
+    }
+
+    public ResponseEntity<GetTagsResponseDto> getAllTags(CustomUserDetails userDetails) {
+        // get user
+        UserEntity user = userDetails.getUserEntity();
+
+        // find tags
+        ArrayList<DiaryEntity> diaries = diaryRepository.findAllByUserOrderByCreatedDateDesc(user);
+        Set<String> tagSet = new HashSet<>();
+        for (DiaryEntity diary : diaries) {
+            ArrayList<DiaryAndHashtagEntity> diaryAndTagList = diaryAndHashtagRepository.findAllByDiary(diary);
+            for (DiaryAndHashtagEntity diaryAndHashtag : diaryAndTagList) {
+                tagSet.add(diaryAndHashtag.getHashtag().getTag());
+            }
+        }
+
+        // set response dto
+        GetTagsResponseDto responseDto = new GetTagsResponseDto();
+        Iterator<String> iter = tagSet.iterator();
+        while (iter.hasNext()) {
+            String tag = iter.next();
+            responseDto.getData().add(tag);
+        }
+        responseDto.setState(HttpStatus.OK, true, "success");
+
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 }

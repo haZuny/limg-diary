@@ -49,8 +49,9 @@
 #tag_box{
     // align
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: start;
     // size
+    width: 100%;
     height: calc(var(--vh)*20);
     // overflow
     overflow: scroll;

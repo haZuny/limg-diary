@@ -77,7 +77,7 @@ public class SecurityConfig {
                             "/user/modify", "/user/self", "user/check"
                             ,"/drawstyle/list"
                             ,"/todayrate/list"
-                            , "/hashtag/search"
+                            , "/hashtag/search", "/hashtag/all"
                             , "/challenge/achieved", "/challenge/unachieved", "challenge/*"
                             , "/diary/add", "/diary/today", "/diary/*", "/diary/month", "/diary/search", "/diary/img/*", "/diary/modify/*").hasRole(roleRepository.findByLevel(1).getName())
 

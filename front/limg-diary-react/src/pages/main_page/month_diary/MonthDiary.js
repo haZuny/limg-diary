@@ -5,8 +5,12 @@ import RightBtn from './img/right_btn.png'
 import DefaultImg from '../../resource/img/default_diary_img.png'
 import { useEffect, useState } from 'react'
 import RestApiHelper from '../../../Authentication'
+import { useNavigate } from 'react-router-dom'
 
 function MonthDiary({year, month, leftBtnFunc}){
+
+    // navigate
+    const navigate = useNavigate()
 
     // diaries init
     let init_diaries = []
@@ -73,7 +77,10 @@ function MonthDiary({year, month, leftBtnFunc}){
 
                 {/* 일기 */}
                 {diaries.map((element, index)=>(
-                    <div id={css.diary_box}>
+                    <div id={css.diary_box} onClick={()=>{
+                        if (element.id != null)
+                            navigate(`/diary/${element.id}`)
+                    }}>
                         <img src={element.img}/>
                         <div id={css.date}>{index+1}</div>
                     </div>

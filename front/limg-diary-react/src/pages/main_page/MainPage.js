@@ -9,6 +9,7 @@ import Footer from '../global_component/fotter/Fotter'
 
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import RestApiHelper from '../../Authentication'
 
 
 function MainPage() {
@@ -53,24 +54,7 @@ function MainPage() {
     
 
     // tags
-    const tagStrArr = ['해시태그', "매우긴 해시태그", '태그', '태그', '해시태그', '똥', '뚱이는 멋지다', '악동 뮤지션',
-        '해시태그', "매우긴 해시태그", '태그', '태그', '해시태그', '똥', '뚱이는 멋지다', '악동 뮤지션']
-
-    // 태그 배열_원본
-    const tag_default_Arr = []
-    tagStrArr.forEach((tag, idx) => {
-        tag_default_Arr.push({
-            id: idx,
-            tag: `${tag}`,
-            state: false,
-            changeState: function changeState() {
-                this.state = this.state ? false : true
-            }
-        })
-    })
-
-    // 태그 배열_상태관리
-    const [tagArr, setTagArr] = useState(tag_default_Arr)
+    const [tagArr, setTagArr] = useState([])
 
     // 블루 태그 클릭
     function blueTagClickHandle(idx) {
@@ -81,7 +65,30 @@ function MainPage() {
 
     useEffect((()=>{
         setToday(formattedDate);
+        loadData()
     }), [])
+
+    // load data
+    async function loadData(){
+        const res = await RestApiHelper.sendRequest("/hashtag/all", "GET", {});
+        console.log("[get] hashtag/all", res)
+        if (res != null && res.status == '200'){
+            res.data.data.forEach((tag, idx) => {
+                tagArr.push({
+                    id: idx,
+                    tag: `${tag}`,
+                    state: false,
+                    changeState: function changeState() {
+                        this.state = this.state ? false : true
+                    }
+                })
+            });
+            setTagArr(Array.from(tagArr))
+        }
+        else{
+            alert('태그를 불러오는데 실패했습니다.')
+        }
+    }
 
 
     return (

@@ -11,8 +11,9 @@ import { RemoveableGrayTag } from '../global_component/tag/Tag';
 
 import DefaultDiaryImg from '../resource/img/default_diary_img.png'
 
-import { useRef, useState } from 'react';
-import { DoubleSmallButton, SingleSmallButton, TextButton } from '../global_component/button/Button';
+import { useEffect, useRef, useState } from 'react';
+import { SingleSmallButton } from '../global_component/button/Button';
+import RestApiHelper from '../../Authentication';
 
 function ReadDiaryPage() {
     const { diaryid } = useParams();
@@ -20,11 +21,52 @@ function ReadDiaryPage() {
     // ref
     const bodyRef = useRef()
 
-    const tagArr = ['asdf', 'dbhaskfaslga', 'a a a', 'ee', ';dddd']
-
+    // state
+    const [todayDate, setTodayDate] = useState('')  // 오늘 날짜
+    const [todayRate, setTodayRate] = useState('')  // 오늘 기분
+    const [diaryImg, setDiaryImg] = useState(DefaultDiaryImg)   // 그림
+    const [diaryContent, setDiaryContent] = useState('')    // 내용
+    const [tagArr, setTagArr] = useState([])    // 태그
 
     // modal
     const [tagChangeModalState, setTagChangeModalState] = useState(false)
+
+    // load data
+    async function loadData(){
+        const res = await RestApiHelper.sendRequest(`/diary/${diaryid}`, "GET", {})
+        console.log("[get] /diary/{id}", res)
+        if (res != null && res.status == '200'){
+            // today date
+            const week = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']
+            const date = new Date(res.data.data.created_date)
+            setTodayDate(`${res.data.data.created_date} ${week[date.getDay()]}`)
+
+            // today rate
+            setTodayRate(res.data.data.today_rate.rate_str)
+
+            // diary img
+            if (res.data.data.picture != null){
+                const imgUrl = await RestApiHelper.imgRequest(res.data.data.picture)
+                setDiaryImg(imgUrl)
+            }
+
+            // diary content
+            setDiaryContent(res.data.data.content)
+
+            // tag
+            res.data.data.hashtag.forEach(tag => {
+                tagArr.push(tag)
+            });
+            setTagArr(Array.from(tagArr))
+
+        }else{
+            alert('정보를 불러오지 못했습니다.')
+        }
+    }
+
+    useEffect((()=>{
+        loadData()
+    }),[])
 
     return (
         <div id={css.root_container} className={css.page_root_container}>
@@ -33,27 +75,22 @@ function ReadDiaryPage() {
 
             <div id={css.body_container} className={css.container} ref={bodyRef}>
                 {/* 오늘 날짜 */}
-                <div id={css.date}>2024.07.20 금요일</div>
+                <div id={css.date}>{todayDate}</div>
 
                 {/* 하루 평가 */}
                 <div id={css.today_rate_container} className={css.container}>
                     <div id={css.today_rate_title}>오늘 하루 기분: </div>
                     <div id={css.today_rate_space} />
-                    <div id={css.today_rate_rate}>평범해요</div>
+                    <div id={css.today_rate_rate}>{todayRate}</div>
                 </div>
 
                 {/* 그림 */}
-                <div id={css.diary_img_box}><img src={DefaultDiaryImg} /></div>
+                <div id={css.diary_img_box}><img src={diaryImg} /></div>
 
                 {/* 일기 */}
                 <div id={css.diary_content_container}>
                     <WhiteBox title={'오늘의 일기'} child={
-                        <div id={css.diary_content_box}>asdfas dfsdfas gkjasdh falsh jfklasdhf lsdl kahggsa sdgfs dfa sfdsghs용<br />
-                            일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />
-                            일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />
-                            일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />
-                            일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />일기 내용<br />
-                            일기 내용<br /></div>
+                        <div id={css.diary_content_box}>{diaryContent}</div>
                     } />
                 </div>
 
@@ -73,14 +110,14 @@ function ReadDiaryPage() {
 
             {/* 태그 변경 */}
             {tagChangeModalState && <Modal title={'태그 변경'} body={
-                <TagChangeModalBody currentTagArr={tagArr} />
+                <TagChangeModalBody currentTagArr={tagArr} diary_id={diaryid}/>
             } modalOffHandle={() => setTagChangeModalState(false)} />}
         </div>
     )
 }
 
 
-function TagChangeModalBody({ currentTagArr }) {
+function TagChangeModalBody({ currentTagArr, diary_id }) {
 
     // navigate
     const navigate = useNavigate()
@@ -138,8 +175,17 @@ function TagChangeModalBody({ currentTagArr }) {
 
             {/* 버튼 */}
             <div id={css.tag_change_btn_container} className={css.container}>
-                <SingleSmallButton text={'변경 완료'} func={()=>{
-                    window.location.reload();
+                <SingleSmallButton text={'변경 완료'} func={async ()=>{
+                    const res = await RestApiHelper.sendRequest(`/diary/modify/${diary_id}`, "PATCH", {body:{
+                        'hashtag': tagArr
+                    }})
+                    if (res != null && res. status == '200'){
+                        window.location.reload();
+                    }
+                    else{
+                        alert("태그 변경에 실패했습니다.")
+                    }
+
                 }}/>
             </div>
         </div>

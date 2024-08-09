@@ -91,7 +91,6 @@ $content_gab: calc(var(--vh)*5);
     
 }
 
-
 #tag_change_btn{
     // position
     position: absolute;
@@ -114,7 +113,7 @@ $content_gab: calc(var(--vh)*5);
     width: 100%;
     // align
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: start;
 }
 
 

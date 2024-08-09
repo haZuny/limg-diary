@@ -5,8 +5,8 @@ import DefaultImg from './pages/resource/img/default_diary_img.png'
 class RestApiHelper {
 
     static async sendRequest(uri, method, { header = {}, param = {}, body = {}, responseType = 'json' }) {
-        // let host = "http://192.168.1.13:8080"
-        const host = "http://localhost:8080"
+        let host = "http://192.168.1.13:8080"
+        // const host = "http://localhost:8080"
 
         // set content type
         header["Content-Type"] = "application/json";

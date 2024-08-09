@@ -18,5 +18,6 @@ public class DiaryTodayResponseDto extends DefaultResponseDto {
         private int diary_id;
         private String picture;
         private LocalDate today;
+        private String content;
     }
 }

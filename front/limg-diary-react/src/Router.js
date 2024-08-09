@@ -75,7 +75,7 @@ function Center({ child, nonAuth }) {
     }
 
     useEffect(() => {
-        window.addEventListener('resize', resizeHandle)
+        // window.addEventListener('resize', resizeHandle)
 
         // auth check
         async function load(){

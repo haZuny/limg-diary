@@ -155,6 +155,7 @@ public class DiaryService {
 
         diaryTodayResponseDto.getData().setDiary_id(diary.getId());
         diaryTodayResponseDto.getData().setToday(diary.getCreatedDate());
+        diaryTodayResponseDto.getData().setContent(diary.getContent());
         if (picture.getPath() != null) {
 //            diaryTodayResponseDto.getData().setPicture(String.format("%s/diary/img/%d", uriPath, diary.getId()));
             diaryTodayResponseDto.getData().setPicture(String.format("/diary/img/%d", diary.getId()));
@@ -337,22 +338,24 @@ public class DiaryService {
         }
 
         // delete existing picture
-        PictureEntity pictureEntity = pictureRepository.findByDiary(diaryEntity);
-        DrawStyleEntity drawStyleEntity = pictureEntity.getDrawStyle();
-        pictureRepository.delete(pictureEntity);
+        if (diaryModifyRequestDto.getContent() != null){
+            PictureEntity pictureEntity = pictureRepository.findByDiary(diaryEntity);
+            DrawStyleEntity drawStyleEntity = pictureEntity.getDrawStyle();
+            pictureRepository.delete(pictureEntity);
 
-        // check draw style
-        if (diaryModifyRequestDto.getDraw_style() != null){
-            Optional<DrawStyleEntity> drawStyleEntityOptional = drawStyleRepository.findByStyleEng(diaryModifyRequestDto.getDraw_style());
-            if (drawStyleEntityOptional.isEmpty()){
-                responseDto.setState(HttpStatus.BAD_REQUEST, false, "draw style not match");
-                return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+            // check draw style
+            if (diaryModifyRequestDto.getDraw_style() != null){
+                Optional<DrawStyleEntity> drawStyleEntityOptional = drawStyleRepository.findByStyleEng(diaryModifyRequestDto.getDraw_style());
+                if (drawStyleEntityOptional.isEmpty()){
+                    responseDto.setState(HttpStatus.BAD_REQUEST, false, "draw style not match");
+                    return new ResponseEntity<>(responseDto, HttpStatus.BAD_REQUEST);
+                }
+                drawStyleEntity = drawStyleEntityOptional.get();
             }
-            drawStyleEntity = drawStyleEntityOptional.get();
-        }
 
-        // create new picture
-        pictureService.createPicture(diaryEntity, drawStyleEntity);
+            // create new picture
+            pictureService.createPicture(diaryEntity, drawStyleEntity);
+        }
 
 
         // response

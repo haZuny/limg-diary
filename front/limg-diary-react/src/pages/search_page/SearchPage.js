@@ -1,12 +1,13 @@
 import css from './SearchPage.module.scss'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import Header from '../global_component/header/Header'
 import Footer from '../global_component/fotter/Fotter'
 import WhiteBox from '../global_component/white_box/WhiteBox'
 import { SingleButton, TextButton } from '../global_component/button/Button'
+import RestApiHelper from '../../Authentication'
 
 
 function SearchPage() {
@@ -23,17 +24,42 @@ function SearchPage() {
     const [align, setAlign] = useState('recent')
 
     // 일기 목록
-    const diaryDefaultArr = []
-    for (let i = 0; i < 10; i++) {
-        diaryDefaultArr.push({
-            date: '2024.07.20',
-            content: '나는 asdfasd오늘 카페에서 디자인을 했는데 아 겁나 기네',
-            id: i
-        })
-    }
-    const [diaryArr, setDiaryArr] = useState(diaryDefaultArr)
+    let [diaryArr, setDiaryArr] = useState([])
 
-    console.log(diaryArr)
+    // load data
+    async function loadData(){
+        let parameter = {}
+        if (sdateRef.current.value != '')
+            parameter['sdate'] = sdateRef.current.value
+        if (edateRef.current.value != '')
+            parameter['edate'] = edateRef.current.value
+        if (keywordRef.current.value != '')
+            parameter['keyword'] = keywordRef.current.value
+        setAlign('recent')
+        parameter['align'] = 'recent'
+        
+        // request
+        const res = await RestApiHelper.sendRequest('/diary/search', "GET", {param: parameter})
+        console.log("[get] diary/search", res)
+        if (res != null && res.status == '200'){
+            diaryArr = []
+            for (const diary of res.data.data){
+                diaryArr.push({
+                    date: diary.date,
+                    content: diary.content,
+                    id: diary.diary_id
+                })
+            }
+            setDiaryArr(Array.from(diaryArr))
+        }
+        else{
+            alert("정보를 불러오지 못했습니다.")
+        }
+    }
+
+    useEffect((()=>{
+        loadData()
+    }), [])
 
     return (
         <div id={css.root_container} className={css.page_root_container}>
@@ -44,12 +70,17 @@ function SearchPage() {
             <div id={css.body_container} className={css.container} ref={bodyRef}>
                 {/* 일기 목록 */}
                 <WhiteBox title={'목록'} option={
+                    // 최신순
                     <button id={css.align_btn} onClick={()=>{
+                        diaryArr = diaryArr.reverse()
+                        setDiaryArr(Array.from(diaryArr))
                         setAlign(align=='recent'?'oldest':'recent')
-                    }}>{align=='recent'?'최신순▼':'오래된순▲'}</button>
+                    }}>{align=='recent'?'최신순▼':'오래된순▲'}
+                    </button>
+
                 } child={
                     <div id={css.list_container} className={css.container}>
-                        {diaryDefaultArr.map((diary, idc) => (
+                        {diaryArr.map((diary, idc) => (
                             <div id={css.list_box} className={css.container} onClick={()=>{
                                 navigate(`/diary/${diary.id}`)
                             }}>
@@ -78,11 +109,14 @@ function SearchPage() {
                 </div>
 
                 {/* 버튼 */}
-                <SingleButton text={'검색'} />
+                <SingleButton text={'검색'} func={()=>{
+                    loadData()
+                }}/>
                 <TextButton text={'Reset'} func={()=>{
                     sdateRef.current.value = ''
                     edateRef.current.value = ''
                     keywordRef.current.value = ''
+                    loadData()
                 }}></TextButton>
 
             </div>
