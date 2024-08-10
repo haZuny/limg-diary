@@ -38,7 +38,7 @@ public class RefreshService {
     }
 
 
-    @Scheduled(fixedDelay = 1000 * 60 * 60 * 24 * 14)   // 14 weeks
+    @Scheduled(fixedDelay = 1000 * 60 * 60)   // 1 hours
     public void scheduledDeleteRefresh() {
         // get all refresh
         ArrayList<RefreshEntity> refreshEntities = refreshRepository.findAllByOrderByCreatedDateAsc();
@@ -55,6 +55,9 @@ public class RefreshService {
             if (refreshDate.until(current, ChronoUnit.DAYS) > 14){
                 iter.remove();
                 deleteRefresh(refresh.getRefresh());
+            }
+            else{
+                break;
             }
         }
     }
