@@ -103,6 +103,8 @@ public class UserService {
 
         // create refresh cookies
         Cookie refreshCookie = new Cookie("Refresh", refreshToken);
+        refreshCookie.setHttpOnly(true);
+        refreshCookie.setMaxAge(60 * 60 * 24 * 14); // 2weeks
         response.addCookie(refreshCookie);
 
         // Success response
@@ -148,6 +150,8 @@ public class UserService {
 
         // create refresh cookies
         Cookie refreshCookie = new Cookie("Refresh", newRefresh);
+        refreshCookie.setHttpOnly(true);
+        refreshCookie.setMaxAge(60 * 60 * 24 * 14); // 2weeks
         response.addCookie(refreshCookie);
 
         return new ResponseEntity<DefaultResponseDto>(defaultResponseDto, httpHeaders, HttpStatus.OK);
