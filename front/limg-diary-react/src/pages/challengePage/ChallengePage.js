@@ -8,6 +8,7 @@ import WhiteBox from '../global_component/white_box/WhiteBox'
 import Modal from '../global_component/modal/Modal'
 
 import DefaultImg from '../resource/img/default_diary_img.png'
+import RestApiHelper from '../../Authentication'
 
 
 
@@ -21,13 +22,14 @@ function ChallengePage() {
     const [deg, setDeg] = useState(0)
 
     // 업적 목록
-    const achieved = [0, 0, 0, 0]
-    const unachieved = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    let blankArr = []
-    for (let i = 0; i < 4 - (achieved.length + unachieved.length) % 4; i++) {
-        blankArr.push(0)
-    }
+    let [achieved, setAchieved] = useState([])
+    let [unachieved, setUnachieved] = useState([])
+    let [blankArr, setBlankArr] = useState([])
+    // for (let i = 0; i < 4 - (achieved.length + unachieved.length) % 4; i++) {
+    //     blankArr.push(0)
+    // }
 
+    // state
     // 업적 모달
     const [achievedModalState, setAchievedModalState] = useState(false)
     const [unachievedModalState, setUnachievedModalState] = useState(false)
@@ -45,6 +47,18 @@ function ChallengePage() {
             }
         }, 0.5)
     }, [])
+
+    // load data
+    async function loadData(){
+        const res_achieved = await RestApiHelper("/challenge/achieved", "GET", {});
+        const res_unachieved = await RestApiHelper("/challenge/unachieved", "GET", {})
+
+        if (res_achieved == null || res_unachieved == null || res_achieved.status != '200' || res_unachieved.status != '200'){
+            alert('정보를 불러오는데 실패했습니다.');
+            return
+        }
+
+    }
 
     return (
         <div id={css.root_container} className={css.page_root_container}>
