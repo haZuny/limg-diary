@@ -45,7 +45,7 @@ insert into user_and_role (role_id, user_id) values (1, 2)
  insert into "DIARY_AND_HASHTAG" (DIARY_ID, HASHTAG_ID) VALUES (1, 3)
 
 -- (포함된 태그: 3번, 4번)
- insert into "DIARY"  (USER_ID, CREATED_DATE, CONTENT, TODAY_RATE_ID) VALUES (2, '2024-08-03', '안녕못해요. 이건 테스트 일기 2번 입니다.', 2)
+ insert into "DIARY"  (USER_ID, CREATED_DATE, CONTENT, TODAY_RATE_ID) VALUES (2, '2024-07-03', '안녕못해요. 이건 테스트 일기 2번 입니다.', 2)
  insert into "PICTURE" (DIARY_ID, DRAW_STYLE_ID, PATH) VALUES(2, 2, '\img\diary_img\2\2.png')
  insert into "DIARY_AND_HASHTAG" (DIARY_ID, HASHTAG_ID) VALUES (2, 3)
  insert into "DIARY_AND_HASHTAG" (DIARY_ID, HASHTAG_ID) VALUES (2, 4)
