@@ -17,6 +17,8 @@ function WritePage() {
     // Ref
     const bodyRef = useRef()    // body
     const tagInputRef = useRef()    // tag
+    const drawStyleRef = useRef()   // drawStyle
+    const todayRateRef = useRef()   // todayRate
     let tagInputStr = ""
     
     //  diary id
@@ -88,7 +90,9 @@ function WritePage() {
         if (res != null && res.status=='200'){
             setDiaryContent(res.data.data.content)
             setTodayRateVal(res.data.data.today_rate.rate_num)
+            todayRateRef.current.value = res.data.data.today_rate.rate_num;
             setDrawStyleVal(res.data.data.draw_style.style_eng)
+            drawStyleRef.current.value = res.data.data.draw_style.style_eng;
             setTagArr(res.data.data.hashtag)
         } else{
             alert('일기 정보를 불러오는데 실패했습니다.')
@@ -119,7 +123,7 @@ function WritePage() {
                 {/* 화풍 선택 */}
                 <div className={[css.container, css.select_style_container].join(" ")}>
                     <div className={css.help_title}>화풍 선택</div>
-                    <select className={css.select} onChange={(e)=>{
+                    <select className={css.select} ref={drawStyleRef} onChange={(e)=>{
                         setDrawStyleVal(e.target.value);
                     }}>
                         {drawStyleList.map((style, idx) => (
@@ -131,7 +135,7 @@ function WritePage() {
                 {/* 하루 평가 선택 */}
                 <div className={[css.container, css.select_style_container].join(" ")}>
                     <div className={css.help_title}>하루 평가</div>
-                    <select className={css.select} onChange={(e)=>{
+                    <select className={css.select} ref={todayRateRef} onChange={(e)=>{
                         setTodayRateVal(e.target.value);
                     }}>
                         {todayRateList.map((rate, idx) => (
