@@ -11,7 +11,7 @@ import profile from '../../resource/img/profile.jpeg'
 
 
 
-function Header({nonAuth, parentBodyRef}){
+function Header({ nonAuth, parentBodyRef }) {
     // navigate
     const navigate = useNavigate()
 
@@ -22,46 +22,55 @@ function Header({nonAuth, parentBodyRef}){
     // 메뉴 Visible
     const [menuVisible, setMenuVisible] = useState(false)
 
-    function scrollHandle(){
-        // 스크롤 업
-        if (lastScrollY > parentBodyRef.current.scrollTop){
-            setVisible(true)
+    // 이벤트에 지연시간 추가
+    let eventListening = true
+
+    function scrollHandle() {
+        if (eventListening) {
+            // set Delay
+            eventListening = false;
+            setTimeout(()=>{eventListening = true}, 100)
+
+            // 스크롤 업
+            if (lastScrollY - parentBodyRef.current.scrollTop > 1) {
+                setVisible(true)
+            }
+            // 스크롤 다운
+            if (parentBodyRef.current.scrollTop - lastScrollY > 1) {
+                setVisible(false)
+            }
+            lastScrollY = parentBodyRef.current.scrollTop;
         }
-        // 스크롤 다운
-        else{
-            setVisible(false)
-        }
-        lastScrollY = parentBodyRef.current.scrollTop
     }
 
-    useEffect(()=>{
-        if(parentBodyRef != null){
-            parentBodyRef.current.addEventListener('scroll', scrollHandle)   
+    useEffect(() => {
+        if (parentBodyRef != null) {
+            parentBodyRef.current.addEventListener('scroll', scrollHandle)
         }
     }, [])
 
     return (
-        <div className={[css.container, css.root_container, !visible&&css.root_container_unvisible].join(" ")}>
-            <div className={css.container} id={css.title_container} onClick={()=>{
-                if(!nonAuth)
-                    navigate('/', {replace:true})
+        <div className={[css.container, css.root_container, !visible && css.root_container_unvisible].join(" ")}>
+            <div className={css.container} id={css.title_container} onClick={() => {
+                if (!nonAuth)
+                    navigate('/', { replace: true })
             }}>
                 {/* 로고 이미지 */}
-                <div id={css.logo_box}><img src={logo_icon}/></div>
+                <div id={css.logo_box}><img src={logo_icon} /></div>
                 {/* 공백 */}
                 <div id={css.title_margin_box}></div>
                 {/* 타이틀 */}
-                <div id={css.title_img_box}><img src={title_img}/></div>
+                <div id={css.title_img_box}><img src={title_img} /></div>
             </div>
             {/* 프로필 이미지 */}
-            <div id={css.user_img_box} onClick={()=>{
+            <div id={css.user_img_box} onClick={() => {
                 setMenuVisible(true)
             }}>
-                <img src={profile}/>
+                <img src={profile} />
             </div>
 
             {/* 메뉴 팝업 */}
-            {!nonAuth&&menuVisible&&<Menu setUnvisible={()=>setMenuVisible(false)}/>}
+            {!nonAuth && menuVisible && <Menu setUnvisible={() => setMenuVisible(false)} />}
         </div>
     )
 }
