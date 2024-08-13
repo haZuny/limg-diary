@@ -107,6 +107,8 @@ function WritePage() {
                     <WhiteBox title={'일기 작성'} child={
                         <div id={css.diary_write_box}>
                             <textarea id={css.diary_textarea} value={diaryContent} onChange={(e) => {
+                                if (e.target.value.length > 1000)
+                                    e.target.value = e.target.value.slice(0,1000)
                                 setDiaryContent(e.target.value)
                             }}></textarea>
                             <div id={css.diary_length}>{diaryContent.length}/1000</div>
