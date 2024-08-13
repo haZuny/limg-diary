@@ -6,7 +6,8 @@ class RestApiHelper {
 
     static async sendRequest(uri, method, { header = {}, param = {}, body = {}, responseType = 'json' }) {
         // let host = "http://192.168.1.13:8080"
-        const host = "http://localhost:8080"
+        // const host = "http://localhost:8080"
+        const host = "http://172.30.1.94:8080"
 
         // set content type
         header["Content-Type"] = "application/json";
@@ -78,7 +79,10 @@ class RestApiHelper {
         else{
             const res = await this.sendRequest(path, "GET", {responseType: 'blob'})
             console.log('[get] '+ path, res)
-            const imageURL = window.URL.createObjectURL(res.data)
+
+            let imageURL = DefaultImg;
+            if (res != null && res.status == '200')
+                imageURL = window.URL.createObjectURL(res.data)
             return imageURL;
         }
     }

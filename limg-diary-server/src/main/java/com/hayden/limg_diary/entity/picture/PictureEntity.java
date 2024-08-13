@@ -22,4 +22,7 @@ public class PictureEntity extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "DRAW_STYLE_ID")
     DrawStyleEntity drawStyle;
+
+    @Column(name = "MODIFY_COUNT")
+    int modifyCount;
 }

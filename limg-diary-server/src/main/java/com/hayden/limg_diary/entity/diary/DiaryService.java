@@ -1,6 +1,8 @@
 package com.hayden.limg_diary.entity.diary;
 
 import com.hayden.limg_diary.entity.DefaultResponseDto;
+import com.hayden.limg_diary.entity.challenges.AchievedChallengeRepository;
+import com.hayden.limg_diary.entity.challenges.AchievedChallengeService;
 import com.hayden.limg_diary.entity.diary.dto.*;
 import com.hayden.limg_diary.entity.draw_style.DrawStyleEntity;
 import com.hayden.limg_diary.entity.draw_style.DrawStyleRepository;
@@ -36,6 +38,7 @@ public class DiaryService {
     PictureRepository pictureRepository;
     PictureService pictureService;
     HashtagRepository hashtagRepository;
+    AchievedChallengeService achievedChallengeService;
 
     @Value("${path.resources}")
     String resPath;
@@ -51,7 +54,8 @@ public class DiaryService {
                         DrawStyleRepository drawStyleRepository,
                         PictureService pictureService,
                         PictureRepository pictureRepository,
-                        HashtagRepository hashtagRepository) {
+                        HashtagRepository hashtagRepository,
+                        AchievedChallengeService achievedChallengeService) {
         this.diaryRepository = diaryRepository;
         this.hashtagRepository = hashtagRepository;
         this.diaryAndHashtagService = diaryAndHashtagService;
@@ -60,6 +64,7 @@ public class DiaryService {
         this.drawStyleRepository = drawStyleRepository;
         this.pictureRepository = pictureRepository;
         this.pictureService = pictureService;
+        this.achievedChallengeService = achievedChallengeService;
     }
 
     public Resource getDiaryImage(int diaryId, CustomUserDetails userDetails) throws MalformedURLException {
@@ -121,7 +126,11 @@ public class DiaryService {
         }
 
         // 그림 생성 및 저장
-        pictureService.createPicture(diaryEntity, drawStyleOptional.get());
+        pictureService.createPicture(diaryEntity, drawStyleOptional.get(), 0);
+
+        // check challenges :: continuous, fullContent
+        achievedChallengeService.checkChallengeContinuous(user.getUserEntity());
+        achievedChallengeService.checkChallengeFullContent(diaryEntity);
 
         // return
         responseDto.setState(HttpStatus.OK, true, "success");
@@ -152,7 +161,6 @@ public class DiaryService {
         PictureEntity picture = pictureRepository.findByDiary(diary);
 
         // set response dto
-
         diaryTodayResponseDto.getData().setDiary_id(diary.getId());
         diaryTodayResponseDto.getData().setToday(diary.getCreatedDate());
         diaryTodayResponseDto.getData().setContent(diary.getContent());
@@ -238,7 +246,7 @@ public class DiaryService {
             // find picture
             PictureEntity picture = pictureRepository.findByDiary(diary);
 //            String picturePath = picture.getPath() == null ? null : String.format("%s/diary/img/%d", uriPath, diary.getId());
-            String picturePath = picture.getPath() == null ? null : String.format("/diary/img/%d", diary.getId());
+            String picturePath = picture == null ? null : String.format("/diary/img/%d", diary.getId());
             diaryMonthResponseDto.addData(diary.getId(), picturePath, diary.getCreatedDate());
         }
 
@@ -341,6 +349,7 @@ public class DiaryService {
         if (diaryModifyRequestDto.getContent() != null){
             PictureEntity pictureEntity = pictureRepository.findByDiary(diaryEntity);
             DrawStyleEntity drawStyleEntity = pictureEntity.getDrawStyle();
+            int modifyCnt = pictureEntity.getModifyCount();
             pictureRepository.delete(pictureEntity);
 
             // check draw style
@@ -354,8 +363,11 @@ public class DiaryService {
             }
 
             // create new picture
-            pictureService.createPicture(diaryEntity, drawStyleEntity);
+            pictureService.createPicture(diaryEntity, drawStyleEntity, modifyCnt + 1);
         }
+
+        // check challenge :: fullContent
+        achievedChallengeService.checkChallengeFullContent(diaryEntity);
 
 
         // response

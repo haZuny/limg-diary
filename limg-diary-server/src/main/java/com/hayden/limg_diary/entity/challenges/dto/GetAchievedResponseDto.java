@@ -24,13 +24,14 @@ public class GetAchievedResponseDto extends DefaultResponseDto {
     @Data
     private class DataClass{
         int challenge_id;
-        UrlResource icon_path;
+        String icon_path;
         String name;
         String specific;
         LocalDate date;
 
         private DataClass(int challenge_id, String icon_path, String name, String specific, LocalDate date) throws MalformedURLException {
-            this.challenge_id = challenge_id;this.icon_path = new UrlResource("file:" + icon_path);
+            this.challenge_id = challenge_id;
+            this.icon_path = icon_path;
             this.name = name;
             this.specific = specific;
             this.date = date;

@@ -17,17 +17,12 @@ function ChallengePage() {
     const bodyRef = useRef()
 
     // percent
-    let percent_start = 0
-    let percent = 0.35
     const [deg, setDeg] = useState(0)
 
     // 업적 목록
     let [achieved, setAchieved] = useState([])
     let [unachieved, setUnachieved] = useState([])
     let [blankArr, setBlankArr] = useState([])
-    // for (let i = 0; i < 4 - (achieved.length + unachieved.length) % 4; i++) {
-    //     blankArr.push(0)
-    // }
 
     // state
     // 업적 모달
@@ -36,8 +31,53 @@ function ChallengePage() {
     // 업적 모달이 표시할 정보
     const [challengeInfo, setChallengeInfo] = useState({})
 
-    // animation
     useEffect(() => {
+        loadData()
+    }, [])
+
+    // load data
+    async function loadData(){
+        const res_achieved = await RestApiHelper.sendRequest("/challenge/achieved", "GET", {});
+        const res_unachieved = await RestApiHelper.sendRequest("/challenge/unachieved", "GET", {})
+
+        console.log("[get] /challenge/achieved", res_achieved)
+        console.log("[get] /challenge/unachieved", res_unachieved)
+
+        if (res_achieved == null || res_unachieved == null || res_achieved.status != '200' || res_unachieved.status != '200'){
+            alert('정보를 불러오는데 실패했습니다.');
+            return
+        }
+
+        // achieved
+        achieved = []
+        for (let data of res_achieved.data.data){
+            let imgUrl = await RestApiHelper.imgRequest(data.icon_path)
+            achieved.push({
+                id:data.challenge_id,
+                name: data.name,
+                specific: data.specific,
+                img: imgUrl,
+                date: data.date
+            })
+        }
+        setAchieved(Array.from(achieved))
+
+        // unachieved
+        unachieved = []
+        for (let data of res_unachieved.data.data){
+            let imgUrl = await RestApiHelper.imgRequest(data.icon_path)
+            unachieved.push({
+                id:data.challenge_id,
+                name: data.name,
+                specific: data.specific,
+                img: imgUrl
+            })
+        }
+        setUnachieved(Array.from(unachieved))
+
+        // animation
+        let percent_start = 0
+        let percent = achieved.length / (achieved.length + unachieved.length)
         const interval = setInterval(() => {
             percent_start += 0.001
             setDeg(percent_start * 360)
@@ -46,17 +86,6 @@ function ChallengePage() {
                 clearInterval(interval)
             }
         }, 0.5)
-    }, [])
-
-    // load data
-    async function loadData(){
-        const res_achieved = await RestApiHelper("/challenge/achieved", "GET", {});
-        const res_unachieved = await RestApiHelper("/challenge/unachieved", "GET", {})
-
-        if (res_achieved == null || res_unachieved == null || res_achieved.status != '200' || res_unachieved.status != '200'){
-            alert('정보를 불러오는데 실패했습니다.');
-            return
-        }
 
     }
 
@@ -90,34 +119,34 @@ function ChallengePage() {
                 {/* 도전과제 */}
                 <WhiteBox title={'도전 과제 목록'} child={
                     <div id={css.challenge_list_container} className={css.container}>
-                        {achieved.map(() => (
+                        {achieved.map((achieve) => (
                             <div className={css.challenge_img_box} onClick={() => {
 
                                 setChallengeInfo({
-                                    title: '업적이름',
-                                    img_path: '',
-                                    specific: '취득 상세 조건, 대충 긴 문장, 이정도 길이면 될까?',
-                                    date: '2024.06.07'
+                                    title: achieve.name,
+                                    img_path: achieve.img,
+                                    specific: achieve.specific,
+                                    date: achieve.date
                                 })
 
                                 setAchievedModalState(true)
                             }}>
-                                <img src={DefaultImg}/>
+                                <img src={achieve.img}/>
                             </div>
                         )
                         )}
 
-                        {unachieved.map(() => (
+                        {unachieved.map((achieve) => (
                             <div className={css.challenge_img_box} onClick={() => {
 
                                 setChallengeInfo({
-                                    title: '업적이름',
-                                    img_path: ''
+                                    title: achieve.name,
+                                    img_path: achieve.img
                                 })
 
                                 setAchievedModalState(true)
                             }}>
-                                <img src={DefaultImg}/>
+                                <img src={achieve.img}/>
                             </div>
                         )
                         )}
@@ -138,11 +167,11 @@ function ChallengePage() {
     )
 }
 
-
+// 모달
 function ChallengeInfo({ challengeInfo }) {
     return (
         <div id={css.challenge_modal_container} className={css.container}>
-            <div id={css.challenge_modal_img_box}><img src={DefaultImg}/></div>
+            <div id={css.challenge_modal_img_box}><img src={challengeInfo.img_path}/></div>
             <div id={css.challenge_modal_title}>{challengeInfo.title}</div>
             <div id={css.challenge_modal_specific}>{challengeInfo.specific ? challengeInfo.specific : '???'}</div>
             {challengeInfo.date&&<div id={css.challenge_modal_date}>취득 날짜: {challengeInfo.date}</div>}
