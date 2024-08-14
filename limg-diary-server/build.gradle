@@ -38,9 +38,9 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	// H2 DB
-	runtimeOnly 'com.h2database:h2'
+//	runtimeOnly 'com.h2database:h2'
 	// MySQL DB
-//	implementation 'com.mysql:mysql-connector-j'
+	implementation 'com.mysql:mysql-connector-j'
 	// JJWT
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
