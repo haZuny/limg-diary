@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.net.MalformedURLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class AchievedChallengeService {
                     entity.getId()
                     , String.format("/challenge/icon/%d/%b", challenge.getId(), true)
                     , challenge.getName()
-                    , challenge.getSpecific()
+                    , challenge.getDetail()
                     , entity.getCreatedDate());
         }
 
@@ -80,7 +79,7 @@ public class AchievedChallengeService {
                     entity.getId()
                     , String.format("/challenge/icon/%d/%b", entity.getId(), false)
                     , entity.getName()
-                    , entity.getSpecific()
+                    , entity.getDetail()
             );
         }
 

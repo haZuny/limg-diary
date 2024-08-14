@@ -7,10 +7,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
-@Entity
 @Getter
 @Setter
+@Entity(name = "refresh")
 public class RefreshEntity extends BaseTimeEntity {
-    @Column(name="REFRESH", length = 1000, unique = true)
+    @Column(name="REFRESH", length = 700, unique = true)
     private String refresh;
 }

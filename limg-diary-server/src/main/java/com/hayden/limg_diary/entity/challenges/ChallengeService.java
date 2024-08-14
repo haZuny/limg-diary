@@ -39,7 +39,7 @@ public class ChallengeService {
             getByIdResponseDto.getData().setDataValue(
                     challenge.getId()
                     , challenge.getName()
-                    , challenge.getSpecific()
+                    , challenge.getDetail()
                     , String.format("%s/challenge/icon/%d/true", uri, challenge.getId())
                     , String.format("%s/challenge/icon/%d/false", uri, challenge.getId())
             );

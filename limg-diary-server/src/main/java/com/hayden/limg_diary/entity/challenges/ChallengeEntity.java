@@ -15,8 +15,8 @@ public class ChallengeEntity extends BaseTimeEntity {
     @Column(name = "NAME", unique = true)
     private String name;
 
-    @Column(name = "SPECIFIC")
-    private String specific;
+    @Column(name = "DETAIL")
+    private String detail;
 
     @Column(name="ACHIEVED_ICON_PATH")
     private String achievedIconPath;
