@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.hayden.limg_diary.LimgDiaryApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-08-14T12:53:43" hostname="HAJUNKWON" time="0.317">
+<testsuite name="com.hayden.limg_diary.LimgDiaryApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-08-14T13:42:43" hostname="HAJUNKWON" time="0.335">
   <properties/>
-  <testcase name="contextLoads()" classname="com.hayden.limg_diary.LimgDiaryApplicationTests" time="0.317"/>
-  <system-out><![CDATA[21:53:38.852 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.hayden.limg_diary.LimgDiaryApplicationTests]: LimgDiaryApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-21:53:38.940 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.hayden.limg_diary.LimgDiaryApplication for test class com.hayden.limg_diary.LimgDiaryApplicationTests
+  <testcase name="contextLoads()" classname="com.hayden.limg_diary.LimgDiaryApplicationTests" time="0.335"/>
+  <system-out><![CDATA[22:42:39.584 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.hayden.limg_diary.LimgDiaryApplicationTests]: LimgDiaryApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+22:42:39.671 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.hayden.limg_diary.LimgDiaryApplication for test class com.hayden.limg_diary.LimgDiaryApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -14,258 +14,206 @@
 
  :: Spring Boot ::                (v3.3.2)
 
-2024-08-14T21:53:39.217+09:00  INFO 10008 --- [limg-diary] [    Test worker] c.h.l.LimgDiaryApplicationTests          : Starting LimgDiaryApplicationTests using Java 21.0.1 with PID 10008 (started by gkwns in C:\Users\gkwns\Hajun\Limg-Diary\limg-diary-server)
-2024-08-14T21:53:39.218+09:00  INFO 10008 --- [limg-diary] [    Test worker] c.h.l.LimgDiaryApplicationTests          : No active profile set, falling back to 1 default profile: "default"
-2024-08-14T21:53:39.724+09:00  INFO 10008 --- [limg-diary] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-08-14T21:53:39.855+09:00  INFO 10008 --- [limg-diary] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 126 ms. Found 12 JPA repository interfaces.
-2024-08-14T21:53:40.313+09:00  INFO 10008 --- [limg-diary] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-08-14T21:53:40.369+09:00  INFO 10008 --- [limg-diary] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
-2024-08-14T21:53:40.400+09:00  INFO 10008 --- [limg-diary] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2024-08-14T21:53:40.657+09:00  INFO 10008 --- [limg-diary] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-08-14T21:53:40.681+09:00  INFO 10008 --- [limg-diary] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2024-08-14T21:53:40.948+09:00  INFO 10008 --- [limg-diary] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@29592929
-2024-08-14T21:53:40.950+09:00  INFO 10008 --- [limg-diary] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2024-08-14T21:53:41.730+09:00  INFO 10008 --- [limg-diary] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-08-14T22:42:39.942+09:00  INFO 5620 --- [limg-diary] [    Test worker] c.h.l.LimgDiaryApplicationTests          : Starting LimgDiaryApplicationTests using Java 21.0.1 with PID 5620 (started by gkwns in C:\Users\gkwns\Hajun\Limg-Diary\limg-diary-server)
+2024-08-14T22:42:39.943+09:00  INFO 5620 --- [limg-diary] [    Test worker] c.h.l.LimgDiaryApplicationTests          : No active profile set, falling back to 1 default profile: "default"
+2024-08-14T22:42:40.446+09:00  INFO 5620 --- [limg-diary] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-08-14T22:42:40.578+09:00  INFO 5620 --- [limg-diary] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 127 ms. Found 12 JPA repository interfaces.
+2024-08-14T22:42:41.027+09:00  INFO 5620 --- [limg-diary] [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-08-14T22:42:41.087+09:00  INFO 5620 --- [limg-diary] [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-08-14T22:42:41.116+09:00  INFO 5620 --- [limg-diary] [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-08-14T22:42:41.365+09:00  INFO 5620 --- [limg-diary] [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-08-14T22:42:41.385+09:00  INFO 5620 --- [limg-diary] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-08-14T22:42:41.551+09:00  INFO 5620 --- [limg-diary] [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:~/limg-diary user=SA
+2024-08-14T22:42:41.552+09:00  INFO 5620 --- [limg-diary] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-08-14T22:42:42.310+09:00  INFO 5620 --- [limg-diary] [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 Hibernate: 
-    alter table achieved_challenge 
-       drop 
-       foreign key FKsf5m7ggwi1cnovgl0tijgpjbg
+    drop table if exists achieved_challenge cascade 
 Hibernate: 
-    alter table achieved_challenge 
-       drop 
-       foreign key FKivx1bcs0fryrncorreev4f35t
+    drop table if exists challenges cascade 
 Hibernate: 
-    alter table diary 
-       drop 
-       foreign key FKt43ly1yjra9c106xbqnwnat9e
+    drop table if exists diary cascade 
 Hibernate: 
-    alter table diary 
-       drop 
-       foreign key FK74rd0bn5raxejw2ukenelbdmt
+    drop table if exists diary_and_hashtag cascade 
 Hibernate: 
-    alter table diary_and_hashtag 
-       drop 
-       foreign key FKqrelyebwjf9kspxrpkx30rt2a
+    drop table if exists draw_style cascade 
 Hibernate: 
-    alter table diary_and_hashtag 
-       drop 
-       foreign key FKkf0q2w4m3g42bhy67dn47w0sw
+    drop table if exists hashtag cascade 
 Hibernate: 
-    alter table picture 
-       drop 
-       foreign key FK4hx4v2m3tj2knkphy9f949qs6
+    drop table if exists picture cascade 
 Hibernate: 
-    alter table picture 
-       drop 
-       foreign key FKnmsywn20sr6cts1dxmxjdqe0l
+    drop table if exists refresh cascade 
 Hibernate: 
-    alter table user_and_role 
-       drop 
-       foreign key FKss2jajfdww3iuts9ye5vx9131
+    drop table if exists role cascade 
 Hibernate: 
-    alter table user_and_role 
-       drop 
-       foreign key FKrl1waig6to49maf295uqsmeeu
+    drop table if exists today_rate cascade 
 Hibernate: 
-    drop table if exists achieved_challenge
+    drop table if exists user_and_role cascade 
 Hibernate: 
-    drop table if exists challenges
-Hibernate: 
-    drop table if exists diary
-Hibernate: 
-    drop table if exists diary_and_hashtag
-Hibernate: 
-    drop table if exists draw_style
-Hibernate: 
-    drop table if exists hashtag
-Hibernate: 
-    drop table if exists picture
-Hibernate: 
-    drop table if exists refresh
-Hibernate: 
-    drop table if exists role
-Hibernate: 
-    drop table if exists today_rate
-Hibernate: 
-    drop table if exists user_and_role
-Hibernate: 
-    drop table if exists users
+    drop table if exists users cascade 
 Hibernate: 
     create table achieved_challenge (
         challenges_id integer,
         created_date date,
-        id integer not null auto_increment,
+        id integer generated by default as identity,
         updated_date date,
         user_id integer,
         primary key (id)
-    ) engine=InnoDB
+    )
 Hibernate: 
     create table challenges (
         created_date date,
-        id integer not null auto_increment,
+        id integer generated by default as identity,
         updated_date date,
         achieved_icon_path varchar(255),
         detail varchar(255),
-        name varchar(255),
+        name varchar(255) unique,
         unachieved_icon_path varchar(255),
         primary key (id)
-    ) engine=InnoDB
+    )
 Hibernate: 
     create table diary (
         created_date date,
-        id integer not null auto_increment,
+        id integer generated by default as identity,
         today_rate_id integer,
         updated_date date,
         user_id integer,
         content varchar(1500),
         primary key (id)
-    ) engine=InnoDB
+    )
 Hibernate: 
     create table diary_and_hashtag (
         created_date date,
         diary_id integer,
         hashtag_id integer,
-        id integer not null auto_increment,
+        id integer generated by default as identity,
         updated_date date,
         primary key (id)
-    ) engine=InnoDB
+    )
 Hibernate: 
     create table draw_style (
         created_date date,
-        id integer not null auto_increment,
+        id integer generated by default as identity,
         updated_date date,
         style_eng varchar(255),
         style_kor varchar(255),
         primary key (id)
-    ) engine=InnoDB
+    )
 Hibernate: 
     create table hashtag (
         created_date date,
         diary_cnt integer,
-        id integer not null auto_increment,
+        id integer generated by default as identity,
         updated_date date,
         tag varchar(255),
         primary key (id)
-    ) engine=InnoDB
+    )
 Hibernate: 
     create table picture (
         created_date date,
-        diary_id integer,
+        diary_id integer unique,
         draw_style_id integer,
-        id integer not null auto_increment,
+        id integer generated by default as identity,
         modify_count integer,
         updated_date date,
         path varchar(255),
         primary key (id)
-    ) engine=InnoDB
+    )
 Hibernate: 
     create table refresh (
         created_date date,
-        id integer not null auto_increment,
+        id integer generated by default as identity,
         updated_date date,
-        refresh varchar(700),
+        refresh varchar(700) unique,
         primary key (id)
-    ) engine=InnoDB
+    )
 Hibernate: 
     create table role (
         created_date date,
-        id integer not null auto_increment,
+        id integer generated by default as identity,
         level integer,
         updated_date date,
         name varchar(255),
         role varchar(255),
         primary key (id)
-    ) engine=InnoDB
+    )
 Hibernate: 
     create table today_rate (
         created_date date,
-        id integer not null auto_increment,
+        id integer generated by default as identity,
         rate_num integer,
         updated_date date,
         rate_str varchar(255),
         primary key (id)
-    ) engine=InnoDB
+    )
 Hibernate: 
     create table user_and_role (
         created_date date,
-        id integer not null auto_increment,
+        id integer generated by default as identity,
         role_id integer,
         updated_date date,
         user_id integer,
         primary key (id)
-    ) engine=InnoDB
+    )
 Hibernate: 
     create table users (
         created_date date,
-        id integer not null auto_increment,
+        id integer generated by default as identity,
         updated_date date,
         nickname varchar(255),
         password varchar(255),
-        username varchar(255),
+        username varchar(255) unique,
         primary key (id)
-    ) engine=InnoDB
+    )
 Hibernate: 
-    alter table challenges 
-       add constraint UKhr5o630reo7arwu5thvngutt1 unique (name)
-Hibernate: 
-    alter table picture 
-       add constraint UKlry576s9439y91a8okossl6rn unique (diary_id)
-Hibernate: 
-    alter table refresh 
-       add constraint UKh37k691s5yti191ryc4axxld5 unique (refresh)
-Hibernate: 
-    alter table users 
-       add constraint UKr43af9ap4edm43mmtq01oddj6 unique (username)
-Hibernate: 
-    alter table achieved_challenge 
+    alter table if exists achieved_challenge 
        add constraint FKsf5m7ggwi1cnovgl0tijgpjbg 
        foreign key (challenges_id) 
-       references challenges (id)
+       references challenges
 Hibernate: 
-    alter table achieved_challenge 
+    alter table if exists achieved_challenge 
        add constraint FKivx1bcs0fryrncorreev4f35t 
        foreign key (user_id) 
-       references users (id)
+       references users
 Hibernate: 
-    alter table diary 
+    alter table if exists diary 
        add constraint FKt43ly1yjra9c106xbqnwnat9e 
        foreign key (today_rate_id) 
-       references today_rate (id)
+       references today_rate
 Hibernate: 
-    alter table diary 
+    alter table if exists diary 
        add constraint FK74rd0bn5raxejw2ukenelbdmt 
        foreign key (user_id) 
-       references users (id)
+       references users
 Hibernate: 
-    alter table diary_and_hashtag 
+    alter table if exists diary_and_hashtag 
        add constraint FKqrelyebwjf9kspxrpkx30rt2a 
        foreign key (diary_id) 
-       references diary (id)
+       references diary
 Hibernate: 
-    alter table diary_and_hashtag 
+    alter table if exists diary_and_hashtag 
        add constraint FKkf0q2w4m3g42bhy67dn47w0sw 
        foreign key (hashtag_id) 
-       references hashtag (id)
+       references hashtag
 Hibernate: 
-    alter table picture 
+    alter table if exists picture 
        add constraint FK4hx4v2m3tj2knkphy9f949qs6 
        foreign key (diary_id) 
-       references diary (id)
+       references diary
 Hibernate: 
-    alter table picture 
+    alter table if exists picture 
        add constraint FKnmsywn20sr6cts1dxmxjdqe0l 
        foreign key (draw_style_id) 
-       references draw_style (id)
+       references draw_style
 Hibernate: 
-    alter table user_and_role 
+    alter table if exists user_and_role 
        add constraint FKss2jajfdww3iuts9ye5vx9131 
        foreign key (role_id) 
-       references role (id)
+       references role
 Hibernate: 
-    alter table user_and_role 
+    alter table if exists user_and_role 
        add constraint FKrl1waig6to49maf295uqsmeeu 
        foreign key (user_id) 
-       references users (id)
+       references users
 Hibernate: insert into `ROLE` (`ROLE`, `NAME`, `LEVEL`) values ('ROLE_USER', 'USER', 1)
 Hibernate: insert into `ROLE` (`ROLE`, `NAME`, `LEVEL`) values ('ROLE_ADMIN', 'ADMIN', 2)
 Hibernate: insert into `TODAY_RATE` (RATE_NUM, RATE_STR) values (1,'별로')
@@ -282,9 +230,9 @@ Hibernate: insert into `CHALLENGES` (ID, ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PAT
 Hibernate: insert into `CHALLENGES` (ID, ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, DETAIL) values (3, '\img\challenge_icon\continuous_30.png', '\img\challenge_icon\secret.png', '일기 대장경', '당신은 사람입니까? 일기를 30일 연속으로 작성하셨습니다.')
 Hibernate: insert into `CHALLENGES` (ID, ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, DETAIL) values (4, '\img\challenge_icon\comfortable.png', '\img\challenge_icon\secret.png', '편 - 안', '하고싶은 말이 많은 당신! 1000글자를 꽉 채우셨네요.')
 Hibernate: insert into `CHALLENGES` (ID, ACHIEVED_ICON_PATH, UNACHIEVED_ICON_PATH, NAME, DETAIL) values (5, '\img\challenge_icon\attack_server.png', '\img\challenge_icon\secret.png', '엔간히 해라', '시간이 많으신가요? 그림을 10번이나 수정했습니다.')
-2024-08-14T21:53:42.280+09:00  INFO 10008 --- [limg-diary] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-08-14T21:53:42.691+09:00  WARN 10008 --- [limg-diary] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-08-14T21:53:42.707+09:00  INFO 10008 --- [limg-diary] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2024-08-14T22:42:42.370+09:00  INFO 5620 --- [limg-diary] [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-08-14T22:42:42.805+09:00  WARN 5620 --- [limg-diary] [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-08-14T22:42:42.820+09:00  INFO 5620 --- [limg-diary] [    Test worker] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
 Hibernate: 
     select
         re1_0.id,
@@ -309,7 +257,7 @@ Hibernate:
         role re1_0 
     where
         re1_0.level=?
-2024-08-14T21:53:43.346+09:00  INFO 10008 --- [limg-diary] [    Test worker] c.h.l.LimgDiaryApplicationTests          : Started LimgDiaryApplicationTests in 4.29 seconds (process running for 5.164)
+2024-08-14T22:42:43.460+09:00  INFO 5620 --- [limg-diary] [    Test worker] c.h.l.LimgDiaryApplicationTests          : Started LimgDiaryApplicationTests in 3.675 seconds (process running for 4.534)
 Hibernate: 
     select
         re1_0.id,
