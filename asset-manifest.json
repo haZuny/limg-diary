@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/limg-diary/static/css/main.e457b0ad.css",
-    "main.js": "/limg-diary/static/js/main.b072f07d.js",
+    "main.js": "/limg-diary/static/js/main.a5f74b67.js",
     "static/js/453.b58f2f8d.chunk.js": "/limg-diary/static/js/453.b58f2f8d.chunk.js",
     "static/media/delete_icon.png": "/limg-diary/static/media/delete_icon.726a660b127baf84d968.png",
     "static/media/loadicon.png": "/limg-diary/static/media/loadicon.214b572efcd8f2efeb78.png",
@@ -9,11 +9,11 @@
     "static/media/logo.svg": "/limg-diary/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/limg-diary/index.html",
     "main.e457b0ad.css.map": "/limg-diary/static/css/main.e457b0ad.css.map",
-    "main.b072f07d.js.map": "/limg-diary/static/js/main.b072f07d.js.map",
+    "main.a5f74b67.js.map": "/limg-diary/static/js/main.a5f74b67.js.map",
     "453.b58f2f8d.chunk.js.map": "/limg-diary/static/js/453.b58f2f8d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e457b0ad.css",
-    "static/js/main.b072f07d.js"
+    "static/js/main.a5f74b67.js"
   ]
 }
